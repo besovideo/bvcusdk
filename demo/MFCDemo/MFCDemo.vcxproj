@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F625DF3A-1314-4CB8-A438-227CA72B7779}</ProjectGuid>
+    <RootNamespace>MFCDemo</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <ProjectName>MFCDemo</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(SolutionDir)..\bin\$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy ..\..\lib\*.dll $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)..\bin\$(TargetName)$(TargetExt)</OutputFile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy ..\..\lib\*.dll $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\MFCDemo.ico" />
+    <None Include="res\BVLogo.bmp" />
+    <None Include="res\MFCDemo.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BVDeviceInfo.h" />
+    <ClInclude Include="BVGpsData.h" />
+    <ClInclude Include="BVPuOnlineControl.h" />
+    <ClInclude Include="BVPuServers.h" />
+    <ClInclude Include="BVPuWifi.h" />
+    <ClInclude Include="BVRadioNetwork.h" />
+    <ClInclude Include="DeviceManager.h" />
+    <ClInclude Include="libBVCU\DbgConsoleOut.h" />
+    <ClInclude Include="libBVCU\MLibBVCU.h" />
+    <ClInclude Include="MDataList.h" />
+    <ClInclude Include="MFCDemo.h" />
+    <ClInclude Include="MFCDemoDlg.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="PannelCruise.h" />
+    <ClInclude Include="PannelGPS.h" />
+    <ClInclude Include="PannelNormal.h" />
+    <ClInclude Include="PannelPTZ.h" />
+    <ClInclude Include="PannelRecordPlay.h" />
+    <ClInclude Include="PannelRecPlayRemote.h" />
+    <ClInclude Include="PannelSelect.h" />
+    <ClInclude Include="PannelTest.h" />
+    <ClInclude Include="PlayContainer.h" />
+    <ClInclude Include="PlayWnd.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SearchPUList.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TreeCtrlX.h" />
+    <ClInclude Include="UserManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BVDeviceInfo.cpp" />
+    <ClCompile Include="BVGpsData.cpp" />
+    <ClCompile Include="BVPuOnlineControl.cpp" />
+    <ClCompile Include="BVPuServers.cpp" />
+    <ClCompile Include="BVPuWifi.cpp" />
+    <ClCompile Include="BVRadioNetwork.cpp" />
+    <ClCompile Include="DeviceManager.cpp" />
+    <ClCompile Include="libBVCU\DbgConsoleOut.cpp" />
+    <ClCompile Include="libBVCU\MLibBVCU.cpp" />
+    <ClCompile Include="MDataList.cpp" />
+    <ClCompile Include="MFCDemo.cpp" />
+    <ClCompile Include="MFCDemoDlg.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="PannelCruise.cpp" />
+    <ClCompile Include="PannelGPS.cpp" />
+    <ClCompile Include="PannelNormal.cpp" />
+    <ClCompile Include="PannelPTZ.cpp" />
+    <ClCompile Include="PannelRecordPlay.cpp" />
+    <ClCompile Include="PannelRecPlayRemote.cpp" />
+    <ClCompile Include="PannelSelect.cpp" />
+    <ClCompile Include="PannelTest.cpp" />
+    <ClCompile Include="PlayContainer.cpp" />
+    <ClCompile Include="PlayWnd.cpp" />
+    <ClCompile Include="SearchPUList.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TreeCtrlX.cpp" />
+    <ClCompile Include="UserManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MFCDemo.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="MFCDemo.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

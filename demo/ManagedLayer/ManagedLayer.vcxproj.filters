@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\BVDisplay">
+      <UniqueIdentifier>{bbf8fe65-fb2e-4af8-ac09-726b554e6f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BVDisplay">
+      <UniqueIdentifier>{ca38f717-7afd-4797-9a0f-7bb800a002f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BVCU">
+      <UniqueIdentifier>{03993653-8372-43e2-8e5b-a5074e77f3eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BVCU">
+      <UniqueIdentifier>{0ee14328-bca6-442b-a777-19ba3160c168}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ManagedLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BVDisplay\CBVDisplay.h">
+      <Filter>Header Files\BVDisplay</Filter>
+    </ClInclude>
+    <ClInclude Include="DbgConsoleOut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BVCU\CBVCU.h">
+      <Filter>Header Files\BVCU</Filter>
+    </ClInclude>
+    <ClInclude Include="Public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BVCU\CBVCUSndCmd.h">
+      <Filter>Header Files\BVCU</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BVDisplay\CBVDisplay.cpp">
+      <Filter>Source Files\BVDisplay</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagedLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbgConsoleOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BVCU\CBVCU.cpp">
+      <Filter>Source Files\BVCU</Filter>
+    </ClCompile>
+    <ClCompile Include="BVCU\CBVCUSndCmd.cpp">
+      <Filter>Source Files\BVCU</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
