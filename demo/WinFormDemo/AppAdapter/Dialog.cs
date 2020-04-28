@@ -607,24 +607,24 @@ namespace WindowsFormsTest
             }
         }
 
-        delegate void OnGetTspData(IntPtr dialog, string pTspData, int len);
+        delegate void OnGetTspData(IntPtr dialog, byte[] byteTspData);
         OnGetTspData deleGetTspData;
-        public void onTspData(IntPtr dialog, string pTspData, int len)
+        public void onTspData(IntPtr dialog, byte[] byteTspData)
         {
             if (null == deleGetTspData)
             {
                 deleGetTspData = new OnGetTspData(procGetTspData);
             }
 
-            m_mainForm.BeginInvoke(deleGetTspData, new object[] { dialog, pTspData, len });
+            m_mainForm.BeginInvoke(deleGetTspData, new object[] { dialog, byteTspData });
         }
-        public void procGetTspData(IntPtr dialog, string pTspData, int len)
+        public void procGetTspData(IntPtr dialog, byte[] byteTspData)
         {
             foreach (OneDialog dlg in m_tspDialogs)
             {
                 if (dlg.dialogHandle == dialog)
                 {
-                    m_mainForm.onGetTspData(dlg.pu.id, dlg.channelNo, pTspData, len);
+                    m_mainForm.onGetTspData(dlg.pu.id, dlg.channelNo, byteTspData);
                     return;
                 }
             }

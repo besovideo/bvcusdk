@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace WindowsFormsTest
 {
@@ -243,6 +244,7 @@ namespace WindowsFormsTest
                     {
                         channelNode.ForeColor = Color.Gray;
                     }
+                    channelNode.Tag = channl.channelNo;
                     puNode.Nodes.Add(channelNode);
                 }
                 /*for (int t = 0; t < pu.channelList.Count; t++)
@@ -299,11 +301,13 @@ namespace WindowsFormsTest
         /// </summary>
         private void treeViewResList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (null == e || null == e.Node) return;
+
             //点击通道时发生，视频通道
             if (e.Node.Level == TREE_LEVEL_CHANNEL)
             {
                 Pu pu = m_sdkOperator.Session.getPu(e.Node.Parent.Name);
-                int channelNo = pu.getChannelNo(e.Node.Text);
+                int channelNo = (int)e.Node.Tag;
                 if (channelNo >= BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_CHANNEL && channelNo < BVCU.BVCU_SUBDEV_INDEXMAJOR_MAX_CHANNEL)
                 {
                     if (m_sdkOperator.Dialog.Count == VIDEO_PANEL_COUNT)
@@ -752,11 +756,54 @@ namespace WindowsFormsTest
                 }
             }
         }
+
+        /// <summary>将字节数组转换为字符串</summary>
+        /// <param name="input"></param>
+        /// <param name="hex_UI_string">true: 16进制字符串, false: UI字符串</param>
+        /// <returns></returns>
+        public string BytesToString_HexUI(byte[] input, bool hex_UI_string = false)
+        {
+            if (hex_UI_string)
+            {
+                return BytesToHexString(input);
+            }
+            else
+            {
+                return BytesToUIString(input);
+            }
+        }
+
+        /// <summary>字节数组转换为16进制字符串</summary>
+        public string BytesToHexString(byte[] data)
+        {
+            try
+            {
+                return BitConverter.ToString(data).Replace('-', ' ');
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>字节数组转换为界面字符串</summary>
+        public string BytesToUIString(byte[] data)
+        {
+            try
+            {
+                return Encoding.UTF8.GetString(data);
+            }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
         /// <summary>
         /// 获得Tsp数据
         /// </summary>
-        public void onGetTspData(string puId, int iChannelNum, string pTspData, int len)
+        public void onGetTspData(string puId, int iChannelNum, byte[] byteTspData)
         {
+            string strTspData = BytesToString_HexUI(byteTspData);
             foreach (ListViewItem item in listViewGPSData.Items)
             {
                 if (item.Text == puId)
@@ -764,9 +811,9 @@ namespace WindowsFormsTest
                     //串口数据显示
                     {
                         DateTime dataNow = DateTime.Now;
-                        if (pTspData.Length < len)
+                        if ( null == strTspData || strTspData.Length <= 0)
                             return;
-                        string msg = string.Format("{0}-{1} MSG:{2} [{3}:{4}:{5}]\r\n", puId, iChannelNum, pTspData.Substring(0, len), dataNow.Hour, dataNow.Minute, dataNow.Second);
+                        string msg = string.Format("{0}-{1} MSG:{2} [{3}:{4}:{5}]\r\n", puId, iChannelNum, strTspData, dataNow.Hour, dataNow.Minute, dataNow.Second);
                         //this.tbTSPData.AppendText(msg);
                         //this.tbTSPData.ScrollToCaret();
 
@@ -776,10 +823,10 @@ namespace WindowsFormsTest
                     if (item.Tag.ToString() == iChannelNum.ToString())
                     {
                         ListViewItem.ListViewSubItem TspData = new ListViewItem.ListViewSubItem();
-                        TspData.Text = pTspData.Substring(0, len);//pTspData;
+                        TspData.Text = strTspData;
                         item.SubItems[1] = TspData;
                         ListViewItem.ListViewSubItem length = new ListViewItem.ListViewSubItem();
-                        length.Text = len.ToString();
+                        length.Text = strTspData.Length.ToString();
                         item.SubItems[2] = length;
                         break;
                     }
@@ -811,12 +858,14 @@ namespace WindowsFormsTest
         Pu g_pu;
         private void treeViewResList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (null == e || null == e.Node) return;
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 if (e.Node.Level == TREE_LEVEL_CHANNEL)
                 {
                     Pu pu = m_sdkOperator.Session.getPu(e.Node.Parent.Name);
-                    int ichannelNo = pu.getChannelNo(e.Node.Text);
+                    int ichannelNo = (int)e.Node.Tag;
                     g_pu = pu;
                     g_channelNo = ichannelNo;
                     if (ichannelNo >= BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_CHANNEL && ichannelNo < BVCU.BVCU_SUBDEV_INDEXMAJOR_MAX_CHANNEL)

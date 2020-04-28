@@ -512,6 +512,7 @@ BVCU_Result CBVCU::tspDialog_OnData(BVCU_HDialog hDialog, SAVCodec_Context* pCod
 {
 	if (pFrame->ppData[0] != NULL)
 	{
+		pFrame->ppData[0][pFrame->iDataSize[0]] = '\0';
 		m_procTspDialogOnData(hDialog, (char*)pFrame->ppData[0], pFrame->iDataSize[0]);
 	}
 	return BVCU_RESULT_S_OK;

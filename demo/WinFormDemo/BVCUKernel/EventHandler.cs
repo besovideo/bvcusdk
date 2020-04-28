@@ -145,7 +145,7 @@ namespace WindowsFormsTest
             m_dialog.onGpsData(dialog, pGpsData, len);
         }
         public delegate void BVCU_TspDialog_OnEvent(IntPtr dialog, int eventCode, Int32 errorCode);
-        public delegate void BVCU_TspDialog_OnData(IntPtr dialog, string pTspData, int len);
+        public delegate void BVCU_TspDialog_OnData(IntPtr dialog, IntPtr pTspData, int len);
         public BVCU_TspDialog_OnData tspDialog_OnData;
         public BVCU_TspDialog_OnEvent tspDialog_OnEvent;
         void TspDialog_OnEvent(IntPtr dialog, int eventCode, Int32 errorCode)
@@ -161,9 +161,15 @@ namespace WindowsFormsTest
                 LogHelper.LogHelper.RecordLog(0, "打开串口通道成功");
             }
         }
-        void TspDialog_onData(IntPtr dialog, string pTspData, int len)
+        void TspDialog_onData(IntPtr dialog, IntPtr pTspData, int len)
         {
-            m_dialog.onTspData(dialog, pTspData, len);
+            if (pTspData == IntPtr.Zero || len <= 0)
+            {
+                return;
+            }
+            byte[] byteTspData = new byte[len];
+            Marshal.Copy(pTspData, byteTspData, 0, byteTspData.Length);
+            m_dialog.onTspData(dialog, byteTspData);
         }
 
 
