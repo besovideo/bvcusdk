@@ -26,7 +26,7 @@ besovideo smarteye 客户端库BVCU，提供C接口，接口在BVCU.h头文件中。
 
 gitee版本会滞后github.
 
-gitee: https://gitee.com/besovideo/bvcusdk.git
+gitee: https://gitee.com/besovideo/bvcusdk.git  
 github: https://github.com/besovideo/bvcusdk.git
 
 ## 论坛支持
