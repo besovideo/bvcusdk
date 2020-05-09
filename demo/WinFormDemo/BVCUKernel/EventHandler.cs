@@ -142,7 +142,10 @@ namespace WindowsFormsTest
 
         void GpsDialog_OnData(IntPtr dialog, IntPtr pGpsData, Int32 len)
         {
-            m_dialog.onGpsData(dialog, pGpsData, len);
+            if (IntPtr.Zero == pGpsData) return;
+
+            BVCU_PUCFG_GPSData gpsData = (BVCU_PUCFG_GPSData)Marshal.PtrToStructure(pGpsData, typeof(BVCU_PUCFG_GPSData));
+            m_dialog.onGpsData(dialog, gpsData, len);
         }
         public delegate void BVCU_TspDialog_OnEvent(IntPtr dialog, int eventCode, Int32 errorCode);
         public delegate void BVCU_TspDialog_OnData(IntPtr dialog, IntPtr pTspData, int len);

@@ -730,13 +730,8 @@ namespace WindowsFormsTest
         /// <summary>
         /// 获得Gps数据
         /// </summary>
-        public void onGetGpsData(string puId, IntPtr pGpsData, Int32 len)
+        public void onGetGpsData(string puId, BVCU_PUCFG_GPSData gpsData, Int32 len)
         {
-            BVCU_PUCFG_GPSData gpsdata = (BVCU_PUCFG_GPSData)Marshal.PtrToStructure(pGpsData, typeof(BVCU_PUCFG_GPSData));
-            if (null == (object)gpsdata)
-            {
-                return;
-            }
             foreach (ListViewItem item in listViewGPSData.Items)
             {
                 if (item.Text.Equals(puId, StringComparison.CurrentCultureIgnoreCase))
@@ -744,8 +739,8 @@ namespace WindowsFormsTest
                     float lat = 0;
                     float lng = 0;
                     ListViewItem.ListViewSubItem latItem = new ListViewItem.ListViewSubItem();
-                    lat = (float)gpsdata.iLatitude / BVCU.BVCU_LAT_LNG_UNIT;
-                    lng = (float)gpsdata.iLongitude / BVCU.BVCU_LAT_LNG_UNIT;
+                    lat = (float)gpsData.iLatitude / BVCU.BVCU_LAT_LNG_UNIT;
+                    lng = (float)gpsData.iLongitude / BVCU.BVCU_LAT_LNG_UNIT;
                     latItem.Text = lat.ToString("0.00000");
                     item.SubItems[1] = latItem;
                     ListViewItem.ListViewSubItem lngItem = new ListViewItem.ListViewSubItem();

@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace WindowsFormsTest
 {
@@ -583,25 +584,31 @@ namespace WindowsFormsTest
             return 0;
         }
 
-        delegate void OnGetGpsData(IntPtr dialog, IntPtr pGpsData, Int32 len);
+        delegate void OnGetGpsData(IntPtr dialog, BVCU_PUCFG_GPSData gpsData, Int32 len);
         OnGetGpsData deleGetGpsData;
 
-        public void onGpsData(IntPtr dialog, IntPtr pGpsData, Int32 len)
+        public void onGpsData(IntPtr dialog, BVCU_PUCFG_GPSData gpsData, Int32 len)
         {
-            if (null == deleGetGpsData)
+            if(null != m_mainForm && m_mainForm.IsHandleCreated)
             {
-                deleGetGpsData = new OnGetGpsData(procGetGpsData);
+                if (null == deleGetGpsData)
+                {
+                    deleGetGpsData = new OnGetGpsData(procGetGpsData);
+                }
+                m_mainForm.BeginInvoke(deleGetGpsData, new object[] { dialog, gpsData, len });
             }
-            m_mainForm.BeginInvoke(deleGetGpsData, new object[] { dialog, pGpsData, len });
         }
 
-        void procGetGpsData(IntPtr dialog, IntPtr pGpsData, int len)
+        void procGetGpsData(IntPtr dialog, BVCU_PUCFG_GPSData gpsData, int len)
         {
             foreach (OneDialog dlg in m_gpsDialogs)
             {
                 if (dlg.dialogHandle == dialog)
                 {
-                    m_mainForm.onGetGpsData(dlg.pu.id, pGpsData, len);
+                    if(null != m_mainForm)
+                    {
+                        m_mainForm.onGetGpsData(dlg.pu.id, gpsData, len);
+                    }
                     return;
                 }
             }

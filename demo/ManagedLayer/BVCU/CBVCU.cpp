@@ -440,6 +440,7 @@ int CBVCU::openGpsDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, i
     dlgParam.pTarget = &target;
     dlgParam.iTargetCount = 1;
     dlgParam.iAVStreamDir = BVCU_MEDIADIR_DATARECV;
+	//dlgParam.bOverTCP = bOverTCP;
     dlgParam.hSession = session;
     dlgParam.OnEvent = gpsDialog_OnEvent;
     dlgParam.afterDecode = gpsDialog_OnData;
