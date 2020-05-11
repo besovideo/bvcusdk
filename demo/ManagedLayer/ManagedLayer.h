@@ -39,7 +39,7 @@ extern "C"
 	/*µÇÂ¼Server*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuLogin(const int* handle, BVCU_HSession* session, char* serverIp,
 		int serverPort, char* usrName, char* usrPsw, int timeOutSec, BVCU_Server_OnEvent onEvent,
-		BVCU_Cmd_OnGetPuList proc);
+		BVCU_Server_Notify onNotify);
 	/*µÇ³ö*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuLogout(const int* handle, BVCU_HSession session);
 

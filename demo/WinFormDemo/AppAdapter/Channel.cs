@@ -11,6 +11,14 @@ namespace WindowsFormsTest
     /// </summary>
     public class Channel
     {
+        private Pu m_parent;
+        public bool audioPlayback;
+        public bool speak;
+        public bool video;
+        public bool beginTrans;
+        public int ptzIdx;
+        public const int INVALID_CHANNEL_NO = -1;
+
         /// <summary>
         /// 通道号
         /// </summary>
@@ -24,7 +32,34 @@ namespace WindowsFormsTest
         /// <summary>
         /// 通道是否在线
         /// </summary>
-        public bool online;
+        public bool OnlineStatus
+        {
+            get
+            {
+                if(null != Parent)
+                {
+                    return Parent.OnlineStatus;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        /// <summary>
+        /// Channel 所属的 Pu
+        /// </summary>
+        public Pu Parent
+        {
+            get
+            {
+                return m_parent;
+            }
+            set
+            {
+                m_parent = value;
+            }
+        }
         public string channelName
         {
             get
@@ -73,12 +108,5 @@ namespace WindowsFormsTest
                 m_channelName = value;
             }
         }
-        public bool audioPlayback;
-        public bool speak;
-        public bool video;
-        public bool beginTrans;
-        public int ptzIdx;
-        public const int INVALID_CHANNEL_NO = -1;
     }
-
 }

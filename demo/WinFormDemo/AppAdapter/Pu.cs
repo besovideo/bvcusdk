@@ -11,6 +11,9 @@ namespace WindowsFormsTest
     /// </summary>
     public class Pu
     {
+        private Session m_parent;
+        private bool m_bOnlineStatus;
+
         /// <summary>
         /// 设备ID
         /// </summary>
@@ -22,7 +25,17 @@ namespace WindowsFormsTest
         /// <summary>
         /// 设备在线状态
         /// </summary>
-        public bool online;
+        public bool OnlineStatus
+        {
+            get
+            {
+                return m_bOnlineStatus;
+            }
+            set
+            {
+                m_bOnlineStatus = value;
+            }
+        }
         /// <summary>
         /// 设备通道集合
         /// </summary>
@@ -31,47 +44,25 @@ namespace WindowsFormsTest
         /// 设备云台集合
         /// </summary>
         public ArrayList puPtz;
+        /// <summary>
+        /// Pu 所属的 Session
+        /// </summary>
+        public Session Parent
+        {
+            get
+            {
+                return m_parent;
+            }
+        }
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public Pu()
+        public Pu( Session session)
         {
+            m_parent = session;
             channelList = new ArrayList();
             puPtz = new ArrayList();
-        }
-
-        /// <summary>
-        /// 获得指定通道channelName的通道编号
-        /// </summary>
-        /// <param name="channelName">通道名：{如："音视频通道"，"GPS通道"，"TSP通道"}</param>
-        /// <returns>通道编号</returns>
-        public int getChannelNo(string channelName)
-        {
-            if (channelName.Contains(BVCU.TSP_CHANNEL))
-            {
-                return int.Parse(channelName.Substring(BVCU.TSP_CHANNEL.Length));
-            }
-            else if (channelName.Contains(BVCU.GPS_CHANNEL))
-            {
-                return int.Parse(channelName.Substring(BVCU.GPS_CHANNEL.Length));
-            }
-            else if (channelName.Contains(BVCU.VIDEO_AUDIO_CHANNEL))
-            {
-                return int.Parse(channelName.Substring(BVCU.VIDEO_AUDIO_CHANNEL.Length));
-            }
-            else if (channelName.Contains(BVCU.DEFAULT_CHANNEL_NAME_PREFIX))
-            {
-                return int.Parse(channelName.Substring(BVCU.DEFAULT_CHANNEL_NAME_PREFIX.Length));
-            }
-            foreach (Channel channel in channelList)
-            {
-                if (channel.channelName.Equals(channelName))
-                {
-                    return channel.channelNo;
-                }
-            }
-            return Channel.INVALID_CHANNEL_NO;
         }
     }
 

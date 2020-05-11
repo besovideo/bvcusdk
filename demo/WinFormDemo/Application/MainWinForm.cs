@@ -230,15 +230,14 @@ namespace WindowsFormsTest
                     puNode.Text = pu.puName;
 
                 session.Nodes.Add(puNode);
-                bool online = false;
+
                 for (int chIndex = 0; chIndex < pu.channelList.Count; chIndex++)
                 {
                     Channel channl = (Channel)pu.channelList[chIndex];
                     TreeNode channelNode = new TreeNode(channl.channelName);
-                    if (channl.online)
+                    if (channl.OnlineStatus)
                     {
                         channelNode.ForeColor = Color.Blue;
-                        online = true;
                     }
                     else
                     {
@@ -247,23 +246,8 @@ namespace WindowsFormsTest
                     channelNode.Tag = channl.channelNo;
                     puNode.Nodes.Add(channelNode);
                 }
-                /*for (int t = 0; t < pu.channelList.Count; t++)
-                {
-                    Channel channl = pu.channelList[i] as Channel;
-                    TreeNode channelNode = new TreeNode(channl.channelName);
-                    if (channl.online)
-                    {
-                        channelNode.ForeColor = Color.Blue;
-                        online = true;
-                    }
-                    else
-                    {
-                        channelNode.ForeColor = Color.Gray;
-                    }
-                    puNode.Nodes.Add(channelNode);
-                }*/
 
-                if (online)
+                if (pu.OnlineStatus)
                 {
                     puNode.ForeColor = Color.Blue;
                 }
@@ -775,7 +759,7 @@ namespace WindowsFormsTest
             {
                 return BitConverter.ToString(data).Replace('-', ' ');
             }
-            catch (Exception e)
+            catch
             {
                 return string.Empty;
             }
@@ -788,7 +772,7 @@ namespace WindowsFormsTest
             {
                 return Encoding.UTF8.GetString(data);
             }
-            catch (Exception e)
+            catch
             {
                 return string.Empty;
             }
@@ -909,6 +893,56 @@ namespace WindowsFormsTest
                 {
                     listViewGPSData.Items.Remove(item);
                 }
+            }
+        }
+
+        delegate void OnShowMessage(BVCU_Event_Source source);
+        OnShowMessage delegateOnShowMessage;
+
+        public void procShowAlarmEventMessage(BVCU_Event_Source source)
+        {
+            string strEvent = source.szID;
+            string strEventType = BVCU.ConvertEventType2String(source.iEventType);
+            if (strEvent.Length == 0)
+            {
+                strEvent = "null" + " " + strEventType + " " + source.szEventDesc;
+            }
+            else if (source.iEventType >= BVCU.BVCU_EVENT_TYPE.VIDEOLOST
+                && source.iEventType <= BVCU.BVCU_EVENT_TYPE.OUTROUTE)
+            {
+                if (null != m_sdkOperator && null != m_sdkOperator.m_session)
+                {
+                    string puName = "";
+                    Pu pu = m_sdkOperator.m_session.getPu( source.szID);
+                    if (pu != null)
+                    {
+                        puName = pu.puName;
+                    }
+
+                    strEvent = puName + "(" + source.szID + ")" + " " + strEventType + " " + source.szEventDesc;
+                    if (source.iEventType != BVCU.BVCU_EVENT_TYPE.PUONLINE &&
+                        source.iEventType != BVCU.BVCU_EVENT_TYPE.PUOFFLINE)
+                    {
+                        if (source.bEnd == 1)
+                        {
+                            strEvent += " " + "结束";
+                        }
+                    }
+                }
+            }
+
+            MessageBox.Show(strEvent,"WinformDemo");
+        }
+
+        public void onShowAlarmEventMessage(BVCU_Event_Source source)
+        {
+            if(this.IsHandleCreated)
+            {
+                if(null == delegateOnShowMessage )
+                {
+                    delegateOnShowMessage = new OnShowMessage(procShowAlarmEventMessage);
+                }
+                this.BeginInvoke(delegateOnShowMessage, new object[] { source });
             }
         }
     }

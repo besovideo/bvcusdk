@@ -72,7 +72,7 @@ namespace WindowsFormsTest
         public static extern int ManagedLayer_CuLogin(IntPtr handle, ref IntPtr session, Byte[] serverIp, Int32 serverPort,
             Byte[] usrName, Byte[] usrPsw, int timeOutSec,
             EventHandler.BVCU_Server_OnEvent onEvent,
-            EventHandler.BVCU_Server_ProcChannelInfo procChannelInfo);
+            EventHandler.BVCU_Server_Notify onNotify);
 
         /// <summary>
         /// Cu 退出登录

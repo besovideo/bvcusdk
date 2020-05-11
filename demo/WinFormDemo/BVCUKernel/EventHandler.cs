@@ -39,7 +39,7 @@ namespace WindowsFormsTest
             tspDialog_OnData = new BVCU_TspDialog_OnData(TspDialog_onData);
 
             server_OnEvent = new BVCU_Server_OnEvent(Server_OnEvent);
-            server_ProcChannelInfo = new BVCU_Server_ProcChannelInfo(Server_ProcNotifyChannelInfo);
+            server_onNotify = new BVCU_Server_Notify(Server_OnNotify);
             cmd_OnGetPuList = new BVCU_Cmd_OnGetPuList(Cmd_OnGetPuList);
 
             onControlResult = new BVCU_Cmd_ControlResult(OnControlResult);
@@ -181,15 +181,12 @@ namespace WindowsFormsTest
         /// <summary>
         /// Session Event
         /// </summary>
-        public const int BVCU_ONLINE_STATUS_OFFLINE = 0;
-        public const int BVCU_ONLINE_STATUS_ONLINE = 1;
-        public delegate void BVCU_Server_ProcChannelInfo(IntPtr session, IntPtr puId, IntPtr puName, int status, ref BVCU_PUOneChannelInfo channel, int finished);
         public delegate void BVCU_Server_OnEvent(IntPtr session, int eventCode, ref BVCU_Event_Common eventCommon);
-        public delegate void BVCU_Cmd_OnGetPuList(IntPtr session, IntPtr puId, IntPtr puName, int status, ref BVCU_PUOneChannelInfo channel, int finished);
+        public delegate void BVCU_Cmd_OnGetPuList(IntPtr session, IntPtr puId, IntPtr puName, int status, IntPtr ptPUOneChannelInfo, int finished);
 
         public BVCU_Server_OnEvent server_OnEvent;
         /// <summary>
-        /// 服务器事件（session_open、session_close）
+        /// 服务器 Session 事件（session_open、session_close）
         /// </summary>
         void Server_OnEvent(IntPtr session, int eventCode, ref BVCU_Event_Common eventCommon)
         {
@@ -232,100 +229,133 @@ namespace WindowsFormsTest
 
         #endregion Session Event
 
+        #region On Server Notify
+
+        public delegate void BVCU_Server_Notify(IntPtr session, IntPtr msgContent);
+        public BVCU_Server_Notify server_onNotify;
+
+        /// <summary>
+        /// 服务器通知
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="msgContent"></param>
+        void Server_OnNotify(IntPtr session, IntPtr msgContent)
+        {
+            BVCU_NotifyMsgContent content = (BVCU_NotifyMsgContent)Marshal.PtrToStructure(msgContent, typeof(BVCU_NotifyMsgContent));
+
+            switch (content.iSubMethod)
+            {
+                case BVCU.BVCU_SUBMETHOD.PU_CHANNELINFO:
+                    {
+                        Server_ProcNotifyChannelInfo(session, content.stMsgContent.pData, content.stMsgContent.iDataCount);
+                        break;
+                    }
+                case BVCU.BVCU_SUBMETHOD.BVCU_SUBMETHOD_EVENT_NOTIFY:
+                    if (content.stMsgContent.pData != IntPtr.Zero)
+                    {
+                        BVCU_Event_Source source = (BVCU_Event_Source)Marshal.PtrToStructure(content.stMsgContent.pData, typeof(BVCU_Event_Source));
+                        OnEventNotify(source);
+                    }
+                    break;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 事件报警
+        /// </summary>
+        /// <param name="source"></param>
+        private void OnEventNotify(BVCU_Event_Source source)
+        {
+            if(null != m_session)
+            {
+                m_session.onShowAlarmEventMessage(source);
+            }
+        }
+
+        public class PuInfo
+        {
+            public BVCU_PUChannelInfo puChannelInfo;
+            public BVCU_PUOneChannelInfo[] channels;
+        }
+
         /// <summary>
         /// Pu status change
         /// </summary>
-        public BVCU_Server_ProcChannelInfo server_ProcChannelInfo;
-        void Server_ProcNotifyChannelInfo(IntPtr session, IntPtr ptPuId, IntPtr ptPuName, int iStatus, ref BVCU_PUOneChannelInfo channel, int iFinished)
+        private void onNotifyChannelInfo(BVCU_PUChannelInfo puChannelInfo,BVCU_PUOneChannelInfo puOneChannelInfo)
         {
-            LogHelper.LogHelper.RecordLog(100, "==========================================");
-            string puId = Marshal.PtrToStringAnsi(ptPuId, BVCU.BVCU_MAX_ID_LEN + 1).Split('\0')[0];
-            string puName = Marshal.PtrToStringAnsi(ptPuName, BVCU.BVCU_MAX_NAME_LEN + 1).Split('\0')[0];
             bool bNeedClearGps = false;
             bool bNeedClearTsp = false;
-            if (iStatus == BVCU.BVCU_ONLINE_STATUS_OFFLINE)
+            if (puChannelInfo.iOnlineStatus == BVCU.BVCU_ONLINE_STATUS_OFFLINE)
             {
-                m_dialog.clearDialog(puId, channel.iChannelIndex);
-                bNeedClearGps = m_dialog.clearGpsDialog(puId, channel.iChannelIndex);
-                bNeedClearTsp = m_dialog.clearTspDialog(puId, channel.iChannelIndex);
-                m_session.clearGpsDataList(puId, channel.iChannelIndex, bNeedClearGps | bNeedClearTsp);
-                m_session.OnRemovePu(puId);
+                m_dialog.clearDialog(puChannelInfo.szPUID, puOneChannelInfo.iChannelIndex);
+                bNeedClearGps = m_dialog.clearGpsDialog(puChannelInfo.szPUID, puOneChannelInfo.iChannelIndex);
+                bNeedClearTsp = m_dialog.clearTspDialog(puChannelInfo.szPUID, puOneChannelInfo.iChannelIndex);
+                m_session.clearGpsDataList(puChannelInfo.szPUID, puOneChannelInfo.iChannelIndex, bNeedClearGps | bNeedClearTsp);
+                //m_session.OnRemovePu(puChannelInfo.szPUID);
             }
-            Channel chnl = new Channel();
-            getChannel(chnl, channel, iStatus);
-            m_session.OnGetPu(puName, puId, chnl);
-            if (BVCU.TRUE(iFinished))
+
+            Channel chnl = m_session.getChannel(puChannelInfo.szPUID, puOneChannelInfo.iChannelIndex);
+            if (null == chnl)
             {
-                m_session.OnGetPuListFinished();
+                chnl = new Channel();
             }
-            return;
+
+            getChannel(chnl, puOneChannelInfo);
+            m_session.OnGetPu(puChannelInfo.szPUName, puChannelInfo.szPUID, puChannelInfo.iOnlineStatus, chnl);
+        }
+
+        void Server_ProcNotifyChannelInfo(IntPtr session, IntPtr puChannelInfo, int puChannelCnt)
+        {
+            PuInfo[] puChannels = new PuInfo[puChannelCnt];
+            IntPtr puChannelInfoPt = puChannelInfo;
+            for (int i = 0; i < puChannels.Length; i++)
+            {
+                puChannels[i] = new PuInfo();
+                puChannels[i].puChannelInfo = (BVCU_PUChannelInfo)Marshal.PtrToStructure(puChannelInfoPt, typeof(BVCU_PUChannelInfo));
+                puChannels[i].channels = new BVCU_PUOneChannelInfo[puChannels[i].puChannelInfo.iChannelCount];
+                IntPtr channelPt = puChannels[i].puChannelInfo.pChannel;
+                for (int j = 0; j < puChannels[i].channels.Length; j++)
+                {
+                    puChannels[i].channels[j] = (BVCU_PUOneChannelInfo)Marshal.PtrToStructure(channelPt, typeof(BVCU_PUOneChannelInfo));
+                    onNotifyChannelInfo(puChannels[i].puChannelInfo, puChannels[i].channels[j]);
+                    channelPt += Marshal.SizeOf(typeof(BVCU_PUOneChannelInfo));
+                }
+                puChannelInfoPt += Marshal.SizeOf(typeof(BVCU_PUChannelInfo));
+            }
+
+            m_session.OnGetPuListFinished();
         }
 
         /// <summary>
         /// 获得设备列表的响应函数
         /// </summary>
         public BVCU_Cmd_OnGetPuList cmd_OnGetPuList;
-        void Cmd_OnGetPuList(IntPtr session, IntPtr ptPuId, IntPtr ptPuName, int iStatus, ref BVCU_PUOneChannelInfo channel, int iFinished)
+        void Cmd_OnGetPuList(IntPtr session, IntPtr ptPuId, IntPtr ptPuName, int iOnlineStatus, IntPtr ptPUOneChannelInfo, int iFinished)
         {
-            string puId = Marshal.PtrToStringAnsi(ptPuId, BVCU.BVCU_MAX_ID_LEN + 1).Split('\0')[0];
-            string puName = Marshal.PtrToStringAnsi(ptPuName, BVCU.BVCU_MAX_NAME_LEN + 1).Split('\0')[0];
+            BVCU_PUOneChannelInfo puOneChannelInfo = (BVCU_PUOneChannelInfo)Marshal.PtrToStructure(ptPUOneChannelInfo, typeof(BVCU_PUOneChannelInfo));
+
             Byte[] bpuid = new Byte[BVCU.BVCU_MAX_ID_LEN + 1];
             Byte[] bpuname = new Byte[BVCU.BVCU_MAX_NAME_LEN + 1];
             Marshal.Copy(ptPuId, bpuid, 0, BVCU.BVCU_MAX_ID_LEN + 1);
             Marshal.Copy(ptPuName, bpuname, 0, BVCU.BVCU_MAX_ID_LEN + 1);
             string spuid = System.Text.Encoding.UTF8.GetString(bpuid).Split('\0')[0];
             string spuname = System.Text.Encoding.UTF8.GetString(bpuname).Split('\0')[0];
+
             if (BVCU.TRUE(iFinished))
             {
                 m_session.OnGetPuListFinished();
+                return;
             }
             Channel chnl = new Channel();
-            if (iStatus == BVCU.BVCU_ONLINE_STATUS_OFFLINE)
-            {
-                chnl.online = false;
-            }
-            else
-            {
-                chnl.online = true;
-            }
-            getChannel(chnl, channel, iStatus);
-            m_session.OnGetPu(spuname, spuid, chnl);
-            /*if (channel.szName.Equals("gps"))
-            {
-                chnl = new Session.Channel();
-                channel.szName = "TSP";
-                channel.iPTZIndex = 15;
-                channel.iMediaDir = 32;
-                channel.iChannelIndex = 65792;
-                if (iStatus == BVCU.BVCU_ONLINE_STATUS_OFFLINE)
-                {
-                    chnl.online = false;
-                }
-                else
-                {
-                    chnl.online = true;
-                }
-                getChannel(chnl, channel);
-                m_session.OnGetPu(puName, puId, chnl);
-            }*/
+            getChannel(chnl, puOneChannelInfo);
+            m_session.OnGetPu(spuname, spuid,iOnlineStatus, chnl);
         }
 
         void getChannel(Channel chnl, BVCU_PUOneChannelInfo channel)
         {
             chnl.channelName = channel.szName;
-            
-            BVCU.AVDirection avDir = BVCU.GetAVDirection(channel.iMediaDir);
-
-            chnl.audioPlayback = avDir.audioRecv;
-            chnl.speak = avDir.audioSnd;
-            chnl.video = avDir.videoRecv;
-            chnl.ptzIdx = channel.iPTZIndex;
-            chnl.channelNo = channel.iChannelIndex;
-        }
-
-        void getChannel(Channel chnl, BVCU_PUOneChannelInfo channel, int iStatus)
-        {
-            chnl.channelName = channel.szName;
 
             BVCU.AVDirection avDir = BVCU.GetAVDirection(channel.iMediaDir);
 
@@ -334,8 +364,6 @@ namespace WindowsFormsTest
             chnl.video = avDir.videoRecv;
             chnl.ptzIdx = channel.iPTZIndex;
             chnl.channelNo = channel.iChannelIndex;
-
-            chnl.online = iStatus == 1 ? true : false;
         }
 
         /// <summary>

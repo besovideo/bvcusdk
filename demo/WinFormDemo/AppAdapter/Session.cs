@@ -144,7 +144,7 @@ namespace WindowsFormsTest
                     ref m_server.sessionHandle, Encoding.UTF8.GetBytes(ip), 
                     port, Encoding.UTF8.GetBytes(usrName),
                     Encoding.UTF8.GetBytes(psw), SERVER_TIME_OUT_SECOND,
-                    m_bvsdkEventHandler.server_OnEvent, m_bvsdkEventHandler.server_ProcChannelInfo);
+                    m_bvsdkEventHandler.server_OnEvent, m_bvsdkEventHandler.server_onNotify);
 
                 BVCU.FAILED(ret);
             }
@@ -212,29 +212,46 @@ namespace WindowsFormsTest
             MessageBox.Show("成功退出服务器");
         }
 
-        public void OnGetPu(string puName, string puId, Channel channel)
+        public void OnGetPu(string puName, string puId,int iOnlineStatus, Channel channel)
         {
             foreach (Pu pu in m_server.puList)
             {
                 if (pu.id.Equals(puId))
                 {
-                    foreach (Channel chnl in pu.channelList)
+                    pu.id = puId;
+                    pu.puName = puName;
+                    pu.OnlineStatus = iOnlineStatus == BVCU.BVCU_ONLINE_STATUS_ONLINE;
+                    if (null == getChannel(puId,channel.channelNo))
                     {
-                        if (chnl.channelNo == channel.channelNo)
+                        if (null != channel)
                         {
-                            chnl.online = channel.online;
-                            return;
+                            channel.Parent = pu;
                         }
+                        pu.channelList.Add(channel);
+                        return;
                     }
-                    pu.channelList.Add(channel);
+
                     return;
                 }
             }
-            Pu newPu = new Pu();
+            Pu newPu = new Pu(this);
             newPu.id = puId;
             newPu.puName = puName;
+            newPu.OnlineStatus = iOnlineStatus == BVCU.BVCU_ONLINE_STATUS_ONLINE;
+            if (null != channel)
+            {
+                channel.Parent = newPu;
+            }
             newPu.channelList.Add(channel);
             m_server.puList.Add(newPu);
+        }
+
+        public void onShowAlarmEventMessage(BVCU_Event_Source source)
+        {
+            if(null != m_mainForm)
+            {
+                m_mainForm.onShowAlarmEventMessage(source);
+            }
         }
 
         public void OnGetPuListFinished()
@@ -374,7 +391,7 @@ namespace WindowsFormsTest
                     ref m_server.sessionHandle, Encoding.UTF8.GetBytes(m_server.ip),
                     m_server.port, Encoding.UTF8.GetBytes(m_server.usrName),
                     Encoding.UTF8.GetBytes(m_server.psw), SERVER_TIME_OUT_SECOND,
-                    m_bvsdkEventHandler.server_OnEvent, m_bvsdkEventHandler.server_ProcChannelInfo);
+                    m_bvsdkEventHandler.server_OnEvent, m_bvsdkEventHandler.server_onNotify);
                 m_iLoginRetryCount++;
                 Console.WriteLine("服务器断线重连执行第{0}次", m_iLoginRetryCount);
                 if (m_iLoginRetryCount >= m_ServerRetryTimes)

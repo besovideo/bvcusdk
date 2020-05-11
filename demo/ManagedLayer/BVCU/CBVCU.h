@@ -33,6 +33,7 @@ typedef void (WINAPI *BVCU_GpsDialog_OnEvent)(BVCU_HDialog hDialog, int iEventCo
 typedef void (WINAPI *BVCU_GpsDialog_OnData)(BVCU_HDialog hDialog, BVCU_PUCFG_GPSData* pGspData, int len);
 typedef void (WINAPI *BVCU_TspDialog_OnEvent)(BVCU_HDialog hDialog, int iEventCode, int errorCode);
 typedef void (WINAPI *BVCU_TspDialog_OnData)(BVCU_HDialog hDialog, const char* pTspData, int len);
+typedef void (WINAPI *BVCU_Server_Notify)(BVCU_HSession hSession, BVCU_NotifyMsgContent* msgContent);
 
 class CBVCU
 {
@@ -54,12 +55,14 @@ class CBVCU
 	static BVCU_Result tspDialog_OnData(BVCU_HDialog hDialog, SAVCodec_Context* pCodec, SAV_Frame* pFrame);
 
     CBVCUSndCmd m_cBVCUSndCmd;
+private:
+	static BVCU_Server_Notify m_procServerNotify;
 
 public:
     int init();
     void release();
     int login(BVCU_HSession* session, char* serverIP, int serverPort, char* userName, char* psw, int timeOutSec,
-            BVCU_Server_OnEvent onEvent, BVCU_Cmd_OnGetPuList proc);
+            BVCU_Server_OnEvent onEvent, BVCU_Server_Notify onNotify);
     int logout(BVCU_HSession session);
 
     int openBrowseDlg(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, int channelNo, HWND hWnd, RECT* dispRect,

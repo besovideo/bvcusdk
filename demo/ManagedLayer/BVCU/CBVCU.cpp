@@ -18,7 +18,7 @@ int CBVCU::init()
 }
 
 int CBVCU::login(BVCU_HSession* session, char* serverIP, int serverPort, char* userName, char* psw, int timeOutSec,
-        BVCU_Server_OnEvent onEvent, BVCU_Cmd_OnGetPuList proc)
+        BVCU_Server_OnEvent onEvent, BVCU_Server_Notify onNotify)
 {
     BVCU_ServerParam svrParam;
     memset(&svrParam, 0, sizeof(svrParam));
@@ -38,8 +38,11 @@ int CBVCU::login(BVCU_HSession* session, char* serverIP, int serverPort, char* u
     BVCU_Result result = BVCU_Login(session, &svrParam);
     if (BVCU_Result_SUCCEEDED(result))
     {
-        m_procChannelInfo = proc;
         m_procServerEvent = onEvent;
+		if (NULL == m_procServerNotify)
+		{
+			m_procServerNotify = onNotify;
+		}
     }
     return result;
 }
@@ -80,36 +83,16 @@ void CBVCU::server_OnEvent(BVCU_HSession hSession, int iEventCode, void* pParam)
     return m_procServerEvent(hSession, iEventCode, pParam);
 }
 
-BVCU_Result CBVCU::server_OnNotify(BVCU_HSession hSession, BVCU_NotifyMsgContent* pData)
+BVCU_Server_Notify CBVCU::m_procServerNotify = NULL;
+BVCU_Result CBVCU::server_OnNotify(BVCU_HSession hSession, BVCU_NotifyMsgContent* msgContent)
 {
-    BVCU_PUChannelInfo* puChannelInfo = NULL;
-    BVCU_PUOneChannelInfo* channel = NULL;
-    if (NULL == pData || !m_procChannelInfo)
-    {
-        return BVCU_RESULT_S_OK;
-    }
-    if (pData->iSubMethod == BVCU_SUBMETHOD_PU_CHANNELINFO && pData->stMsgContent.iDataCount > 0)
-    {
-        puChannelInfo = (BVCU_PUChannelInfo*)(pData->stMsgContent.pData);
-        if (NULL == puChannelInfo)
-        {
-            return BVCU_RESULT_S_OK;
-        }
-        for (int i = 0; i < pData->stMsgContent.iDataCount; i++)
-        {
-            channel = puChannelInfo->pChannel;
-            for (int j = 0; j < puChannelInfo->iChannelCount; j++)
-            {
-                m_procChannelInfo(hSession, puChannelInfo->szPUID, puChannelInfo->szPUName, puChannelInfo->iOnlineStatus, channel, 0);
-                channel++;
-            }
-            puChannelInfo++;
-        }
-        channel--;
-        puChannelInfo--;
-        m_procChannelInfo(hSession, puChannelInfo->szPUID, puChannelInfo->szPUName, puChannelInfo->iOnlineStatus, channel, 1);
-    }
-    return BVCU_RESULT_S_OK;
+	if (NULL == msgContent || m_procServerNotify == NULL)
+	{
+		return BVCU_RESULT_S_OK;
+	}
+	m_procServerNotify(hSession, msgContent);
+
+	return BVCU_RESULT_S_OK;
 }
 
 int CBVCU::logout(BVCU_HSession session)
@@ -420,8 +403,6 @@ int CBVCU::applyControlParam(BVCU_HDialog dlg, int speakVolume, BVCU_DialogContr
 
 BVCU_GpsDialog_OnEvent CBVCU::m_procGpsDialogEvent = NULL;
 BVCU_GpsDialog_OnData CBVCU::m_procGpsDialogOnData = NULL;
-BVCU_TspDialog_OnEvent CBVCU::m_procTspDialogEvent = NULL;
-BVCU_TspDialog_OnData CBVCU::m_procTspDialogOnData = NULL;
 
 int CBVCU::openGpsDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, int channelNo, 
     BVCU_GpsDialog_OnEvent onDlgEvent, BVCU_GpsDialog_OnData onDlgData)
@@ -474,6 +455,9 @@ void CBVCU::gpsDialog_OnEvent(BVCU_HDialog hDialog, int iEventCode, void* pParam
     }
 }
 
+BVCU_TspDialog_OnEvent CBVCU::m_procTspDialogEvent = NULL;
+BVCU_TspDialog_OnData CBVCU::m_procTspDialogOnData = NULL;
+
 int CBVCU::openTspDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, int channelNo,
 	BVCU_TspDialog_OnEvent onDlgEvent, BVCU_TspDialog_OnData onDlgData)
 {
@@ -486,8 +470,8 @@ int CBVCU::openTspDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, i
 
 	dlgParam.hSession = session;
 	BVCU_DialogTarget target;
+	memset(&target, 0, sizeof(BVCU_DialogTarget));
 	strncpy_s(target.szID,BVCU_MAX_ID_LEN+1,puId,_TRUNCATE);
-//	memset(&target, 0, sizeof(BVCU_DialogTarget));
 	target.iIndexMajor = channelNo;
 //	strcpy_s(target.szID, BVCU_MAX_ID_LEN + 1, puId);
 	target.iIndexMinor = -1;
@@ -496,11 +480,11 @@ int CBVCU::openTspDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, i
 	dlgParam.iAVStreamDir = BVCU_MEDIADIR_DATARECV | BVCU_MEDIADIR_DATASEND;
 	dlgParam.OnEvent = tspDialog_OnEvent;
 	dlgParam.afterDecode = tspDialog_OnData;
-	if (NULL == m_procGpsDialogEvent)
+	if (NULL == m_procTspDialogEvent)
 	{
 		m_procTspDialogEvent = onDlgEvent;
 	}
-	if (NULL == m_procGpsDialogOnData)
+	if (NULL == m_procTspDialogOnData)
 	{
 		m_procTspDialogOnData = onDlgData;
 	}
