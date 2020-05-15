@@ -304,6 +304,13 @@ namespace WindowsFormsTest
         Int32[] iReserved;
     }
 
+    public struct BVCU_Event_SessionCmd
+    {
+        public Int32 iResult;
+        public Int32 iPercent;
+        public BVCU_CmdMsgContent stContent;
+    }
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct BVCU_WallTime
     {

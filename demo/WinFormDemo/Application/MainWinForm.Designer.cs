@@ -80,6 +80,8 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStripTalkOnly = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemTalkOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPageGetGps = new System.Windows.Forms.TabPage();
+            this.buttonGetGps = new System.Windows.Forms.Button();
             this.panelLeft.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -90,6 +92,7 @@
             this.contextMenuStripGps.SuspendLayout();
             this.contextMenuStripVideo.SuspendLayout();
             this.contextMenuStripTalkOnly.SuspendLayout();
+            this.tabPageGetGps.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelLeft
@@ -108,6 +111,7 @@
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Controls.Add(this.tabPage4);
+            this.tabControl.Controls.Add(this.tabPageGetGps);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -635,9 +639,30 @@
             // ToolStripMenuItemTalkOnly
             // 
             this.ToolStripMenuItemTalkOnly.Name = "ToolStripMenuItemTalkOnly";
-            this.ToolStripMenuItemTalkOnly.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemTalkOnly.Size = new System.Drawing.Size(124, 22);
             this.ToolStripMenuItemTalkOnly.Text = "打开对讲";
             this.ToolStripMenuItemTalkOnly.Click += new System.EventHandler(this.ToolStripMenuItemTalkOnly_Click);
+            // 
+            // tabPageGetGps
+            // 
+            this.tabPageGetGps.Controls.Add(this.buttonGetGps);
+            this.tabPageGetGps.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGetGps.Name = "tabPageGetGps";
+            this.tabPageGetGps.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGetGps.Size = new System.Drawing.Size(209, 202);
+            this.tabPageGetGps.TabIndex = 4;
+            this.tabPageGetGps.Text = "获取GPS";
+            this.tabPageGetGps.UseVisualStyleBackColor = true;
+            // 
+            // buttonGetGps
+            // 
+            this.buttonGetGps.Location = new System.Drawing.Point(6, 6);
+            this.buttonGetGps.Name = "buttonGetGps";
+            this.buttonGetGps.Size = new System.Drawing.Size(93, 23);
+            this.buttonGetGps.TabIndex = 0;
+            this.buttonGetGps.Text = "获取";
+            this.buttonGetGps.UseVisualStyleBackColor = true;
+            this.buttonGetGps.Click += new System.EventHandler(this.buttonGetGps_Click);
             // 
             // MainWinForm
             // 
@@ -663,6 +688,7 @@
             this.contextMenuStripGps.ResumeLayout(false);
             this.contextMenuStripVideo.ResumeLayout(false);
             this.contextMenuStripTalkOnly.ResumeLayout(false);
+            this.tabPageGetGps.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -720,6 +746,8 @@
         private System.Windows.Forms.Button btnSendMsg;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTalkOnly;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemTalkOnly;
+        private System.Windows.Forms.TabPage tabPageGetGps;
+        private System.Windows.Forms.Button buttonGetGps;
     }
 }
 

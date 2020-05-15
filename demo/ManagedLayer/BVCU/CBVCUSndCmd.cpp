@@ -66,6 +66,7 @@ int CBVCUSndCmd::setPuManualRemoteRecord(BVCU_HSession hSession, char* puId, int
 }
 
 BVCU_Cmd_ControlResult CBVCUSndCmd::m_procControlResult = NULL;
+BVCU_Cmd_QueryResult CBVCUSndCmd::m_procQueryResult = NULL;
 
 void CBVCUSndCmd::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, int iEventCode, void* pParam)
 {
@@ -75,6 +76,7 @@ void CBVCUSndCmd::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, in
     switch (pCommand->iMethod)
     {
     case BVCU_METHOD_QUERY:
+		m_procQueryResult(hSession, pCommand->szTargetID, pCommand->iTargetIndex, pCommand->iSubMethod, pEvent);
         if (BVCU_Result_FAILED(pEvent->iResult))
         {
             return;
@@ -130,6 +132,11 @@ void CBVCUSndCmd::setControlResultProcFunc(BVCU_Cmd_ControlResult onCtrlRes)
     m_procControlResult = onCtrlRes;
 }
 
+void CBVCUSndCmd::setQueryResultProcFunc(BVCU_Cmd_QueryResult onQueryRes)
+{
+	m_procQueryResult = onQueryRes;
+}
+
 BVCU_Result CBVCUSndCmd::queryCmd(BVCU_HSession hSession, char* puId, void* cmdData, int dataLen, int device,
         int subMethod)
 {
@@ -149,6 +156,32 @@ BVCU_Result CBVCUSndCmd::queryCmd(BVCU_HSession hSession, char* puId, void* cmdD
     cmd.iMethod = BVCU_METHOD_QUERY;
     cmd.iSubMethod = subMethod;
     return BVCU_SendCmd(hSession, &cmd);
+}
+
+BVCU_Result CBVCUSndCmd::queryCmd(BVCU_HSession hSession, char * puId, int device, void * cmdData, int subMethod, void * usrData)
+{
+	BVCU_Command cmd;
+	memset(&cmd, 0, sizeof(BVCU_Command));
+	cmd.iSize = sizeof(BVCU_Command);
+	if (NULL != puId)
+	{
+		strncpy_s(cmd.szTargetID, puId, _TRUNCATE);
+	}
+	cmd.OnEvent = cmd_OnEvent;
+	cmd.iTargetIndex = device;
+	if (NULL != cmdData)
+	{
+		cmd.stMsgContent.iDataCount = 1;
+		cmd.stMsgContent.pNext = NULL;
+		cmd.stMsgContent.pData = cmdData;
+	}
+	cmd.iMethod = BVCU_METHOD_QUERY;
+	cmd.iSubMethod = subMethod;
+	cmd.pUserData = usrData;
+
+	BVCU_Result ret = BVCU_SendCmd(hSession, &cmd);
+
+	return ret;
 }
 
 BVCU_Result CBVCUSndCmd::controlCmd(BVCU_HSession hSession, char* puId, void* cmdData, int dataLen, int device,
@@ -172,4 +205,9 @@ BVCU_Result CBVCUSndCmd::controlCmd(BVCU_HSession hSession, char* puId, void* cm
     cmd.iMethod = BVCU_METHOD_CONTROL;
     cmd.iSubMethod = subMethod;
     return BVCU_SendCmd(hSession, &cmd);
+}
+
+int CBVCUSndCmd::getPuGpsInfo(BVCU_HSession hSession, char* puId, int device)
+{
+	return queryCmd(hSession, puId, device, NULL, BVCU_SUBMETHOD_PU_GPSDATA, NULL);
 }

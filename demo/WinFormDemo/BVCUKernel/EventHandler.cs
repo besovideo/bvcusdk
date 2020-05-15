@@ -15,6 +15,7 @@ namespace WindowsFormsTest
     {
         Session m_session;
         Dialog m_dialog;
+
         
         /// <summary>
         /// 初始化全局变量
@@ -27,6 +28,7 @@ namespace WindowsFormsTest
             m_session = session;
             m_dialog = dialog;
             BVCU.ManagedLayer_CuSetPuControlResultProcFunc(bvcuSdkHandle, onControlResult);
+            BVCU.ManagedLayer_CuSetPuQueryResultProcFunc(bvcuSdkHandle, onQueryResult);
         }
 
         public EventHandler()
@@ -45,7 +47,11 @@ namespace WindowsFormsTest
             onControlResult = new BVCU_Cmd_ControlResult(OnControlResult);
             m_showMessageBoxOnEvent = new ShowMessageDel(procShowMessageBoxOnEvent);
             onGetPtzAttr = new BVCU_Cmd_OnGetPuPtzAttr(OnGetPuPtzAttr);
+
+            onQueryResult = new BVCU_Cmd_QueryResult(OnQueryResult);
         }
+
+        
 
         /// <summary>
         /// 用控件Invoke在消息回调中弹出消息提示框
@@ -374,6 +380,17 @@ namespace WindowsFormsTest
         BVCU_Cmd_ControlResult onControlResult;
         void OnControlResult(IntPtr session, IntPtr ptPuId, Int32 device, Int32 subMethod, Int32 result)
         {
+        }
+
+        public delegate void BVCU_Cmd_QueryResult(IntPtr session, IntPtr puId, Int32 device, Int32 subMethod, IntPtr pEvent);
+        public BVCU_Cmd_QueryResult onQueryResult;
+        public void OnQueryResult(IntPtr session, IntPtr ptPuId, Int32 device, Int32 subMethod, IntPtr pEvent)
+        { 
+            if (subMethod== 18)
+            {
+                BVCU_Event_SessionCmd sessionCmd = (BVCU_Event_SessionCmd)Marshal.PtrToStructure(pEvent, typeof(BVCU_Event_SessionCmd));
+                BVCU_PUCFG_GPSData gpsdata = (BVCU_PUCFG_GPSData)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(BVCU_PUCFG_GPSData));
+            }
         }
 
         public delegate void BVCU_Cmd_OnGetPuPtzAttr(IntPtr session, IntPtr puId, int ptzIndex, IntPtr ptzAttr);

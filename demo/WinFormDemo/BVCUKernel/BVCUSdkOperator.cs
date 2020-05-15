@@ -54,7 +54,6 @@ namespace WindowsFormsTest
             m_mainForm = mainform;
             
             BVCU.FAILED(BVCU.ManagedLayer_CuInit(ref m_bvcuSdkHandle));//初始化库
-
             m_eventHandler = new EventHandler();
             m_session = new Session(m_bvcuSdkHandle, m_eventHandler, m_mainForm);
             m_dialog = new Dialog(m_bvcuSdkHandle, m_eventHandler, m_mainForm, m_session);
@@ -156,6 +155,11 @@ namespace WindowsFormsTest
                 channel.ptzIdx, m_eventHandler.onGetPtzAttr);
         }
 
+        public void GetGpsData(string puId,int channelNo)
+        {
+            int i = BVCU.ManagedLayer_CuGetPuGpsInfo(m_bvcuSdkHandle, m_session.Handle, Encoding.UTF8.GetBytes(puId),
+               channelNo - BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS);
+        }
 
         /// <summary>
         /// 停止使用库

@@ -150,6 +150,13 @@ LIB_MANAGED_LAYER_API void ManagedLayer_CuSetPuControlResultProcFunc(const int* 
     return bvcu->getBVCUSndCmd()->setControlResultProcFunc(onCtrlRes);
 }
 
+LIB_MANAGED_LAYER_API void ManagedLayer_CuSetPuQueryResultProcFunc(const int* handle, BVCU_Cmd_QueryResult onQueryRes)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return bvcu->getBVCUSndCmd()->setQueryResultProcFunc(onQueryRes);
+}
+
+
 LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuList(const int* handle, BVCU_HSession session, BVCU_Cmd_OnGetPuList onEvent)
 {
     CBVCU* bvcu = (CBVCU*)handle;
@@ -228,4 +235,10 @@ LIB_MANAGED_LAYER_API int ManagedLayer_PuManualRemoteRecord(const int* handle, B
 {
 	CBVCU* bvcu = (CBVCU*)handle;
 	return bvcu->getBVCUSndCmd()->setPuManualRemoteRecord(hSession, puId, channelIndex, recordParam);
+}
+
+LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfo(const int * handle, BVCU_HSession session, char * puId, int device)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return bvcu->getBVCUSndCmd()->getPuGpsInfo(session, puId, device);
 }

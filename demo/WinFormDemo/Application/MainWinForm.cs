@@ -834,7 +834,7 @@ namespace WindowsFormsTest
         }
 
         int g_channelNo;
-        Pu g_pu;
+        Pu g_pu = null;
         private void treeViewResList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (null == e || null == e.Node) return;
@@ -945,5 +945,14 @@ namespace WindowsFormsTest
                 this.BeginInvoke(delegateOnShowMessage, new object[] { source });
             }
         }
+
+        private void buttonGetGps_Click(object sender, EventArgs e)
+        {
+            if (g_channelNo < BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS &&
+                g_channelNo > BVCU.BVCU_SUBDEV_INDEXMAJOR_MAX_GPS || g_pu == null)
+                return;
+            m_sdkOperator.GetGpsData(g_pu.id, g_channelNo);
+        }
+
     }
 }

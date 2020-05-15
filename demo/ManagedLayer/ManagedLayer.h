@@ -117,6 +117,8 @@ extern "C"
 	/*L?设置云台控制结果回调函数*/
 	LIB_MANAGED_LAYER_API void ManagedLayer_CuSetPuControlResultProcFunc(const int* handle, BVCU_Cmd_ControlResult onCtrlRes);
 
+	LIB_MANAGED_LAYER_API void ManagedLayer_CuSetPuQueryResultProcFunc(const int * handle, BVCU_Cmd_QueryResult onQueryRes);
+
 	/*获得设备列表*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuList(const int* handle, BVCU_HSession session, BVCU_Cmd_OnGetPuList onEvent);
 	
@@ -149,6 +151,8 @@ extern "C"
 	/*手动停止/启动PU录像*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_PuManualRemoteRecord(const int* handle, BVCU_HSession hSession, char *puId, 
 		int channelIndex, BVCU_PUCFG_ManualRecord* recordParam);
+
+	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfo(const int* handle, BVCU_HSession session, char* puId, int device);
 }
 
 #endif /* End of __MANAGEDLAYER_H___ */

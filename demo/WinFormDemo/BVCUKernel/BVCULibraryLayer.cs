@@ -189,7 +189,13 @@ namespace WindowsFormsTest
         public static extern void ManagedLayer_CuSetPuControlResultProcFunc(IntPtr handle, EventHandler.BVCU_Cmd_ControlResult onCtrlRes);
 
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ManagedLayer_CuSetPuQueryResultProcFunc(IntPtr handle, EventHandler.BVCU_Cmd_QueryResult onQueryRes);
+
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManagedLayer_CuSetPuPtzControl(IntPtr handle, IntPtr session, Byte[] puId, int device, IntPtr ptzCtrl);
+
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManagedLayer_CuGetPuGpsInfo(IntPtr handle, IntPtr session, Byte[] puId, int device);
 
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManagedLayer_CuOpenTspDialog(IntPtr handle, ref IntPtr dialog, IntPtr session, Byte[] puId, int channelNo, EventHandler.BVCU_TspDialog_OnEvent onDlgEvent, EventHandler.BVCU_TspDialog_OnData onDlgData);
