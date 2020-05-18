@@ -304,11 +304,57 @@ namespace WindowsFormsTest
         Int32[] iReserved;
     }
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
     public struct BVCU_Event_SessionCmd
     {
         public Int32 iResult;
         public Int32 iPercent;
         public BVCU_CmdMsgContent stContent;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_Command
+    {
+        public Int32 iSize;
+        public IntPtr pUserData;
+        public Int32 iMethod;
+        public Int32 iSubMethod;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (BVSDKAdapter.BVCU_MAX_ID_LEN + 1))]
+        Byte[] m_szSourceID;
+        public Int32 iSourceID;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (BVSDKAdapter.BVCU_MAX_ID_LEN + 1))]
+        Byte[] m_szTargetID;
+        public Int32 iTargetIndex;
+        public Int32 iTimeOut;
+        public BVCU_CmdMsgContent stMsgContent;
+        IntPtr OnEvent;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public Int32[] iReserved;
+        public string szTargetID
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(m_szTargetID);
+            }
+            set
+            {
+                if (value == null) { value = ""; }
+                BVSDKAdapter.String2Utf8Byte(value, ref m_szTargetID, BVSDKAdapter.BVCU_MAX_ID_LEN + 1);
+            }
+        }
+        public string szSourceID
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(m_szSourceID);
+            }
+            set
+            {
+                if (value == null) { value = ""; }
+                BVSDKAdapter.String2Utf8Byte(value, ref m_szSourceID, BVSDKAdapter.BVCU_MAX_ID_LEN + 1);
+            }
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -442,6 +488,12 @@ namespace WindowsFormsTest
                 BVSDKAdapter.String2Utf8Byte(value, ref m_szDevID, BVCU.BVCU_MAX_ID_NAME_LEN + 1);
             }
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct Test_Struct
+    {
+        public Int32 i;
     }
 
     public partial class BVSDKAdapter
@@ -637,5 +689,7 @@ namespace WindowsFormsTest
             s = Math.Round(s * 10000) / 10;
             return s;
         }
+
+        public const int BVCU_MAX_ID_LEN = 31;
     }
 }

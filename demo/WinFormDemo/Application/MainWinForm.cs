@@ -951,7 +951,9 @@ namespace WindowsFormsTest
             if (g_channelNo < BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS &&
                 g_channelNo > BVCU.BVCU_SUBDEV_INDEXMAJOR_MAX_GPS || g_pu == null)
                 return;
-            m_sdkOperator.GetGpsData(g_pu.id, g_channelNo);
+            Test_Struct s = new Test_Struct();
+            s.i = 2;
+            m_sdkOperator.GetGpsData(g_pu.id, g_channelNo, s);
         }
 
     }

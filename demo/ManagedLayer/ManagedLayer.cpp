@@ -242,3 +242,10 @@ LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfo(const int * handle, BVCU_H
 	CBVCU* bvcu = (CBVCU*)handle;
 	return bvcu->getBVCUSndCmd()->getPuGpsInfo(session, puId, device);
 }
+
+
+LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfoV2(const int * handle, BVCU_HSession session, char * puId, int device,void* userData)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return bvcu->getBVCUSndCmd()->getPuGpsInfoV2(session, puId, device, userData);
+}

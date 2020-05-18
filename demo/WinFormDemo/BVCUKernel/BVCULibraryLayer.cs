@@ -198,6 +198,9 @@ namespace WindowsFormsTest
         public static extern int ManagedLayer_CuGetPuGpsInfo(IntPtr handle, IntPtr session, Byte[] puId, int device);
 
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManagedLayer_CuGetPuGpsInfoV2(IntPtr handle, IntPtr session, Byte[] puId, int device,IntPtr userData);
+
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManagedLayer_CuOpenTspDialog(IntPtr handle, ref IntPtr dialog, IntPtr session, Byte[] puId, int channelNo, EventHandler.BVCU_TspDialog_OnEvent onDlgEvent, EventHandler.BVCU_TspDialog_OnData onDlgData);
 
         /// <summary>

@@ -382,13 +382,16 @@ namespace WindowsFormsTest
         {
         }
 
-        public delegate void BVCU_Cmd_QueryResult(IntPtr session, IntPtr puId, Int32 device, Int32 subMethod, IntPtr pEvent);
+        public delegate void BVCU_Cmd_QueryResult(IntPtr session, IntPtr pCommand, IntPtr pEvent);
         public BVCU_Cmd_QueryResult onQueryResult;
-        public void OnQueryResult(IntPtr session, IntPtr ptPuId, Int32 device, Int32 subMethod, IntPtr pEvent)
-        { 
-            if (subMethod== 18)
+        public void OnQueryResult(IntPtr session, IntPtr pCommand, IntPtr pEvent)
+        {
+            BVCU_Command command = (BVCU_Command)Marshal.PtrToStructure(pCommand, typeof(BVCU_Command));
+            BVCU_Event_SessionCmd sessionCmd = (BVCU_Event_SessionCmd)Marshal.PtrToStructure(pEvent, typeof(BVCU_Event_SessionCmd));
+            if (command.iSubMethod== 18)
             {
-                BVCU_Event_SessionCmd sessionCmd = (BVCU_Event_SessionCmd)Marshal.PtrToStructure(pEvent, typeof(BVCU_Event_SessionCmd));
+                Test_Struct s1 = (Test_Struct)Marshal.PtrToStructure(command.pUserData, typeof(Test_Struct));
+                Test_Struct s = (Test_Struct)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(Test_Struct));
                 BVCU_PUCFG_GPSData gpsdata = (BVCU_PUCFG_GPSData)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(BVCU_PUCFG_GPSData));
             }
         }

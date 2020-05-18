@@ -17,7 +17,7 @@ extern "C"
 }
 
 typedef void (WINAPI *BVCU_Cmd_ControlResult)(BVCU_HSession hSession, char* puId, int device, int subMethod, int result);
-typedef void (WINAPI *BVCU_Cmd_QueryResult)(BVCU_HSession hSession, char* puId, int device, int subMethod, BVCU_Event_SessionCmd* pEvent);
+typedef void (WINAPI *BVCU_Cmd_QueryResult)(BVCU_HSession hSession, BVCU_Command* pCommand, BVCU_Event_SessionCmd* pEvent);
 typedef void (WINAPI *BVCU_Cmd_OnGetPuList)(BVCU_HSession hSession, char* puId, char* puName, int status, BVCU_PUOneChannelInfo* channel, int finished);
 typedef void (WINAPI *BVCU_Cmd_OnGetPuDeviceInfo)(BVCU_HSession hSession, BVCU_PUCFG_DeviceInfo* cmdData);
 typedef void (WINAPI *BVCU_Cmd_OnGetPuPtzAttr)(BVCU_HSession hSession, char* puId, int ptzIndex, BVCU_PUCFG_PTZAttr* cmdData);
@@ -50,6 +50,7 @@ public:
 	int setPuManualRemoteRecord(BVCU_HSession hSession, char* puId, int device, BVCU_PUCFG_ManualRecord* cmdData);
 
 	int getPuGpsInfo(BVCU_HSession hSession, char* puId, int device);
+	int getPuGpsInfoV2(BVCU_HSession hSession, char* puId, int device,void* userData);
 };
 
 

@@ -153,6 +153,7 @@ extern "C"
 		int channelIndex, BVCU_PUCFG_ManualRecord* recordParam);
 
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfo(const int* handle, BVCU_HSession session, char* puId, int device);
+	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfoV2(const int* handle, BVCU_HSession session, char* puId, int device,void* userData);
 }
 
 #endif /* End of __MANAGEDLAYER_H___ */

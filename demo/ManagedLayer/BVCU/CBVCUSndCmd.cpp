@@ -76,7 +76,7 @@ void CBVCUSndCmd::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, in
     switch (pCommand->iMethod)
     {
     case BVCU_METHOD_QUERY:
-		m_procQueryResult(hSession, pCommand->szTargetID, pCommand->iTargetIndex, pCommand->iSubMethod, pEvent);
+		m_procQueryResult(hSession, pCommand, pEvent);
         if (BVCU_Result_FAILED(pEvent->iResult))
         {
             return;
@@ -210,4 +210,9 @@ BVCU_Result CBVCUSndCmd::controlCmd(BVCU_HSession hSession, char* puId, void* cm
 int CBVCUSndCmd::getPuGpsInfo(BVCU_HSession hSession, char* puId, int device)
 {
 	return queryCmd(hSession, puId, device, NULL, BVCU_SUBMETHOD_PU_GPSDATA, NULL);
+}
+
+int CBVCUSndCmd::getPuGpsInfoV2(BVCU_HSession hSession, char* puId, int device,void* userData)
+{
+	return queryCmd(hSession, puId, device, userData, BVCU_SUBMETHOD_PU_GPSDATA, userData);
 }

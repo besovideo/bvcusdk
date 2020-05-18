@@ -155,10 +155,16 @@ namespace WindowsFormsTest
                 channel.ptzIdx, m_eventHandler.onGetPtzAttr);
         }
 
-        public void GetGpsData(string puId,int channelNo)
+
+        public void GetGpsData(string puId,int channelNo, Test_Struct s)
         {
-            int i = BVCU.ManagedLayer_CuGetPuGpsInfo(m_bvcuSdkHandle, m_session.Handle, Encoding.UTF8.GetBytes(puId),
-               channelNo - BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS);
+            //int i = BVCU.ManagedLayer_CuGetPuGpsInfo(m_bvcuSdkHandle, m_session.Handle, Encoding.UTF8.GetBytes(puId),
+            //   channelNo - BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS);
+
+            IntPtr pt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Test_Struct)));
+            Marshal.StructureToPtr(s, pt, false);
+            int j = BVCU.ManagedLayer_CuGetPuGpsInfoV2(m_bvcuSdkHandle, m_session.Handle, Encoding.UTF8.GetBytes(puId),
+               channelNo - BVCU.BVCU_SUBDEV_INDEXMAJOR_MIN_GPS,pt);
         }
 
         /// <summary>
