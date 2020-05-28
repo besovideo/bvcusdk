@@ -109,11 +109,10 @@ void CDeviceManager::OnGetDeviceList(char* puId, char* puName, int status,
             int d_index = CMFCDemoApp::m_data.GetPuIndex(puId);
             if (d_index)
             {
+                char displayname[128] = { 0 };
+                sprintf_s(displayname, sizeof(displayname), "%s(%s)", puName, puId);
                 onePU = m_DeviceTree.GetRootItem();
-                if (puName[0])
-                    onePU = m_DeviceTree.InsertItem(puName, onePU);
-                else
-                    onePU = m_DeviceTree.InsertItem(puId, onePU);
+                onePU = m_DeviceTree.InsertItem(displayname, onePU);
                 m_DeviceTree.SetItemData(onePU, d_index);
                 if (channelNo > 0)
                 {

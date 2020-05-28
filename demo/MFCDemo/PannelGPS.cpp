@@ -17,6 +17,7 @@ CPannelGPS::CPannelGPS(CWnd* pParent /*=NULL*/)
 	, m_ShowGPSStr(_T(""))
 	, m_szTspData(_T(""))
     , m_bHexString(FALSE)
+	, m_gpsoutfile(NULL)
 {
 	InitializeCriticalSection(&m_cs);
 	memset(&m_splitInfo, 0, sizeof(m_splitInfo));
@@ -61,7 +62,11 @@ LRESULT CPannelGPS::OnCloseDialog(WPARAM wParam, LPARAM lParam)
     OnBShowGPSTSP(FALSE, 0);
 	memset(&m_splitInfo,0x00,sizeof(m_splitInfo));
 	LeaveCriticalSection(&m_cs);
-	UpdateData(FALSE);
+    UpdateData(FALSE);
+    if (m_gpsoutfile) {
+        fclose(m_gpsoutfile);
+        m_gpsoutfile = nullptr;
+    }
 	return 0;
 }
 
@@ -102,10 +107,10 @@ BOOL CPannelGPS::SetSplitInfo(SplitInfoNode* info)
 	return TRUE;
 }
 
-static char* g_gpsFormat = "\r\n设备: %s\r\n时间: %4d.%2d.%2d  %2d:%2d:%2d\r\n"
-	"\r\n经度: %.7f\r\n纬度: %.7f\r\n"
-	"\r\n高度: %.7f米\r\n方向: %.7f\r\n速度: %d米/小时\r\n"
-	"\r\n定位星数: %d\r\n天线状态: %s\r\n定位状态: %s";
+static char* g_gpsFormat = "设备: %s\r\n时间: %4d-%02d-%02d %02d:%02d:%02d\r\n"
+	"经度: %.7f  纬度: %.7f\r\n"
+	"高度: %.7f米  方向: %.7f  速度: %d米/小时\r\n"
+	"定位星数: %d  天线状态: %s  定位状态: %s";
 // CPannelGPS message handlers
 LRESULT CPannelGPS::OnRecvGPSData(WPARAM wParam, LPARAM lParam)
 {
@@ -122,6 +127,21 @@ LRESULT CPannelGPS::OnRecvGPSData(WPARAM wParam, LPARAM lParam)
 			pGPSData->iStarCount, pGPSData->bAntennaState ? "好" : "坏",
 			pGPSData->bOrientationState ? "定位" : "未定位"
 			);
+		if (m_gpsoutfile == nullptr)
+			m_gpsoutfile = fopen("gpsdata.log", "w");
+		if (m_gpsoutfile) {
+            fprintf(m_gpsoutfile, "\nrecv gps data time: %ld \n", time(nullptr));
+            fprintf(m_gpsoutfile, "puid: %s\ngpstime: %4d-%02d-%02d %02d:%02d:%02d\n"
+                "Lon: %.7f    Lat: %.7f\n"
+                "hight: %.7f m dir: %.7f  speed: %d m/h \n"
+                "starCount: %d  star: %s  status: %s\n", m_splitInfo.sPUID,
+                pTime->iYear, pTime->iMonth, pTime->iDay, pTime->iHour, pTime->iMinute, pTime->iSecond,
+                ((double)pGPSData->iLongitude) / 10000000.0, ((double)pGPSData->iLatitude) / 10000000.0,
+                ((double)pGPSData->iHeight) / 100.0, ((double)pGPSData->iAngle) / 1000.0, pGPSData->iSpeed,
+                pGPSData->iStarCount, pGPSData->bAntennaState ? "good" : "bad",
+                pGPSData->bOrientationState ? "valid" : "invalid"
+            );
+		}
 	}
 	UpdateData(FALSE);
 	return 0;

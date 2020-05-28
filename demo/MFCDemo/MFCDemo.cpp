@@ -20,7 +20,7 @@ int    CMFCDemoApp::m_loginStatus = BVCU_RESULT_E_FAILED;
 SplitInfoNode CMFCDemoApp::m_talkDialg;
 BVCU_HDialog CMFCDemoApp::m_SendTspDialog = NULL;
 
-CConfig CMFCDemoApp::m_config(".\\config");
+CConfig CMFCDemoApp::m_config(".\\MFCDemo.ini");
 int    CMFCDemoApp::m_timeOut = 10;
 CMDataList CMFCDemoApp::m_data;
 
@@ -159,10 +159,11 @@ void  CMFCDemoApp::OnSessionEvent(BVCU_HSession hSession, int iEventCode, void* 
 		if(SAV_Result_SUCCEEDED(pEvent->iResult)){
 			m_loginStatus = BVCU_RESULT_S_OK;
 		}else{
-			if(pEvent->iResult == BVCU_RESULT_E_TIMEOUT)
+            m_loginStatus = pEvent->iResult;
+			/*if(pEvent->iResult == BVCU_RESULT_E_TIMEOUT)
 				m_loginStatus = BVCU_RESULT_E_TIMEOUT;
 			else if (pEvent->iResult == BVCU_RESULT_E_AUTHORIZE_FAILED)
-				m_loginStatus = BVCU_RESULT_E_AUTHORIZE_FAILED;
+				m_loginStatus = BVCU_RESULT_E_AUTHORIZE_FAILED;*/
 		}
 		SetEvent(m_loginEvent);
 	}
@@ -231,11 +232,10 @@ void  CMFCDemoApp::OnGetPuList(BVCU_HSession hSession, char* puId, char* puName,
 			int d_index = m_data.InsertPu(puId,puName,status,channel,channelNo);
 			if (d_index)
 			{
-				onePU = pPuListView->GetRootItem();
-				if (puName[0])
-					onePU = pPuListView->InsertItem(puName,onePU);
-				else
-					onePU = pPuListView->InsertItem(puId,onePU);
+                onePU = pPuListView->GetRootItem();
+                char displayname[128] = { 0 };
+                sprintf_s(displayname, sizeof(displayname), "%s(%s)", puName, puId);
+				onePU = pPuListView->InsertItem(displayname,onePU);
 				pPuListView->SetItemData(onePU,d_index);
 				if (channelNo > 0)
 				{

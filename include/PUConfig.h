@@ -722,7 +722,7 @@ typedef struct _BVCU_PUCFG_Miscellaneous_Light {
     int iPower;       // 功率：0 ~ 100
 }BVCU_PUCFG_MiscLight;
 
-// 外网硬件
+// 外围硬件
 typedef struct _BVCU_PUCFG_Miscellaneous_Hardware {
     int iType;    // 硬件类型，见BVCU_HARDWARE_TYPE_*
     union

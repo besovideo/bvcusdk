@@ -6,6 +6,7 @@
 #define WM_GPS_CLOSE       WM_USER + 2013
 #define WM_TSP_RECVDATA    WM_USER + 2014
 #define WM_TSP_GPS_BSHOW    WM_USER + 2015
+#include "stdio.h"
 
 class CPannelGPS : public CDialogEx
 {
@@ -26,6 +27,7 @@ public:
 	CRITICAL_SECTION m_cs;
 	CString m_ShowGPSStr;
 	SplitInfoNode m_splitInfo;
+	FILE* m_gpsoutfile;
 public:
 	BOOL BPlay();
 	//get split info 
