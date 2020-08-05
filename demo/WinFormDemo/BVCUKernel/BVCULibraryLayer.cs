@@ -242,6 +242,19 @@ namespace WindowsFormsTest
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManagedLayer_PuManualRemoteRecord(IntPtr handle, IntPtr hSession, Byte[] puId, int deviceIdx, ref BVCU_PUCFG_ManualRecord recordParam);
 
+
+        //文件检索
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManagedLayer_Search_File(IntPtr handle, IntPtr hSession, IntPtr ptNruTarget, IntPtr ptRequest, IntPtr iIndexUserData);
+
+        //文件下载
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManagedLayer_BVFileTransferOpen(IntPtr handle, ref IntPtr phTransfer, IntPtr pParam);
+
+        //文件传输信息
+        [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManagedLayer_BVFileTransferGetInfo(IntPtr handle, IntPtr hTransfer, ref BVCU_File_TransferInfo pInfo);
+
         #endregion 功能模块
 
 

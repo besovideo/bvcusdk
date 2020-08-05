@@ -34,6 +34,7 @@ typedef void (WINAPI *BVCU_GpsDialog_OnData)(BVCU_HDialog hDialog, BVCU_PUCFG_GP
 typedef void (WINAPI *BVCU_TspDialog_OnEvent)(BVCU_HDialog hDialog, int iEventCode, int errorCode);
 typedef void (WINAPI *BVCU_TspDialog_OnData)(BVCU_HDialog hDialog, const char* pTspData, int len);
 typedef void (WINAPI *BVCU_Server_Notify)(BVCU_HSession hSession, BVCU_NotifyMsgContent* msgContent);
+typedef void (WINAPI *BVCU_TransferOpen_OnEvent)(BVCU_File_HTransfer hTransfer, void* pUserData, int iEventCode, BVCU_Result iResult);
 
 class CBVCU
 {
@@ -52,6 +53,7 @@ class CBVCU
     static void gpsDialog_OnEvent(BVCU_HDialog hDialog, int iEventCode, void* pParam);
     static BVCU_Result gpsDialog_OnData(BVCU_HDialog hDialog, SAVCodec_Context* pCodec, SAV_Frame* pFrame);
 	static void tspDialog_OnEvent(BVCU_HDialog hDialog, int iEventCode, void* pParam);
+	
 	static BVCU_Result tspDialog_OnData(BVCU_HDialog hDialog, SAVCodec_Context* pCodec, SAV_Frame* pFrame);
 
     CBVCUSndCmd m_cBVCUSndCmd;
@@ -86,7 +88,12 @@ public:
 	int openTspDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, int channelNo, 
 		BVCU_TspDialog_OnEvent onDlgEvent, BVCU_TspDialog_OnData onDlgData);
 
+	static BVCU_TransferOpen_OnEvent m_procTransferOpen;
+	static void transferOpen_OnEvent(BVCU_File_HTransfer hTransfer, void* pUserData, int iEventCode, BVCU_Result iResult);
 
+	void setTransferProcFunc(BVCU_TransferOpen_OnEvent OnEvent);
+	int fileTransferOpen(BVCU_File_HTransfer * phTransfer, BVCU_File_TransferParam * pParam);
+	int getFileTransferInfo(BVCU_File_HTransfer hTransfer, BVCU_File_TransferInfo* pInfo);
     CBVCU()
     {
     }

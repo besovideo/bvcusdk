@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -71,6 +74,26 @@
             this.contextMenuStripGps = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCloseGpsDialog = new System.Windows.Forms.ToolStripMenuItem();
             this.tbInputMsg = new System.Windows.Forms.TextBox();
+            this.tabPageGetGps = new System.Windows.Forms.TabPage();
+            this.buttonGetGps = new System.Windows.Forms.Button();
+            this.tabPageDocRetrieval = new System.Windows.Forms.TabPage();
+            this.buttonSearchFile = new System.Windows.Forms.Button();
+            this.dateTimePickerBegin = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.dataGridViewRecord = new System.Windows.Forms.DataGridView();
+            this.num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.puId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.channelNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.reason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beginTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.downloadPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.filePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.description1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.description2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.treeViewResList = new System.Windows.Forms.TreeView();
             this.panelVideo = new System.Windows.Forms.Panel();
             this.contextMenuStripVideo = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -80,8 +103,10 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStripTalkOnly = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemTalkOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageGetGps = new System.Windows.Forms.TabPage();
-            this.buttonGetGps = new System.Windows.Forms.Button();
+            this.contextMenuStripDocRetrieval = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemDocRetrieval = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripFileDown = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemFileDown = new System.Windows.Forms.ToolStripMenuItem();
             this.panelLeft.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -90,9 +115,13 @@
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.contextMenuStripGps.SuspendLayout();
+            this.tabPageGetGps.SuspendLayout();
+            this.tabPageDocRetrieval.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecord)).BeginInit();
             this.contextMenuStripVideo.SuspendLayout();
             this.contextMenuStripTalkOnly.SuspendLayout();
-            this.tabPageGetGps.SuspendLayout();
+            this.contextMenuStripDocRetrieval.SuspendLayout();
+            this.contextMenuStripFileDown.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelLeft
@@ -112,6 +141,7 @@
             this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Controls.Add(this.tabPageGetGps);
+            this.tabControl.Controls.Add(this.tabPageDocRetrieval);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -577,6 +607,224 @@
             this.tbInputMsg.Size = new System.Drawing.Size(139, 21);
             this.tbInputMsg.TabIndex = 0;
             // 
+            // tabPageGetGps
+            // 
+            this.tabPageGetGps.Controls.Add(this.buttonGetGps);
+            this.tabPageGetGps.Location = new System.Drawing.Point(4, 22);
+            this.tabPageGetGps.Name = "tabPageGetGps";
+            this.tabPageGetGps.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGetGps.Size = new System.Drawing.Size(209, 202);
+            this.tabPageGetGps.TabIndex = 4;
+            this.tabPageGetGps.Text = "获取GPS";
+            this.tabPageGetGps.UseVisualStyleBackColor = true;
+            // 
+            // buttonGetGps
+            // 
+            this.buttonGetGps.Location = new System.Drawing.Point(6, 6);
+            this.buttonGetGps.Name = "buttonGetGps";
+            this.buttonGetGps.Size = new System.Drawing.Size(93, 23);
+            this.buttonGetGps.TabIndex = 0;
+            this.buttonGetGps.Text = "获取";
+            this.buttonGetGps.UseVisualStyleBackColor = true;
+            this.buttonGetGps.Click += new System.EventHandler(this.buttonGetGps_Click);
+            // 
+            // tabPageDocRetrieval
+            // 
+            this.tabPageDocRetrieval.Controls.Add(this.buttonSearchFile);
+            this.tabPageDocRetrieval.Controls.Add(this.dateTimePickerBegin);
+            this.tabPageDocRetrieval.Controls.Add(this.dateTimePickerEnd);
+            this.tabPageDocRetrieval.Controls.Add(this.dataGridViewRecord);
+            this.tabPageDocRetrieval.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDocRetrieval.Name = "tabPageDocRetrieval";
+            this.tabPageDocRetrieval.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDocRetrieval.Size = new System.Drawing.Size(209, 202);
+            this.tabPageDocRetrieval.TabIndex = 5;
+            this.tabPageDocRetrieval.Text = "文件检索";
+            this.tabPageDocRetrieval.UseVisualStyleBackColor = true;
+            // 
+            // buttonSearchFile
+            // 
+            this.buttonSearchFile.Location = new System.Drawing.Point(167, 6);
+            this.buttonSearchFile.Name = "buttonSearchFile";
+            this.buttonSearchFile.Size = new System.Drawing.Size(36, 34);
+            this.buttonSearchFile.TabIndex = 9;
+            this.buttonSearchFile.Text = "检索";
+            this.buttonSearchFile.UseVisualStyleBackColor = true;
+            this.buttonSearchFile.Visible = false;
+            // 
+            // dateTimePickerBegin
+            // 
+            this.dateTimePickerBegin.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimePickerBegin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerBegin.Location = new System.Drawing.Point(3, 3);
+            this.dateTimePickerBegin.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerBegin.Name = "dateTimePickerBegin";
+            this.dateTimePickerBegin.Size = new System.Drawing.Size(157, 21);
+            this.dateTimePickerBegin.TabIndex = 7;
+            // 
+            // dateTimePickerEnd
+            // 
+            this.dateTimePickerEnd.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+            this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(3, 30);
+            this.dateTimePickerEnd.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(157, 21);
+            this.dateTimePickerEnd.TabIndex = 8;
+            // 
+            // dataGridViewRecord
+            // 
+            this.dataGridViewRecord.AllowUserToAddRows = false;
+            this.dataGridViewRecord.AllowUserToDeleteRows = false;
+            this.dataGridViewRecord.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridViewRecord.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewRecord.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridViewRecord.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.num,
+            this.puId,
+            this.channelNo,
+            this.reason,
+            this.beginTime,
+            this.endTime,
+            this.fileType,
+            this.fileSize,
+            this.downloadPercent,
+            this.fileName,
+            this.filePath,
+            this.description1,
+            this.description2});
+            this.dataGridViewRecord.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridViewRecord.Location = new System.Drawing.Point(3, 57);
+            this.dataGridViewRecord.Name = "dataGridViewRecord";
+            this.dataGridViewRecord.ReadOnly = true;
+            this.dataGridViewRecord.RowHeadersVisible = false;
+            this.dataGridViewRecord.RowHeadersWidth = 22;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(3);
+            this.dataGridViewRecord.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewRecord.RowTemplate.Height = 23;
+            this.dataGridViewRecord.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewRecord.Size = new System.Drawing.Size(203, 142);
+            this.dataGridViewRecord.TabIndex = 6;
+            // 
+            // num
+            // 
+            this.num.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.num.HeaderText = "序号";
+            this.num.Name = "num";
+            this.num.ReadOnly = true;
+            this.num.Width = 50;
+            // 
+            // puId
+            // 
+            this.puId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.puId.HeaderText = "设备ID";
+            this.puId.Name = "puId";
+            this.puId.ReadOnly = true;
+            this.puId.Width = 72;
+            // 
+            // channelNo
+            // 
+            this.channelNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.channelNo.HeaderText = "通道号";
+            this.channelNo.Name = "channelNo";
+            this.channelNo.ReadOnly = true;
+            this.channelNo.Width = 72;
+            // 
+            // reason
+            // 
+            this.reason.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.reason.HeaderText = "录像原因";
+            this.reason.Name = "reason";
+            this.reason.ReadOnly = true;
+            this.reason.Width = 84;
+            // 
+            // beginTime
+            // 
+            this.beginTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.beginTime.HeaderText = "开始时间";
+            this.beginTime.Name = "beginTime";
+            this.beginTime.ReadOnly = true;
+            this.beginTime.Width = 84;
+            // 
+            // endTime
+            // 
+            this.endTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.endTime.HeaderText = "结束时间";
+            this.endTime.Name = "endTime";
+            this.endTime.ReadOnly = true;
+            this.endTime.Width = 84;
+            // 
+            // fileType
+            // 
+            this.fileType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fileType.HeaderText = "文件类型";
+            this.fileType.Name = "fileType";
+            this.fileType.ReadOnly = true;
+            this.fileType.Width = 84;
+            // 
+            // fileSize
+            // 
+            this.fileSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fileSize.HeaderText = "文件大小(MB)";
+            this.fileSize.Name = "fileSize";
+            this.fileSize.ReadOnly = true;
+            this.fileSize.Width = 108;
+            // 
+            // downloadPercent
+            // 
+            this.downloadPercent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridViewCellStyle5.Format = "N2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.downloadPercent.DefaultCellStyle = dataGridViewCellStyle5;
+            this.downloadPercent.HeaderText = "下载进度(%)";
+            this.downloadPercent.Name = "downloadPercent";
+            this.downloadPercent.ReadOnly = true;
+            this.downloadPercent.Width = 102;
+            // 
+            // fileName
+            // 
+            this.fileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.fileName.HeaderText = "文件名";
+            this.fileName.Name = "fileName";
+            this.fileName.ReadOnly = true;
+            this.fileName.Width = 160;
+            // 
+            // filePath
+            // 
+            this.filePath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.filePath.HeaderText = "存储路径";
+            this.filePath.MinimumWidth = 140;
+            this.filePath.Name = "filePath";
+            this.filePath.ReadOnly = true;
+            // 
+            // description1
+            // 
+            this.description1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.description1.HeaderText = "描述1";
+            this.description1.MinimumWidth = 80;
+            this.description1.Name = "description1";
+            this.description1.ReadOnly = true;
+            this.description1.Width = 80;
+            // 
+            // description2
+            // 
+            this.description2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.description2.HeaderText = "描述2";
+            this.description2.MinimumWidth = 80;
+            this.description2.Name = "description2";
+            this.description2.ReadOnly = true;
+            this.description2.Width = 80;
+            // 
             // treeViewResList
             // 
             this.treeViewResList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -643,26 +891,33 @@
             this.ToolStripMenuItemTalkOnly.Text = "打开对讲";
             this.ToolStripMenuItemTalkOnly.Click += new System.EventHandler(this.ToolStripMenuItemTalkOnly_Click);
             // 
-            // tabPageGetGps
+            // contextMenuStripDocRetrieval
             // 
-            this.tabPageGetGps.Controls.Add(this.buttonGetGps);
-            this.tabPageGetGps.Location = new System.Drawing.Point(4, 22);
-            this.tabPageGetGps.Name = "tabPageGetGps";
-            this.tabPageGetGps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGetGps.Size = new System.Drawing.Size(209, 202);
-            this.tabPageGetGps.TabIndex = 4;
-            this.tabPageGetGps.Text = "获取GPS";
-            this.tabPageGetGps.UseVisualStyleBackColor = true;
+            this.contextMenuStripDocRetrieval.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemDocRetrieval});
+            this.contextMenuStripDocRetrieval.Name = "contextMenuStripDocRetrieval";
+            this.contextMenuStripDocRetrieval.Size = new System.Drawing.Size(125, 26);
             // 
-            // buttonGetGps
+            // ToolStripMenuItemDocRetrieval
             // 
-            this.buttonGetGps.Location = new System.Drawing.Point(6, 6);
-            this.buttonGetGps.Name = "buttonGetGps";
-            this.buttonGetGps.Size = new System.Drawing.Size(93, 23);
-            this.buttonGetGps.TabIndex = 0;
-            this.buttonGetGps.Text = "获取";
-            this.buttonGetGps.UseVisualStyleBackColor = true;
-            this.buttonGetGps.Click += new System.EventHandler(this.buttonGetGps_Click);
+            this.ToolStripMenuItemDocRetrieval.Name = "ToolStripMenuItemDocRetrieval";
+            this.ToolStripMenuItemDocRetrieval.Size = new System.Drawing.Size(124, 22);
+            this.ToolStripMenuItemDocRetrieval.Text = "文件检索";
+            this.ToolStripMenuItemDocRetrieval.Click += new System.EventHandler(this.ToolStripMenuItemDocRetrieval_Click);
+            // 
+            // contextMenuStripFileDown
+            // 
+            this.contextMenuStripFileDown.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemFileDown});
+            this.contextMenuStripFileDown.Name = "contextMenuStripFileDown";
+            this.contextMenuStripFileDown.Size = new System.Drawing.Size(153, 48);
+            // 
+            // ToolStripMenuItemFileDown
+            // 
+            this.ToolStripMenuItemFileDown.Name = "ToolStripMenuItemFileDown";
+            this.ToolStripMenuItemFileDown.Size = new System.Drawing.Size(152, 22);
+            this.ToolStripMenuItemFileDown.Text = "下载";
+            this.ToolStripMenuItemFileDown.Click += new System.EventHandler(this.ToolStripMenuItemFileDown_Click);
             // 
             // MainWinForm
             // 
@@ -686,9 +941,13 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.contextMenuStripGps.ResumeLayout(false);
+            this.tabPageGetGps.ResumeLayout(false);
+            this.tabPageDocRetrieval.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRecord)).EndInit();
             this.contextMenuStripVideo.ResumeLayout(false);
             this.contextMenuStripTalkOnly.ResumeLayout(false);
-            this.tabPageGetGps.ResumeLayout(false);
+            this.contextMenuStripDocRetrieval.ResumeLayout(false);
+            this.contextMenuStripFileDown.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -748,6 +1007,28 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemTalkOnly;
         private System.Windows.Forms.TabPage tabPageGetGps;
         private System.Windows.Forms.Button buttonGetGps;
+        private System.Windows.Forms.TabPage tabPageDocRetrieval;
+        public System.Windows.Forms.DataGridView dataGridViewRecord;
+        private System.Windows.Forms.DataGridViewTextBoxColumn num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn puId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn channelNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn reason;
+        private System.Windows.Forms.DataGridViewTextBoxColumn beginTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn downloadPercent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn filePath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn description2;
+        private System.Windows.Forms.DateTimePicker dateTimePickerBegin;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDocRetrieval;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemDocRetrieval;
+        private System.Windows.Forms.Button buttonSearchFile;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripFileDown;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFileDown;
     }
 }
 

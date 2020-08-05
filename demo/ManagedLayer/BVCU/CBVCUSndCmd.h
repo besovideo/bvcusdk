@@ -14,6 +14,7 @@ extern "C"
 #include "BVCU.h"
 #include "BVCUConst.h"
 #include "PUConfig.h"
+#include"BVSearch.h"
 }
 
 typedef void (WINAPI *BVCU_Cmd_ControlResult)(BVCU_HSession hSession, char* puId, int device, int subMethod, int result);
@@ -51,6 +52,8 @@ public:
 
 	int getPuGpsInfo(BVCU_HSession hSession, char* puId, int device);
 	int getPuGpsInfoV2(BVCU_HSession hSession, char* puId, int device,void* userData);
+
+	int getSearchFile(BVCU_HSession hSession, char* targetId, BVCU_Search_Request *require, void* pUserData);
 };
 
 

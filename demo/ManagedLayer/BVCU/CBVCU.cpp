@@ -510,3 +510,35 @@ void CBVCU::tspDialog_OnEvent(BVCU_HDialog hDialog, int iEventCode, void* pParam
 		m_procTspDialogEvent(hDialog, iEventCode, ((BVCU_Event_Common*)pParam)->iResult);
 	}
 }
+
+int CBVCU::fileTransferOpen(BVCU_File_HTransfer* phTransfer, BVCU_File_TransferParam* pParam)
+{
+	pParam->iSize = sizeof(BVCU_File_TransferParam);
+	pParam->OnEvent = CBVCU::transferOpen_OnEvent;
+	return BVCU_FileTransfer_Open(phTransfer, pParam);
+}
+
+void CBVCU::transferOpen_OnEvent(BVCU_File_HTransfer hTransfer, void* pUserData, int iEventCode, BVCU_Result iResult)
+{
+	if (m_procTransferOpen)
+	{
+		m_procTransferOpen(hTransfer, pUserData, iEventCode, iResult);
+	}
+}
+
+void CBVCU::setTransferProcFunc(BVCU_TransferOpen_OnEvent OnEvent)
+{
+	if (NULL == m_procTransferOpen)
+	{
+		m_procTransferOpen = OnEvent;
+	}
+}
+
+BVCU_TransferOpen_OnEvent CBVCU::m_procTransferOpen = NULL;
+
+int CBVCU::getFileTransferInfo(BVCU_File_HTransfer hTransfer, BVCU_File_TransferInfo* pInfo)
+{
+	int rc = BVCU_FileTransfer_GetInfo(hTransfer, pInfo);
+	return rc;
+}
+

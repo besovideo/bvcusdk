@@ -690,6 +690,727 @@ namespace WindowsFormsTest
             return s;
         }
 
+
+        public static string ParsePathGetFileName(string strFilePath, int iEndIndex = -1)
+        {
+            string szFileName = "";
+            int iIndexFlagBackslash = strFilePath.LastIndexOf('\\');
+            int iIndexFlagSlash = strFilePath.LastIndexOf('/');
+            int iIndex = iIndexFlagBackslash > iIndexFlagSlash ? iIndexFlagBackslash : iIndexFlagSlash;
+            if (iEndIndex == -1)
+            {
+                szFileName = strFilePath.Substring(iIndex + 1);
+            }
+            else
+            {
+                szFileName = strFilePath.Substring(iIndex + 1, iEndIndex);
+            }
+            return szFileName;
+        }
+
+        public const int BVCU_STORAGE_RECORDTYPE_NONE = 0;
+        public const int BVCU_STORAGE_RECORDTYPE_MANUAL = 1;
+        public const int BVCU_STORAGE_RECORDTYPE_ONTIME = 1 << 1;
+        public const int BVCU_STORAGE_RECORDTYPE_ONALARM = 1 << 2;
+        public const int BVCU_STORAGE_RECORDTYPE_AUTOSAVE = (1 << 3);//自动存储（根据自动存储配置）
+        public const int BVCU_STORAGE_RECORDTYPE_UPLOAD = (1 << 4);//上传的文件（终端上传到平台的文件）
+        public const int BVCU_STORAGE_RECORDTYPE_DOWNLOAD = (1 << 5);//下载的文件（平台从终端下载的文件）
+        public const int BVCU_STORAGE_RECORDTYPE_VIDEOCALL = (1 << 6);//视频对讲
+        public static string GetRecordReason(int iType)
+        {
+            if (iType == BVCU_STORAGE_RECORDTYPE_NONE)
+            {
+                return "不存储"; // "不存储";
+            }
+            string result = "";
+            if ((iType & BVCU_STORAGE_RECORDTYPE_MANUAL) != 0)
+            {
+                result += "手动存储"; // "手动存储";
+            }
+            if ((iType & BVCU_STORAGE_RECORDTYPE_ONTIME) != 0)
+            {
+                result += "定时存储"; // "定时存储";
+            }
+            if ((iType & BVCU_STORAGE_RECORDTYPE_ONALARM) != 0)
+            {
+                result += "报警联动存储"; // "报警联动存储";
+            }
+            if ((iType & BVCU_STORAGE_RECORDTYPE_AUTOSAVE) != 0)
+            {
+                result += "自动存储"; // "自动存储";
+            }
+            if ((iType & BVCU_STORAGE_RECORDTYPE_UPLOAD) != 0)
+            {
+                result += "上传的文件"; // "上传的文件";
+            }
+            if ((iType & BVCU_STORAGE_RECORDTYPE_DOWNLOAD) != 0)
+            {
+                result += "下载的文件"; // "下载的文件";
+            }
+            return result;
+        }
+
+        public static DateTime getDateTimeFromMicroSecond(long tick)
+        {
+            DateTime result = new DateTime(1970, 1, 1, 0, 0, 0);
+            TimeSpan timeSpan = new TimeSpan(tick * 10);
+            result += timeSpan;
+            TimeZone tz = TimeZone.CurrentTimeZone;
+            result = tz.ToLocalTime(result);
+            return result;
+        }
+
         public const int BVCU_MAX_ID_LEN = 31;
+        public const int BVCU_MAX_FILE_NAME_LEN = 255;
+
+        public class BVCU_RESULT_E
+        {
+            public const int FAILED = -0x10000;
+            public const int INVALIDARG = FAILED + 1;
+            public const int UNSUPPORTED = FAILED + 2;
+            public const int ALLOCMEMFAILED = FAILED + 3;
+            public const int MEMALIGNMENT = FAILED + 4;
+            public const int NOTFOUND = FAILED + 5;
+            public const int NOTALLOWED = FAILED + 6;
+            public const int IO = FAILED + 7;
+            public const int EOF = FAILED + 8;
+            public const int INVALIDDATA = FAILED + 9;
+            public const int NOTIMPL = FAILED + 10;
+            public const int BUSY = FAILED + 11;
+            public const int INUSE = FAILED + 12;
+            public const int BADREQUEST = FAILED + 13;
+            public const int AUTHORIZE_FAILED = FAILED + 14;
+            public const int BADSTATE = FAILED + 15;
+            public const int NOTINITILIZED = FAILED + 16;
+            public const int FATALERROR = FAILED + 17;
+            public const int OUTOFSPACE = FAILED + 18;
+            public const int DISCONNECTED = FAILED + 19;
+            public const int TIMEOUT = FAILED + 20;
+            public const int CONNECTFAILED = FAILED + 21;
+            public const int ABORTED = FAILED + 22;
+            public const int THRAEDCONTEXT = FAILED + 23;
+            public const int UNAVAILABLE = FAILED + 24;
+            public const int ALREADYEXIST = FAILED + 25;
+            public const int SEVERINTERNAL = FAILED + 26;
+            public const int MAXRETRIES = FAILED + 27;
+
+            public const int AAA_OBJECTNOTFOUND = -0x0F000;
+            public const int VTDU_NONE = AAA_OBJECTNOTFOUND + 1;
+        }
+
+        public class BVCU_SUBMETHOD
+        {
+            public const int SET = -1;
+            public const int GET = -2;
+            public const int PU_LIST = 0x00010;
+            public const int PU_BROADCASTSTATUS = PU_LIST + 1;
+            public const int PU_GPSDATA = PU_LIST + 2;
+            public const int PU_STORAGE_MEDIA = PU_LIST + 3;//存储器信息。输入类型无; 输出类型：BVCU_PUCFG_Storage_Media数组
+            public const int PU_GROUPLIST = PU_LIST + 4;
+            public const int PU_GROUPINFO = PU_LIST + 5;
+            public const int PU_UPDATESTATUS = PU_LIST + 6;
+            public const int PU_RECORDSTATUS = PU_LIST + 12;
+
+            public const int PU_DEVICEINFO = 0x10000;
+            public const int PU_CHANNELINFO = PU_DEVICEINFO + 1;
+            public const int PU_DEVICETIME = PU_DEVICEINFO + 2;
+            public const int PU_SERVERS = PU_DEVICEINFO + 3;
+            public const int PU_ETHERNET = PU_DEVICEINFO + 4;
+            public const int PU_WIFI = PU_DEVICEINFO + 5;
+            public const int PU_RADIONETWORK = PU_DEVICEINFO + 6;
+            public const int PU_PTZATTR = PU_DEVICEINFO + 7;
+            public const int PU_ENCODERCHANNEL = PU_DEVICEINFO + 8;
+            public const int PU_VIDEOIN = PU_DEVICEINFO + 9;
+            public const int PU_AUDIOIN = PU_DEVICEINFO + 10;
+            public const int PU_AUDIOOUT = PU_DEVICEINFO + 11;
+            public const int PU_ALERTIN = PU_DEVICEINFO + 12;
+            public const int PU_ALERTOUT = PU_DEVICEINFO + 13;
+            public const int PU_SERIALPORT = PU_DEVICEINFO + 14;
+            public const int PU_GPS = PU_DEVICEINFO + 15;
+            public const int PU_STORAGE_SCHEDULE = PU_DEVICEINFO + 16;//存储计划。输入类型：BVCU_PUCFG_Storage_Schdule;输出类型：无
+            public const int PU_STORAGE_RULE = PU_DEVICEINFO + 17;//存储属性。输入类型：BVCU_PUCFG_Storage_Rule;输出类型：无
+            public const int PU_STORAGE_FORMAT = PU_DEVICEINFO + 18;//格式化存储器。输入类型：BVCU_PUCFG_Storage_Format;输出类型：无
+            public const int PU_ONLINECONTROL = PU_DEVICEINFO + 19;
+            public const int PU_SNAPSHOTPARAM = PU_DEVICEINFO + 20;
+            public const int PU_POWER = PU_DEVICEINFO + 21;
+            public const int PU_GPSSPEEDLIMIT = PU_DEVICEINFO + 22;
+            public const int PU_CARINFO = PU_DEVICEINFO + 23;
+            public const int PU_BLUETOOTH = PU_DEVICEINFO + 24;
+            public const int PU_VIDEOIN_CMOS = PU_DEVICEINFO + 25;
+            public const int PU_ZFYINFO = PU_DEVICEINFO + 26;
+            public const int PU_MISCHARDWARE = PU_DEVICEINFO + 27;
+
+            public const int USER_GROUPLIST = 0x01000;
+            public const int USER_GROUPINFO = USER_GROUPLIST + 1;
+            public const int USER_USERLIST = USER_GROUPLIST + 2;
+            public const int USER_USERINFO = USER_GROUPLIST + 3;
+            public const int USER_ONLINE = USER_GROUPLIST + 4;
+            public const int USER_ONLINEINFO = USER_GROUPLIST + 5;//获得在线用户信息 lcl 2014年01月15日 17:50:05
+            public const int USER_CMP = USER_GROUPLIST + 6; //比较两个用户(组）/设备的权限关系。输入类型：BVCU_UCFG_User_Cmp； 输出类型：BVCU_UCFG_User_CmpResult
+
+            public const int PU_REBOOT = 0x20000;
+            public const int PU_DELETE = PU_REBOOT + 1;
+            public const int PU_SHUTDOWN = PU_REBOOT + 2;
+            public const int PU_SAVECONFIG = PU_REBOOT + 3;
+            public const int PU_PTZCONTROL = PU_REBOOT + 4;
+            public const int PU_PUTOFFLINE = PU_REBOOT + 5;
+            public const int PU_MANUALRECORD = PU_REBOOT + 6;
+            public const int PU_SNAPSHOT = PU_REBOOT + 7;
+            public const int PU_UPGRADE = PU_REBOOT + 8;
+            public const int PU_ADDGROUP = PU_REBOOT + 9;
+            public const int PU_MODGROUP = PU_REBOOT + 10;
+            public const int PU_DELGROUP = PU_REBOOT + 11;
+            public const int PU_OPENDIALOG = PU_REBOOT + 12; //请求创建会话。输入类型：BVCU_PUCFG_OpenDialog； 输出类型：BVCU_PUCFG_OpenDialog
+            public const int PU_SYNCHRONIZATION = PU_REBOOT + 13;
+
+            public const int USER_ADDGROUP = 0x22000;
+            public const int USER_MODGROUP = USER_ADDGROUP + 1;
+            public const int USER_DELGROUP = USER_ADDGROUP + 2;
+            public const int USER_ADDUSER = USER_ADDGROUP + 3;
+            public const int USER_MODUSER = USER_ADDGROUP + 4;
+            public const int USER_DELUSER = USER_ADDGROUP + 5;
+            public const int USER_MODPASSWD = USER_ADDGROUP + 6;
+            public const int USER_KICKOUT = USER_ADDGROUP + 7;
+
+            public const int CONF_LIST = 0x01600;
+            public const int CONF_INFO = CONF_LIST + 1;
+            public const int CONF_DEL_LIST = CONF_LIST + 2;
+
+            public const int CONF_PARTICIPATOR_VOLUME = 0x11200;
+            public const int CONF_BASEINFO = CONF_PARTICIPATOR_VOLUME + 1;
+            public const int CONF_DEFAULT = CONF_PARTICIPATOR_VOLUME + 2;// 获取/设置默认会议列表，BVCU_Command.szTargetID设置为 设备ID（或用户账号）
+                                                                         // 输入类型：BVCU_Conf_BaseInfo数组；输出类型：无；触发类型：同名Notify
+
+            public const int CONF_CREATE = 0x22600;
+            public const int CONF_DELETE = CONF_CREATE + 1;
+            public const int CONF_START = CONF_CREATE + 2;
+            public const int CONF_STOP = CONF_CREATE + 3;
+            public const int CONF_PARTICIPATOR_ADD = CONF_CREATE + 4;
+            public const int CONF_PARTICIPATOR_REMOVE = CONF_CREATE + 5;
+            public const int CONF_PARTICIPATOR_MODIFY = CONF_CREATE + 6;
+            public const int CONF_PARTICIPATOR_INVITE_SPEAK = CONF_CREATE + 7;
+            public const int CONF_PARTICIPATOR_TERMINATE_SPEAK = CONF_CREATE + 8;
+            public const int CONF_PARTICIPATOR_JOIN = CONF_CREATE + 9;
+            public const int CONF_PARTICIPATOR_EXIT = CONF_CREATE + 10;
+            public const int CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK = CONF_CREATE + 11;
+            public const int CONF_PARTICIPATOR_APPLYFOR_ENDSPEAK = CONF_CREATE + 12;
+            public const int CONF_PARTICIPATOR_LEAVE = CONF_CREATE + 13;
+            public const int CONF_PARTICIPATOR_RETURN = CONF_CREATE + 14;
+            public const int CONF_PARTICIPATOR_INFO = CONF_CREATE + 15;
+            public const int CONF_VISITOR_JOIN = CONF_CREATE + 16;   //请求旁听会议。输入类型：无；输出类型：BVCU_Conf_Participator_Info
+            public const int CONF_PARTICIPATOR_INVITE_JOIN = CONF_CREATE + 17;   //邀请加入会议，输入类型：BVCU_Conf_Participator_Invite；输出类型：无，BVCU_Command.iTargetIndex==1表示多组同时监听。
+            public const int CONF_PARTICIPATOR_KICKOUT = CONF_CREATE + 18;       //踢出会议（区别删除会议参与者，这里是离开正在进行的会议），输入类型：BVCU_Conf_Participator_Invite；输出类型：无
+            public const int IM_MSG = 0x22620;// 发送即时消息。输入类型：BVCU_IM_Msg数组 输出类型：BVCU_IM_Msg数组，用于获取各消息ID。消息接收方收到同名Notify。
+
+            public const int LINKACTION_ADD = 0x22700;
+            public const int LINKACTION_SET = LINKACTION_ADD + 1;
+            public const int LINKACTION_DEL = LINKACTION_ADD + 2;
+            public const int EVENT_PROCESS = LINKACTION_ADD + 3;
+
+            public const int BVCU_SUBMETHOD_VTDU_LIST = 0x01300;
+
+            public const int BVCU_SUBMETHOD_VTDU_INFO = 0x10F00;
+
+            public const int BVCU_SUBMETHOD_CMS_BASEINFO = 0x2100;
+            public const int BVCU_SUBMETHOD_CMS_DIALOGINFO = BVCU_SUBMETHOD_CMS_BASEINFO + 1;
+            public const int BVCU_SUBMETHOD_CMS_TIME = BVCU_SUBMETHOD_CMS_BASEINFO + 2;
+
+            #region 【黑白名单部分】
+            /// <summary>
+            /// 获取黑白名单配置信息，输入类型: 无;输出类型: BVCU_CMSCFG_BWList_Info;
+            /// </summary>
+            public const int BVCU_SUBMETHOD_BWLIST_INFO_GET = 0x2200;
+            /// <summary>
+            /// 获取指定条件的黑白名单。输入类型：BVCU_CMSCFG_BWList_Filter，输出类型：BVCU_CMSCFG_BWList
+            /// </summary>
+            public const int BVCU_SUBMETHOD_BWLIST_GET = BVCU_SUBMETHOD_BWLIST_INFO_GET + 1;
+
+            #region 【黑白名单管理】
+            /// <summary>
+            /// 设置黑白名单配置信息。输入类型：BVCU_CMSCFG_BWList_Info，输出类型：无
+            /// </summary>
+            public const int BVCU_SUBMETHOD_BWLIST_INFO_SET = 0x23100;
+            /// <summary>
+            /// 添加黑白名单。输入类型：BVCU_CMSCFG_BWList， 输出类型：BVCU_CMSCFG_BWList
+            /// </summary>
+            public const int BVCU_SUBMETHOD_BWLIST_ADD = BVCU_SUBMETHOD_BWLIST_INFO_SET + 1;
+            /// <summary>
+            /// 删除指定黑白名单。输入类型：BVCU_CMSCFG_BWList，输出类型：无
+            /// </summary>
+            public const int BVCU_SUBMETHOD_BWLIST_DEL = BVCU_SUBMETHOD_BWLIST_INFO_SET + 2;
+
+            #endregion
+
+            #endregion
+
+            public const int BVCU_SUBMETHOD_NRU_LIST = 0x1400;
+            public const int BVCU_SUBMETHOD_NRU_SCHEDULE_LIST = BVCU_SUBMETHOD_NRU_LIST + 1;
+            public const int BVCU_SUBMETHOD_NRU_SCHEDULE_GET = BVCU_SUBMETHOD_NRU_LIST + 2;
+
+            public const int BVCU_SUBMETHOD_NRU_INFO = 0x11000;
+
+            public const int BVCU_SUBMETHOD_NRU_DELETE = 0x22400;
+            public const int BVCU_SUBMETHOD_NRU_SCHEDULE_SET = BVCU_SUBMETHOD_NRU_DELETE + 1;
+            public const int BVCU_SUBMETHOD_NRU_SCHEDULE_DEL = BVCU_SUBMETHOD_NRU_DELETE + 2;
+            public const int BVCU_SUBMETHOD_NRU_MANUALRECORD = BVCU_SUBMETHOD_NRU_DELETE + 3;
+
+            public const int LINKACTION_LIST = 0x01700;
+            public const int LINKACTION_GET = LINKACTION_LIST + 1;
+
+            public const int BVCU_SUBMETHOD_SEARCH_LIST = 0x01800;
+
+            public const int REGION_LIST = 0x1900;
+            public const int REGION_GET = REGION_LIST + 1;
+            public const int REGION_ROUTELIST = REGION_LIST + 2;
+            public const int ROUTEPATH_GET = REGION_LIST + 3;
+            public const int ROUTEPLAN_GET = REGION_LIST + 4;
+
+            public const int REGION_ADD = 0x22900;
+            public const int REGION_SET = REGION_ADD + 1;
+            public const int REGION_DEL = REGION_ADD + 2;
+
+            public const int ROUTEPATH_ADD = REGION_ADD + 3;
+            public const int ROUTEPATH_SET = REGION_ADD + 4;
+            public const int ROUTEPATH_DEL = REGION_ADD + 5;
+            public const int ROUTEPLAN_ADD = REGION_ADD + 6;
+            public const int ROUTEPLAN_SET = REGION_ADD + 7;
+            public const int ROUTEPLAN_DEL = REGION_ADD + 8;
+
+
+            public const int BVCU_SUBMETHOD_LINKACTION_NOTIFY = 0x30000; //报警联动执行通知。负载BVCU_Event_LinkAction_Notify
+            public const int BVCU_SUBMETHOD_EVENT_NOTIFY = BVCU_SUBMETHOD_LINKACTION_NOTIFY + 1; //发生报警事件通知。负载BVCU_Event_Source
+
+            // 解码器相关命令
+            public const int BVCU_SUBMETHOD_DEC_LIST = 0x01500;
+            public const int BVCU_SUBMETHOD_DEC_DEVICEINFO = 0x11100;
+            public const int BVCU_SUBMETHOD_DEC_OPTIONS = BVCU_SUBMETHOD_DEC_DEVICEINFO + 1;
+            public const int BVCU_SUBMETHOD_DEC_DECODER = BVCU_SUBMETHOD_DEC_DEVICEINFO + 2;
+            public const int BVCU_SUBMETHOD_DEC_DISPLAY = BVCU_SUBMETHOD_DEC_DEVICEINFO + 3;
+        }
+
+
+        #region 文件检索
+        // 索引目标类型
+        public enum BVCU_SEARCH_TYPE
+        {
+            BVCU_SEARCH_TYPE_UNKNOWN = 0,  // 未知
+            BVCU_SEARCH_TYPE_FILE,         // 文件索引  BVCU_Search_FileFilter / BVCU_Search_FileInfo
+            BVCU_SEARCH_TYPE_LOG_CU_LOGIN, // CU上下线记录 BVCU_Search_CULoginLog / BVCU_Search_CULoginLog
+            BVCU_SEARCH_TYPE_LOG_PU_LOGIN, // PU上下线记录 BVCU_Search_PULoginLog / BVCU_Search_PULoginLog
+            BVCU_SEARCH_TYPE_LOG_OPERATE,  // 操作日志（记录命令操作） BVCU_Search_OperateLog / BVCU_Search_OperateLog
+            BVCU_SEARCH_TYPE_LOG_DIALOG,   // 通道日志（记录通道操作） BVCU_Search_DialogLog / BVCU_Search_DialogLog
+            BVCU_SEARCH_TYPE_PULIST,       // 设备列表  BVCU_Search_PUListFiler / BVCU_PUChannelInfo
+            BVCU_SEARCH_TYPE_EVENT,        // 事件记录  BVCU_Search_EventFilter / BVCU_Event_SourceSaved
+            BVCU_SEARCH_TYPE_USERLIST,     // 用户列表  BVCU_Search_UserFilter / BVCU_UCFG_User
+            BVCU_SEARCH_TYPE_IM_MSG,       // 历史消息  BVCU_Search_IMMsgFilter / BVCU_Search_IMMsg
+            BVCU_SEARCH_TYPE_UALIST,       // 登陆用户的UA设备列表  BVCU_Search_UAListFilter / BVCU_Search_UAInfo
+        }
+
+        public class BVCU_STORAGE_FILE_TYPE
+        {
+            public const int ALL = 0;
+            public const int RECORD = 1 << 0;
+            public const int CAPTURE = 1 << 1;
+            public const int GPS = 1 << 2;
+            public const int AUDIO = 1 << 3;// 音频文件
+            public const int LOG = 1 << 4;//日志文件
+            public const int FIRMWARE = 1 << 8;
+        }
+
+        public static long getSec(DateTime time)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeZone tz = TimeZone.CurrentTimeZone;
+            time = tz.ToUniversalTime(time);
+            TimeSpan diff = time - origin;
+            return (long)diff.TotalSeconds;
+        }
+
+
+        #endregion
+
     }
+
+    #region 文件检索
+    // 索引信息
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_SearchInfo
+    {
+        public Int32 iType; // 见 BVCU_SEARCH_TYPE_*
+        public Int32 iPostition; // 起始结果下标位置, 从 0 开始。
+                                 // 请求的最大结果数 / 本次返回的结果数。
+                                 // 建议不要超过1024，否则命令可能会失败。建议值128。
+                                 // 例如上层界面一个页面显示50条结果，可以提前计算出总页数，用户操作页面时，每次请求两个页面的数据（100条，缓冲一个页面）
+        public Int32 iCount;
+        public Int32 iTotalCount; // 索引到的总结果数。请求时无意义。
+    }
+
+
+    // 文件索引
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_Search_FileFilter
+    {
+        public Int32 iChannelIndex; //Channel号 -1：不作为索引条件  
+        public UInt32 iFileSizeMin; //文件大小的下限,单位字节  // 0：不作为索引条件  
+        public UInt32 iFileSizeMax; //文件大小的上限,单位字节  // 0：不作为索引条件  
+        public Int32 iRecordType;//录像原因，BVCU_STORAGE_RECORDTYPE_*  // 0：不作为索引条件  
+        public Int32 iFileType;// 文件类型, BVCU_STORAGE_FILE_TYPE_*  // 0：不作为索引条件  
+        private Int32 iReserve1;
+        private Int32 iReserve2;
+        private Int32 iTimeCondition;//时间条件对应的时间字段类型。0，1：录像开始时间。2：录像结束时间。3：录像开始or结束时间。4：文件索引入库时间。
+        public Int64 iTimeBegin; /*录像文件开始时刻，从1970-01-01 00:00:00 +0000 (UTC)开始的微秒数*/ // 0：不作为索引条件  
+        public Int64 iTimeEnd;   /*录像文件结束时刻，从1970-01-01 00:00:00 +0000 (UTC)开始的微秒数*/ // 0：不作为索引条件  
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_ID_LEN + 1)]
+        Byte[] szPUID;//PU ID   空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_FILE_NAME_LEN + 1)]
+        Byte[] szFileName; // 文件名称，模糊匹配。  空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+        Byte[] szDesc1; // 自定义描述1  空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+        Byte[] szDesc2; // 自定义描述2  空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_ID_LEN + 1)]
+        Byte[] szUserID;//设备使用者账号， 精确查找。空：不作为索引条件
+
+        public string puID
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szPUID);
+            }
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szPUID, BVSDKAdapter.BVCU_MAX_ID_LEN + 1);
+                initDesc();
+            }
+        }
+
+        public string fileName
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szFileName, BVSDKAdapter.BVCU_MAX_FILE_NAME_LEN + 1);
+            }
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szFileName);
+            }
+        }
+
+        public string userID
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szUserID, BVSDKAdapter.BVCU_MAX_ID_LEN + 1);
+            }
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szUserID);
+            }
+        }
+
+        public string desc1
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szDesc1, 64);
+            }
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szDesc1);
+            }
+        }
+
+        public string desc2
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szDesc2, 64);
+            }
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szDesc2);
+            }
+        }
+
+        private void initDesc()
+        {
+            BVSDKAdapter.String2Utf8Byte("", ref szDesc1, 64);
+            BVSDKAdapter.String2Utf8Byte("", ref szDesc2, 64);
+        }
+    }
+
+
+    // 索引请求负载
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_Search_Request
+    {
+        public BVCU_SearchInfo stSearchInfo;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 640)]
+        public byte[] pData;
+        public static byte[] CreateDataArray()
+        {
+            return new byte[640];
+        }
+    }
+
+    // 索引回复负载
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_Search_Response
+    {
+        public BVCU_SearchInfo stSearchInfo;
+        public Int32 iCount; //负载中结果个数，stSearchInfo.iCount为索引端填写的返回结果数，理论上需和该值相同。
+        public IntPtr pData;
+        //}pData; // 索引结果列表。具体类型见 stSearchInfo.iType
+    }
+
+    public class SearchCommon
+    {
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+        public struct SearchUserData
+        {
+            public BVCU_SearchInfo stSearchInfo;
+            public IntPtr pData;
+            public Object oData;
+            public object userData;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_Search_FileInfo
+    {
+        public Int32 iRecordType; //录像原因，BVCU_STORAGE_RECORDTYPE_*    
+        public Int32 iFileType;   // BVCU_STORAGE_FILE_TYPE_*
+        public UInt32 iFileSize;   //文件大小，单位字节
+        public Int32 iRecordID;   //存储索引条目ID，用于快速区分每个文件。例如数据库自增ID，可以不提供，填 0
+        public Int64 iTimeBegin; /*录像文件开始时刻，从1970-01-01 00:00:00 +0000 (UTC)开始的秒数*/
+        public Int64 iTimeEnd;   /*录像文件结束时刻，从1970-01-01 00:00:00 +0000 (UTC)开始的秒数*/
+        public Int64 iTimeRecord;/*文件索引入库时间，从1970-01-01 00:00:00 +0000 (UTC)开始的秒数*/ //对上传下载的文件有意义。
+                                                                                    //文件路径 + 文件名。录像（图片）文件名严格要求格式为："PU_%08d_%02d_xxx.xxx",PUID,channelIndex
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_FILE_NAME_LEN + 1)]
+        Byte[] szFilePath;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+        Byte[] szDesc1; // 自定义描述1  空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+        Byte[] szDesc2; // 自定义描述2  空：不作为索引条件
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_ID_LEN + 1)]
+        Byte[] szSourceID; //文件所在源ID，NRU/PU
+        public string filePath
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szFilePath, BVSDKAdapter.BVCU_MAX_FILE_NAME_LEN + 1);
+            }
+            get
+            {
+                string strfilePath = BVSDKAdapter.GetUtf8Byte(szFilePath);
+                if (strfilePath.EndsWith(".gps") && (strfilePath.Contains(@"\\") || strfilePath.Contains(@"//")))
+                {
+                    strfilePath = strfilePath.Replace(@"\\", "\\").Replace(@"//", "/");
+                }
+                return strfilePath;
+            }
+        }
+
+        public string desc1
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szDesc1);
+            }
+        }
+
+        public string desc2
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szDesc2);
+            }
+        }
+
+        public string sourceID
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szSourceID);
+            }
+        }
+    }
+
+    public delegate void DeleOnTransferOpenEvent(IntPtr hTransfer, IntPtr pUserData, int iEventCode, int iResult);
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_File_TransferParam
+    {
+        Int32 iSize;
+        public IntPtr pUserData;
+        public IntPtr hSession;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = BVSDKAdapter.BVCU_MAX_ID_LEN + 1)]
+        Byte[] m_szTargetID;
+        IntPtr pRemoteFilePathName;
+        IntPtr pLocalFilePathName;
+        Int32 iFileStartOffset;
+        Int32 iTimeOut;
+        Int32 bUpload;
+        private DeleOnTransferOpenEvent OnEvent; //C#层不使用
+
+        public bool bIsUpload
+        {
+            get
+            {
+                return bUpload == 1;
+            }
+            set
+            {
+                bUpload = value ? 1 : 0;
+            }
+        }
+
+        public string szTargetID
+        {
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref m_szTargetID, BVSDKAdapter.BVCU_MAX_ID_LEN + 1);
+            }
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(m_szTargetID);
+            }
+        }
+
+        /// <summary>
+        /// 可能为空
+        /// </summary>
+        public string szRemoteFilePathName
+        {
+            get
+            {
+                if (pRemoteFilePathName != IntPtr.Zero)
+                {
+                    return Marshal.PtrToStringAuto(pRemoteFilePathName);
+                }
+                return null;
+            }
+            set
+            {
+                if (pRemoteFilePathName != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(pRemoteFilePathName);
+                    pRemoteFilePathName = IntPtr.Zero;
+                }
+                pRemoteFilePathName = BVSDKAdapter.String2Utf8Intptr(value);
+            }
+        }
+
+        public IntPtr ptrRemoteFilePathName
+        {
+            set
+            {
+                pRemoteFilePathName = value;
+            }
+            get
+            {
+                return pRemoteFilePathName;
+            }
+        }
+
+        public string szLocalFilePathName
+        {
+            get
+            {
+                if (pLocalFilePathName != IntPtr.Zero)
+                {
+                    return Marshal.PtrToStringAuto(pLocalFilePathName);
+                }
+                return null;
+            }
+            set
+            {
+                if (pLocalFilePathName != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(pLocalFilePathName);
+                    pLocalFilePathName = IntPtr.Zero;
+                }
+                pLocalFilePathName = BVSDKAdapter.String2Utf8Intptr(value);
+            }
+        }
+
+        public IntPtr ptLocalFilePathName
+        {
+            set
+            {
+                pLocalFilePathName = value;
+            }
+            get
+            {
+                return pLocalFilePathName;
+            }
+        }
+
+        /// <summary>
+        /// 文件开始传输偏移
+        /// </summary>
+        public ReTransferType reTransferType
+        {
+            get
+            {
+                return (iFileStartOffset == 0) ? ReTransferType.RETRANSMISSION : ReTransferType.RESUME;
+            }
+            set
+            {
+                iFileStartOffset = (value == ReTransferType.RETRANSMISSION) ? 0 : -1;
+            }
+        }
+
+        public void Release()
+        {
+            if (pRemoteFilePathName != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(pRemoteFilePathName);
+                pRemoteFilePathName = IntPtr.Zero;
+            }
+            if (pLocalFilePathName != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(pLocalFilePathName);
+                pLocalFilePathName = IntPtr.Zero;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 重新传输类型
+    /// </summary>
+    public enum ReTransferType
+    {
+        RETRANSMISSION, //重新传输
+        RESUME          //续传
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+    public struct BVCU_File_TransferInfo
+    {
+        public BVCU_File_TransferParam stParam;
+        Int32 ihelper;
+        Int64 iCreateTime;
+        Int64 iOnlineTime;
+        public UInt32 iTransferBytes;
+        public UInt32 iTotalBytes;
+        Int32 iSpeedKBpsLongTerm;
+        Int32 iSpeedKBpsShortTerm;
+
+        public float Percentage
+        {
+            get
+            {
+                if (iTotalBytes == 0)
+                {
+                    return 0;
+                }
+                return (float)(((int)(((iTransferBytes) / (iTotalBytes * 1.0)) * 10000)) / 10000.0);
+            }
+        }
+    }
+
+
+    #endregion
+
 }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.IO;
 
 namespace WindowsFormsTest
 {
@@ -19,7 +20,6 @@ namespace WindowsFormsTest
         /// </summary>
         public BVCUSdkOperator m_sdkOperator;
         #endregion 属性[部分]
-
 
         /// <summary>
         /// 构造函数
@@ -45,6 +45,9 @@ namespace WindowsFormsTest
             m_activePanel = panel;
 
             m_sdkOperator.PtzSpeed = (int)numericUpDownPTZSpeed.Value;
+
+            dateTimePickerBegin.Value = dateTimePickerBegin.Value.AddDays(-2);
+
         }
 
 
@@ -835,6 +838,7 @@ namespace WindowsFormsTest
 
         int g_channelNo;
         Pu g_pu = null;
+        Pu g_SearchPu = null;
         private void treeViewResList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (null == e || null == e.Node) return;
@@ -852,6 +856,14 @@ namespace WindowsFormsTest
                         contextMenuStripTalkOnly.Show(Control.MousePosition.X,
                             Control.MousePosition.Y);
                     }
+                }
+                if(e.Node.Level== TREE_LEVEL_PU)
+                {
+                    tabControl.SelectedTab = tabPageDocRetrieval;
+                    Pu pu = m_sdkOperator.Session.getPu(e.Node.Name);
+                    g_SearchPu = pu;
+                    contextMenuStripDocRetrieval.Show(Control.MousePosition.X,
+                            Control.MousePosition.Y);
                 }
             }
         }
@@ -954,6 +966,277 @@ namespace WindowsFormsTest
             Test_Struct s = new Test_Struct();
             s.i = 2;
             m_sdkOperator.GetGpsData(g_pu.id, g_channelNo, s);
+        }
+
+        private void ToolStripMenuItemDocRetrieval_Click(object sender, EventArgs e)
+        {
+            if (g_SearchPu != null)
+                m_sdkOperator.Session.SearchFileBySeach(g_SearchPu.id, dateTimePickerBegin.Value, dateTimePickerEnd.Value);
+        }
+
+        public enum FileType
+        {
+            VIDEO,
+            FIGURE,
+            GPS,
+            AUDIO,
+            LOG
+        };
+
+        private string getFileType(int type)
+        {
+            string fileType = "";
+            if (type == (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.AUDIO)
+                fileType = "音频文件";
+            else if (type == (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.RECORD)
+                fileType = "录像文件";
+            else if (type == (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.CAPTURE)
+                fileType = "图片文件";
+            else if (type == (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.GPS)
+                fileType = "GPS文件";
+            else if (type == (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.LOG)
+                fileType = "日志文件";
+            return fileType;
+        }
+
+
+        string m_szTarID = "";
+        public void showRecord(EventHandler.BVSearchResponse searchRes,string szTargetID)
+        {
+            if (dataGridViewRecord.RowCount != 0)
+                dataGridViewRecord.Rows.Clear();
+            m_szTarID = szTargetID;
+            int channelNo;
+            float percent = 0;
+            foreach (BVCU_Search_FileInfo fileInfo in searchRes.fileInfo)
+            {
+                int index = this.dataGridViewRecord.Rows.Add();
+                dataGridViewRecord.Rows[index].Cells[0].Value = index.ToString();
+                dataGridViewRecord.Rows[index].Cells[1].Value = szTargetID;
+                string fileName = BVSDKAdapter.ParsePathGetFileName(fileInfo.filePath);
+                int.TryParse(fileName.Substring(0, fileName.Length), out channelNo);
+                string channelNoStr = channelNo.ToString("00");
+                dataGridViewRecord.Rows[index].Cells[2].Value = channelNoStr;
+                dataGridViewRecord.Rows[index].Cells[3].Value = BVSDKAdapter.GetRecordReason(fileInfo.iRecordType);
+                dataGridViewRecord.Rows[index].Cells[4].Value = BVSDKAdapter.getDateTimeFromMicroSecond(fileInfo.iTimeBegin * 1000000).ToString("yyyy-MM-dd HH:mm:ss"); ;
+                dataGridViewRecord.Rows[index].Cells[5].Value = BVSDKAdapter.getDateTimeFromMicroSecond(fileInfo.iTimeEnd * 1000000).ToString("yyyy-MM-dd HH:mm:ss"); ;
+                dataGridViewRecord.Rows[index].Cells[6].Value = getFileType(fileInfo.iFileType);
+                dataGridViewRecord.Rows[index].Cells[7].Value = (float)Math.Round((fileInfo.iFileSize / (float)(1024 * 1024)), 2); 
+                dataGridViewRecord.Rows[index].Cells[8].Value = (float)Math.Round(percent * 100, 2);
+                dataGridViewRecord.Rows[index].Cells[9].Value = BVSDKAdapter.ParsePathGetFileName(fileInfo.filePath);
+                dataGridViewRecord.Rows[index].Cells[10].Value = fileInfo.filePath;
+                dataGridViewRecord.Rows[index].Cells[11].Value = fileInfo.desc1;
+                dataGridViewRecord.Rows[index].Cells[12].Value = fileInfo.desc2;
+                dataGridViewRecord.Rows[index].Tag = fileInfo;
+                dataGridViewRecord.Rows[index].ContextMenuStrip = contextMenuStripFileDown;
+            }
+        }
+
+        const int DOWNDLOAD_PERCENT_INDEX = 8;
+        const int FILE_PATH_COLUMN_INDEX = 10;
+        private void OnTickTransProgress(BVCU_File_TransferInfo transferInfo)
+        {
+            float percent = transferInfo.Percentage;
+            string strRemoteName = Marshal.PtrToStringAnsi(transferInfo.stParam.ptrRemoteFilePathName);
+            foreach (DataGridViewRow row in dataGridViewRecord.Rows)
+            {
+                if (((string)row.Cells[FILE_PATH_COLUMN_INDEX].Value).Equals(strRemoteName))
+                {
+                        
+                    row.Cells[DOWNDLOAD_PERCENT_INDEX].Value = (float)Math.Round(percent * 100, 2);
+                    if (percent >= 1.0f)
+                    {
+                        return;
+                    }
+                }
+            }
+            Console.Write(transferInfo.Percentage);
+        }
+
+        public delegate void DeleTickTransProgress(BVCU_File_TransferInfo transferInfo);
+        DeleTickTransProgress deleTickTransProgress;
+        private void ToolStripMenuItemFileDown_Click(object sender, EventArgs e)
+        {
+            if (m_szTarID == "")
+                return;
+            string strPuid = (string)dataGridViewRecord.SelectedRows[0].Cells[1].Value;
+            string strRemoteFileName = (string)dataGridViewRecord.SelectedRows[0].Cells[10].Value;
+            long iTotalSize = (long)(((BVCU_Search_FileInfo)(dataGridViewRecord.SelectedRows[0].Tag)).iFileSize);
+            CFileTrans fileTrans = new CFileTrans(m_sdkOperator);
+            if (null == deleTickTransProgress)
+            {
+                deleTickTransProgress = new DeleTickTransProgress(OnTickTransProgress);
+            }
+            fileTrans.DownloadFileThroughNewFtp(m_szTarID, m_szTarID, strRemoteFileName, iTotalSize, true, deleTickTransProgress);
+        }
+
+        public partial class CFileTrans
+        {
+            BVCUSdkOperator m_sdkOperator;
+            private static int I_TICK_M_SECOND = 500;
+            private static System.Windows.Forms.Timer timerGetTransInfo;
+            public CFileTrans(BVCUSdkOperator sdkOperator)
+            {
+                m_sdkOperator = sdkOperator;
+                timerGetTransInfo = new System.Windows.Forms.Timer();
+                timerGetTransInfo.Interval = I_TICK_M_SECOND;
+                timerGetTransInfo.Tick += TickGetTransInfoLoop;
+            }
+
+            public string getLocalPath2(string puId, string fullName, bool bToTempDir = false)
+            {
+                try
+                {
+                    FileInfo fileInfo = new FileInfo(fullName);
+
+                    string path = string.Empty;
+                    string tmpPuId = puId;
+                    string tmpPuName = tmpPuId;
+                    string tmpDate = DateTime.Now.ToString("yyyyMMdd");
+                    //CuSession.Pu pu = m_globalParam.bvcuSession.DefaultSession.GetPuByID(tmpPuId);
+                    //if (pu != null)
+                    //{
+                    //    tmpPuName = pu.Name;
+                    //}
+                    //else
+                    //{
+                    //    LogUtility.Logger.Error("m_globalParam.bvcuSession.DefaultSession.GetPuByID fail " + tmpPuId);
+                    //}
+                    string ext = fileInfo.Extension;
+                    string root = "Device";
+                    // *\\Device\\PuName_PuId\\Date\\
+                    if (ext.Equals(".mkv", StringComparison.OrdinalIgnoreCase) || ext.Equals(".dav", StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = string.Format("{0}{1}\\{2}_{3}\\Video\\{4}", "D:\\录像存储\\", root, tmpPuName, tmpPuId, tmpDate);
+                    }
+                    else if (ext.Equals(".gps", StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = string.Format("{0}{1}\\{2}_{3}\\Gps\\{4}", "D:\\录像存储\\", root, tmpPuName, tmpPuId, tmpDate);
+                    }
+                    else if (ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase) || ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = string.Format("{0}{1}\\{2}_{3}\\Image\\{4}", "D:\\录像存储\\", root, tmpPuName, tmpPuId, tmpDate);
+                    }
+                    else
+                    {
+                        path = string.Format("{0}{1}\\{2}_{3}\\File\\{4}", "D:\\录像存储\\", root, tmpPuName, tmpPuId, tmpDate);
+                    }
+                    //m_bOpen = bToTempDir;
+
+                    return path;
+                }
+                catch (Exception e)
+                {
+                    //LogUtility.Logger.Error(string.Format("获取目录失败:{0}", e.Message));
+                    return string.Empty;
+                }
+            }
+
+            
+            private string getLocalRemoteStoragePath(string puid, string szTargetId, string szFileName)
+            {
+                string localPath = null;
+                string fileName = BVSDKAdapter.ParsePathGetFileName(szFileName);
+                puid = puid.Replace("UA_", "PU_");
+                szTargetId = szTargetId.Replace("UA_", "PU_");
+                if (szTargetId == puid)
+                {
+                    localPath = getLocalPath2(puid, szFileName);
+                    localPath += "\\" + fileName;
+                }
+                //else if (szTargetId.StartsWith("NRU_"))
+                //{
+                //    localPath = GetLocalSaveDir(szTargetId, szFileName);
+                //    localPath += "\\" + fileName;
+                //    //    BVCU_FTP_RecordFileInfo info = new BVCU_FTP_RecordFileInfo();
+                //    //    info.szFileName = szFileName;
+                //    //    //localPath = GetLocalSaveDir(szTargetId, info);
+                //    //    localPath = GetLocalSaveDir(szTargetId, info);
+                //    //    if (localPath == null || localPath.Length == 0) { return null; }
+                //    //    localPath += "\\" + fileName;
+
+                //}
+                return localPath;
+            }
+
+            public bool createDirectory(string path)
+            {
+                if (Directory.Exists(path) == false)
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        //string error_msg = SmartEye.MultiLanguage.ConvertString("SHOW_BOX_MSG", "WARING_UN_AUTHORIZED_ACCESS", "没有权限创建文件夹");
+                        //m_globalParam.cuToInterface.showMessageBox(new Event.EventRecord(error_msg + path), CuToInterface.SHOW_MSG_TYPE.SHOW);
+                        //return false;
+                    }
+                    catch (Exception e)
+                    {
+                        //string error_msg = SmartEye.MultiLanguage.ConvertString("SHOW_BOX_MSG", "WARING_CREATE_FOLDER_FAIL", "创建文件夹失败");
+                        //m_globalParam.cuToInterface.showMessageBox(new Event.EventRecord(error_msg + path), CuToInterface.SHOW_MSG_TYPE.SHOW);
+                        //LogUtility.Logger.Exception(string.Format("创建文件夹失败:{0}, {1}", path, e.Message));
+                        //return false;
+                    }
+                }
+                return true;
+            }
+
+
+            public int FileTransferOpen(ref IntPtr phTransfer, BVCU_File_TransferParam transferParam, object userData)
+            {
+                IntPtr pParam = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BVCU_File_TransferParam)));
+                Marshal.StructureToPtr(transferParam, pParam, false);
+                int rc = BVCU.ManagedLayer_BVFileTransferOpen(m_sdkOperator.m_bvcuSdkHandle, ref phTransfer, pParam);
+                timerGetTransInfo.Start();
+                Marshal.FreeHGlobal(pParam);
+                return rc;
+            }
+
+            BVCU_File_TransferInfo transferInfo = new BVCU_File_TransferInfo();
+            void TickGetTransInfoLoop(object sender, EventArgs e)
+            {
+                if (hTransfer != IntPtr.Zero)
+                {
+                    int rc = BVCU.ManagedLayer_BVFileTransferGetInfo(m_sdkOperator.m_bvcuSdkHandle, hTransfer, ref transferInfo);
+                    OnProgress(transferInfo);
+                    if (transferInfo.Percentage == 1)
+                    {
+                        timerGetTransInfo.Stop();
+                        return;
+                    }
+                }
+            }
+
+            IntPtr hTransfer = IntPtr.Zero;
+            public DeleTickTransProgress OnProgress;
+            public int DownloadFileThroughNewFtp(string puid, string szTargetId, string remotePath, float fTotalSize, bool bIsShowResult, DeleTickTransProgress OnProgress)
+            {
+                this.OnProgress = OnProgress;
+                string localPath = getLocalRemoteStoragePath(puid, szTargetId, remotePath);
+                string path = localPath;
+                if (path == null || path.Length == 0)
+                    return -1;
+                path = path.Substring(0, path.LastIndexOf("\\"));
+                if (!createDirectory(path))
+                {
+                    return -1;
+                }
+
+
+                BVCU_File_TransferParam TransferParam = new BVCU_File_TransferParam();
+                TransferParam.hSession = m_sdkOperator.Session.sessionHandle;
+                TransferParam.szRemoteFilePathName = remotePath;
+
+                TransferParam.szLocalFilePathName = localPath;
+
+                TransferParam.szTargetID = szTargetId;
+                TransferParam.reTransferType = ReTransferType.RESUME;
+                int rc = FileTransferOpen(ref hTransfer, TransferParam, null);
+                return rc;
+            }
         }
 
     }

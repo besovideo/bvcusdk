@@ -216,3 +216,10 @@ int CBVCUSndCmd::getPuGpsInfoV2(BVCU_HSession hSession, char* puId, int device,v
 {
 	return queryCmd(hSession, puId, device, userData, BVCU_SUBMETHOD_PU_GPSDATA, userData);
 }
+
+
+int CBVCUSndCmd::getSearchFile(BVCU_HSession hSession, char* targetId, BVCU_Search_Request *require, void* pUserData)
+{
+	BVCU_Search_Request *pt = (BVCU_Search_Request*)pUserData;
+	return queryCmd(hSession, targetId, INVALID_DEVICE, require, BVCU_SUBMETHOD_SEARCH_LIST, pUserData);
+}

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Collections;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace WindowsFormsTest
 {
@@ -127,6 +128,11 @@ namespace WindowsFormsTest
             {
                 return m_server.ServerName;
             }
+        }
+
+        public IntPtr sessionHandle
+        {
+            get { return m_server.sessionHandle; }
         }
 
         public void login(string ip, int port, string usrName, string psw)
@@ -415,5 +421,80 @@ namespace WindowsFormsTest
                 m_loginRetryTimer = null;
             }
         }
+
+
+        UserDataDeposit userDataDeposit = new UserDataDeposit();
+        public int SearchFileBySeach(string puId, DateTime beginTime,DateTime endTime)
+        {
+            string CurrentPuId = puId;
+            int CurrentChannelInex = 0;
+            object userData = null;
+
+            int FilterFileType = (int)BVSDKAdapter.BVCU_STORAGE_FILE_TYPE.ALL;
+            int rc = -1;
+            BVCU_SearchInfo searchInfo = new BVCU_SearchInfo();
+            searchInfo.iPostition = 0;
+            searchInfo.iCount = 128;
+            searchInfo.iType = (int)BVSDKAdapter.BVCU_SEARCH_TYPE.BVCU_SEARCH_TYPE_FILE;
+            BVCU_Search_FileFilter fileFilter = new BVCU_Search_FileFilter();
+            fileFilter.puID = CurrentPuId;
+            fileFilter.iChannelIndex = CurrentChannelInex;
+            fileFilter.iTimeBegin = BVSDKAdapter.getSec(beginTime);
+            fileFilter.iTimeEnd = BVSDKAdapter.getSec(endTime);
+            fileFilter.iFileType = FilterFileType;
+
+            //(m_bvsdkHandle, m_server.sessionHandle);
+
+            int isize = Marshal.SizeOf(typeof(BVCU_Search_FileFilter));
+            BVCU_Search_Request request = new BVCU_Search_Request();
+            request.stSearchInfo = searchInfo;
+            IntPtr ptFileFilter = IntPtr.Zero;
+            IntPtr ptRequest = IntPtr.Zero;
+            int iSize = Marshal.SizeOf(typeof(BVCU_Search_FileFilter));
+            ptFileFilter = Marshal.AllocHGlobal(iSize);
+            if (ptFileFilter == IntPtr.Zero)
+            {
+                return BVSDKAdapter.BVCU_RESULT_E.FAILED;
+            }
+            request.pData = BVCU_Search_Request.CreateDataArray();
+            Marshal.StructureToPtr(fileFilter, ptFileFilter, false);
+            Marshal.Copy(ptFileFilter, request.pData, 0, Marshal.SizeOf(typeof(BVCU_Search_FileFilter)));
+            ptRequest = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(BVCU_Search_Request)));
+            if (ptRequest == IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(ptFileFilter);
+                return BVSDKAdapter.BVCU_RESULT_E.FAILED;
+            }
+            Marshal.StructureToPtr(request, ptRequest, false);
+            IntPtr ptNruTarget = Marshal.StringToHGlobalAnsi(CurrentPuId);
+            SearchCommon.SearchUserData searchUserData = new SearchCommon.SearchUserData();
+            searchUserData.stSearchInfo = searchInfo;
+            searchUserData.oData = fileFilter;
+            searchUserData.userData = userData;
+            int iIndexUserData = userDataDeposit.DepositAData(searchUserData);
+            rc = BVCU.ManagedLayer_Search_File(m_bvsdkHandle, m_server.sessionHandle, ptNruTarget, ptRequest, (IntPtr)iIndexUserData);
+            Marshal.FreeHGlobal(ptFileFilter);
+            Marshal.FreeHGlobal(ptRequest);
+            Marshal.FreeHGlobal(ptNruTarget);
+            return rc;
+
+        }
+
+        delegate void OnGetRecordFiles(EventHandler.BVSearchResponse searchRes, string szTargetID);
+        OnGetRecordFiles deleGetRecordFiles;
+        internal void showSearchRecordFiles(EventHandler.BVSearchResponse searchRes, string szTargetID)
+        {
+            if(deleGetRecordFiles==null)
+            {
+                deleGetRecordFiles = new OnGetRecordFiles(proGetRecordFiles);
+            }
+            m_mainForm.BeginInvoke(deleGetRecordFiles, new object[] { searchRes, szTargetID });
+        }
+        
+        void proGetRecordFiles(EventHandler.BVSearchResponse searchRes, string szTargetID)
+        {
+            m_mainForm.showRecord(searchRes, szTargetID);
+        }
+
     }
 }

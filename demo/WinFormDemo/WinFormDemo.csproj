@@ -93,6 +93,7 @@
     <Compile Include="Application\FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="BVCUKernel\UserDataDeposit.cs" />
     <Compile Include="LogManager\LogHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

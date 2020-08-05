@@ -249,3 +249,21 @@ LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfoV2(const int * handle, BVCU
 	CBVCU* bvcu = (CBVCU*)handle;
 	return bvcu->getBVCUSndCmd()->getPuGpsInfoV2(session, puId, device, userData);
 }
+
+LIB_MANAGED_LAYER_API int ManagedLayer_BVFileTransferOpen(const int* handle, BVCU_File_HTransfer* phTransfer, BVCU_File_TransferParam* pParam)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return bvcu->fileTransferOpen(phTransfer, pParam);
+}
+
+LIB_MANAGED_LAYER_API int ManagedLayer_Search_File(const int* handle, BVCU_HSession hSession, char* szTargetId, BVCU_Search_Request* require, void* pUserData)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return (BVCU_Result)bvcu->getBVCUSndCmd()->getSearchFile(hSession, szTargetId, require, pUserData);
+}
+
+LIB_MANAGED_LAYER_API int ManagedLayer_BVFileTransferGetInfo(const int* handle, BVCU_File_HTransfer hTransfer, BVCU_File_TransferInfo* pInfo)
+{
+	CBVCU* bvcu = (CBVCU*)handle;
+	return bvcu->getFileTransferInfo(hTransfer, pInfo);
+}

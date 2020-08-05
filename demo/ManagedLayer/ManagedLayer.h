@@ -23,7 +23,6 @@
 #endif//_MSC_VER
 #include "BVCU/CBVCU.h"
 #include "BVDisplay/CBVDisplay.h"
-
 /*
  *  给C#的接口
  */
@@ -154,6 +153,12 @@ extern "C"
 
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfo(const int* handle, BVCU_HSession session, char* puId, int device);
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuGetPuGpsInfoV2(const int* handle, BVCU_HSession session, char* puId, int device,void* userData);
+	LIB_MANAGED_LAYER_API int ManagedLayer_BVFileTransferOpen(const int * handle, BVCU_File_HTransfer * phTransfer, BVCU_File_TransferParam * pParam);
+
+	//文件检索
+	LIB_MANAGED_LAYER_API int ManagedLayer_Search_File(const int * handle, BVCU_HSession hSession, char * szTargetId, BVCU_Search_Request * require, void * pUserData);
+
+	LIB_MANAGED_LAYER_API int ManagedLayer_BVFileTransferGetInfo(const int* handle, BVCU_File_HTransfer hTransfer, BVCU_File_TransferInfo* pInfo);
 }
 
 #endif /* End of __MANAGEDLAYER_H___ */

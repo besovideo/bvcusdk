@@ -3,6 +3,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -382,17 +383,66 @@ namespace WindowsFormsTest
         {
         }
 
+
+        public class BVSearchResponse
+        {
+            public BVCU_SearchInfo searchInfo;
+            public List<BVCU_Search_FileInfo> fileInfo;
+            public List<BVCU_PUChannelInfo> pulist;
+
+            public BVSearchResponse(BVCU_Search_Response searchResponse)
+            {
+                searchInfo = searchResponse.stSearchInfo;
+                IntPtr ptr = searchResponse.pData;
+                switch (searchResponse.stSearchInfo.iType)
+                {
+                    case (int)BVSDKAdapter.BVCU_SEARCH_TYPE.BVCU_SEARCH_TYPE_FILE:
+                        fileInfo = new List<BVCU_Search_FileInfo>();
+                        int size = Marshal.SizeOf(typeof(BVCU_Search_FileInfo));
+                        for (int i = 0; i < searchResponse.iCount; i++)
+                        {
+                            BVCU_Search_FileInfo file = (BVCU_Search_FileInfo)Marshal.PtrToStructure(ptr, typeof(BVCU_Search_FileInfo));
+                            fileInfo.Add(file);
+                            ptr += Marshal.SizeOf(typeof(BVCU_Search_FileInfo));
+                        }
+                        break;
+                    case (int)BVSDKAdapter.BVCU_SEARCH_TYPE.BVCU_SEARCH_TYPE_PULIST:
+                        pulist = new List<BVCU_PUChannelInfo>();
+                        for (int i = 0; i < searchResponse.iCount; i++)
+                        {
+                            pulist.Add((BVCU_PUChannelInfo)Marshal.PtrToStructure(ptr, typeof(BVCU_PUChannelInfo)));
+                            ptr += Marshal.SizeOf(typeof(BVCU_PUChannelInfo));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         public delegate void BVCU_Cmd_QueryResult(IntPtr session, IntPtr pCommand, IntPtr pEvent);
         public BVCU_Cmd_QueryResult onQueryResult;
         public void OnQueryResult(IntPtr session, IntPtr pCommand, IntPtr pEvent)
         {
             BVCU_Command command = (BVCU_Command)Marshal.PtrToStructure(pCommand, typeof(BVCU_Command));
             BVCU_Event_SessionCmd sessionCmd = (BVCU_Event_SessionCmd)Marshal.PtrToStructure(pEvent, typeof(BVCU_Event_SessionCmd));
+            if (command.stMsgContent.pData == IntPtr.Zero || sessionCmd.stContent.pData == IntPtr.Zero)
+                return;
             if (command.iSubMethod== 18)
             {
                 Test_Struct s1 = (Test_Struct)Marshal.PtrToStructure(command.pUserData, typeof(Test_Struct));
-                Test_Struct s = (Test_Struct)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(Test_Struct));
                 BVCU_PUCFG_GPSData gpsdata = (BVCU_PUCFG_GPSData)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(BVCU_PUCFG_GPSData));
+            }
+            else if (command.iSubMethod == BVSDKAdapter.BVCU_SUBMETHOD.BVCU_SUBMETHOD_SEARCH_LIST)
+            {
+                BVCU_Search_Response searchResponse = (BVCU_Search_Response)Marshal.PtrToStructure(sessionCmd.stContent.pData, typeof(BVCU_Search_Response));
+                if (searchResponse.stSearchInfo.iType == (Int32)BVSDKAdapter.BVCU_SEARCH_TYPE.BVCU_SEARCH_TYPE_FILE)
+                {
+                    BVCU_SearchInfo stSearchInfo = searchResponse.stSearchInfo;
+                    BVSearchResponse searchRes = new BVSearchResponse(searchResponse);//读取文件列表
+                    m_session.showSearchRecordFiles(searchRes, command.szTargetID);
+                }
+
             }
         }
 
