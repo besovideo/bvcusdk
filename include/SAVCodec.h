@@ -61,7 +61,13 @@ typedef struct _SAVCodec_Context{
     * - demux/decode:set by library.
 	*/
 	SAV_MediaType eMediaType;
-	
+
+    /**
+    * only support SAV_HWDEVICE_TYPE_DXVA2.
+    * - decode video: set by user.
+    */
+    SAV_HWDeviceType eHWDevideType;
+
 	union{
 	SAV_VideoParam stVideoParam;/*video prarmeters*/
 	SAV_AudioParam stAudioParam;/*audio prarmeters*/
@@ -171,6 +177,11 @@ LIBSAV_API SAV_Result SAVCodec_Open(SAVCodec_Context* pContext);
 , no frame is available)
  */
 LIBSAV_API SAV_TYPE_INT32 SAVCodec_Process(SAVCodec_Context* pContext, SAV_Frame* pFrame, SAV_Packet* pPacket);
+
+/**
+ * Decode: get last decode frame. pix_fmt: NV12
+ */
+LIBSAV_API SAV_TYPE_INT32 SAVCodec_LastFrame(SAVCodec_Context* pContext, SAV_Frame* pFrame);
 
 /**
  * send control command to codec.

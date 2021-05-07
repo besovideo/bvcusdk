@@ -73,13 +73,13 @@ void CBVRadioNetwork::OnGetRadioNetwork(const char* szPuID,
         CString szTmp = GetRadioNetwordType(m_radioNetwork[0].iTypeAll[i]);
         if (szTmp.Compare("UNKNOW"))
         {
-            sprintf(szSignalLevelType[i], "%s:%d    ", szTmp, m_radioNetwork[0].iSignalLevel[i]);
+            sprintf_s(szSignalLevelType[i], "%s:%d    ", szTmp, m_radioNetwork[0].iSignalLevel[i]);
         }
     }
     for (int i = 0; i < 4; i++)
     {
         if (strlen(szSignalLevelType[i]) > 0)
-            strcat(szSignalLevel, szSignalLevelType[i]);
+            strcat_s(szSignalLevel, szSignalLevelType[i]);
     }
     if (strlen(szSignalLevel) > 0)
         ((CEdit*)GetDlgItem(IDC_EDIT_SIGNAL_LEVEL))->SetWindowTextA(szSignalLevel);

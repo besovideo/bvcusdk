@@ -2,8 +2,14 @@
 #include "DbgConsoleOut.h"
 #include <stdio.h>
 
+#ifdef _WIN64
+#pragma comment(lib, "libBVCU_x64.lib")
+//#pragma comment(lib, "bvdisplay_x64.lib")
+#else
 #pragma comment(lib, "libBVCU.lib")
-#pragma comment(lib, "bvdisplay.lib")
+//#pragma comment(lib, "bvdisplay.lib")
+#endif // _WIN64
+
 
 BVCU_HSession CMLibBVCU::m_session = NULL;
 int CMLibBVCU::m_iSearchPUIndex = 0;
@@ -31,7 +37,8 @@ BVCU_Result CMLibBVCU::server_OnNotify(BVCU_HSession hSession, BVCU_NotifyMsgCon
 			{
 				m_OnGetPuList(hSession,puChannelInfo[i].szPUID,puChannelInfo[i].szPUName,puChannelInfo[i].iOnlineStatus,puChannelInfo[i].pChannel,puChannelInfo[i].iChannelCount,0);
 			}
-			m_OnGetPuList(hSession,puChannelInfo[j].szPUID,puChannelInfo[j].szPUName,puChannelInfo[j].iOnlineStatus,puChannelInfo[j].pChannel,puChannelInfo[j].iChannelCount,1);
+            if (j >= 0)
+                m_OnGetPuList(hSession,puChannelInfo[j].szPUID,puChannelInfo[j].szPUName,puChannelInfo[j].iOnlineStatus,puChannelInfo[j].pChannel,puChannelInfo[j].iChannelCount,1);
 			return BVCU_RESULT_S_OK;
 		}
 	}
@@ -91,11 +98,14 @@ void CMLibBVCU::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, int 
                         szPuName,puChannelInfo[i].iOnlineStatus | PU_STATUS_GETLIST,
 						puChannelInfo[i].pChannel,puChannelInfo[i].iChannelCount, iFinished);
 				}
-                memset(szPuName, 0, sizeof(szPuName));
-                utf8ToAnsi(szPuName, BVCU_MAX_NAME_LEN + 1, puChannelInfo[j].szPUName);
-				m_OnGetPuList(hSession,puChannelInfo[j].szPUID, 
-                    szPuName,puChannelInfo[j].iOnlineStatus | PU_STATUS_GETLIST,
-					puChannelInfo[j].pChannel,puChannelInfo[j].iChannelCount, iFinished);
+
+                if (j >= 0) {
+                    memset(szPuName, 0, sizeof(szPuName));
+                    utf8ToAnsi(szPuName, BVCU_MAX_NAME_LEN + 1, puChannelInfo[j].szPUName);
+                    m_OnGetPuList(hSession, puChannelInfo[j].szPUID,
+                        szPuName, puChannelInfo[j].iOnlineStatus | PU_STATUS_GETLIST,
+                        puChannelInfo[j].pChannel, puChannelInfo[j].iChannelCount, iFinished);
+                }
 			}
             if (pEvent->iPercent == 100)
             {
@@ -123,11 +133,13 @@ void CMLibBVCU::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, int 
                             szPuName, puChannelInfo[i].iOnlineStatus | PU_STATUS_GETLIST,
                             puChannelInfo[i].pChannel, puChannelInfo[i].iChannelCount, 0);
                     }
-                    memset(szPuName, 0, sizeof(szPuName));
-                    utf8ToAnsi(szPuName, BVCU_MAX_NAME_LEN + 1, puChannelInfo[j].szPUName);
-                    m_OnGetPuList(hSession, puChannelInfo[j].szPUID,
-                        szPuName, puChannelInfo[j].iOnlineStatus | PU_STATUS_GETLIST,
-                        puChannelInfo[j].pChannel, puChannelInfo[j].iChannelCount, 1);
+                    if (j >= 0) {
+                        memset(szPuName, 0, sizeof(szPuName));
+                        utf8ToAnsi(szPuName, BVCU_MAX_NAME_LEN + 1, puChannelInfo[j].szPUName);
+                        m_OnGetPuList(hSession, puChannelInfo[j].szPUID,
+                            szPuName, puChannelInfo[j].iOnlineStatus | PU_STATUS_GETLIST,
+                            puChannelInfo[j].pChannel, puChannelInfo[j].iChannelCount, 1);
+                    }
                 }
             }
             else CMLibBVCU::GetPUList();
@@ -222,8 +234,8 @@ int  CMLibBVCU::Login(char* IP, int port, char* name, char* password, int timeOu
 	svrParam.iServerPort  = port;
 	svrParam.iCmdProtoType = BVCU_PROTOTYPE_TCP;
 	svrParam.iTimeOut = timeOut;
-	strcat(svrParam.szUserAgent, "mfc demo");
-	strcat(svrParam.szClientID, "CU_mfcDemo");
+	strcat_s(svrParam.szUserAgent, "mfc demo");
+	strcat_s(svrParam.szClientID, "CU_mfcDemo");
 	svrParam.OnEvent = server_OnEvent;
 	svrParam.OnNotify = server_OnNotify;
 	return BVCU_Login(&m_session,&svrParam);
@@ -638,7 +650,7 @@ int  CMLibBVCU::ResizeDialogWindow(BVCU_HDialog hDialog,RECT* newRect)
 	return BVCU_Dialog_Control(hDialog, &dlgInfo.stControlParam);
 }
 
-int  CMLibBVCU::SendCmd(const BVCU_Command* pCmd)
+BVCU_Result CMLibBVCU::SendCmd(const BVCU_Command* pCmd)
 {
 	return BVCU_SendCmd(m_session, (BVCU_Command*)pCmd);
 }

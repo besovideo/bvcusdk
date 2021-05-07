@@ -43,9 +43,9 @@ typedef struct _BVCU_DECCFG_DeviceInfo{
     int   iBootDuration;  // 设备开机运行了多长时间，设备上报，设备上线时上报设备已经开机多长时间， 单位 （秒）
 }BVCU_DECCFG_DeviceInfo;
 
-// SmartEye 数据源信息
+// 数据源信息
 typedef struct _BVCU_DECCFG_BVDataChanInfo{
-    BVCU_PUCFG_RegisterServer stBVServer; // SmartEye 服务器登录信息。
+    BVCU_PUCFG_RegisterServer stBVServer; // 服务器登录信息。
     char szPUID[BVCU_MAX_ID_LEN + 1]; // 源设备ID号
     int  iChannelIndex; // 源设备通道号
     int  iStreamMode;   // 码流类型，-1：自动，暂时不使用，需要填-1。

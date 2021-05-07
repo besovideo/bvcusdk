@@ -288,7 +288,7 @@ HTREEITEM CDeviceManager::FindChannelItem(const char* puId, int channelIndex)
             oneChannel = m_DeviceTree.GetNextVisibleItem(onePU);
             while (oneChannel)
             {
-                unsigned int ch = (unsigned int)m_DeviceTree.GetItemData(oneChannel);
+                int ch = (int)m_DeviceTree.GetItemData(oneChannel);
                 if (0 <= ch && ch < puInfo.iChannelCount)
                 {
                     if (puInfo.pChannel[ch].iChannelIndex == channelIndex)
@@ -369,7 +369,6 @@ void CDeviceManager::OnNMClickDeviceList(NMHDR *pNMHDR, LRESULT *pResult)
     // TODO: Add your control notification handler code here
     CPoint point;
     UINT uFlag;
-    BOOL bCheck;
     GetCursorPos(&point);
     m_DeviceTree.ScreenToClient(&point);
     HTREEITEM hTree = m_DeviceTree.HitTest(point, &uFlag);

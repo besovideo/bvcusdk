@@ -393,7 +393,7 @@ HTREEITEM CMFCDemoDlg::FindChannelItem(const char* puId, int channelIndex)
 			oneChannel = m_puList.GetNextVisibleItem(onePU);
 			while (oneChannel)
 			{
-				unsigned int ch = (unsigned int)m_puList.GetItemData(oneChannel);
+				int ch = (int)m_puList.GetItemData(oneChannel);
 				if (0 <= ch && ch < puInfo.iChannelCount)
 				{
 					if ( puInfo.pChannel[ch].iChannelIndex == channelIndex)
@@ -478,7 +478,7 @@ void CMFCDemoDlg::OnNMDblclkChannelList(NMHDR *pNMHDR, LRESULT *pResult)
 					m_pannelGPS.GetSplitInfo(&splitInfo);
 					if (m_pannelGPS.BPlay())
 					{ // be open dialog, close dialog now.
-						if (strcmpi(splitInfo.sPUID, puInfo.szPUID) == 0 && 
+						if (_strcmpi(splitInfo.sPUID, puInfo.szPUID) == 0 && 
                             puChannelIndex == splitInfo.stChannel.iChannelIndex)
 						{
 							::PostMessage(m_pannelGPS.GetSafeHwnd(),WM_GPS_CLOSE,0,0);
@@ -596,7 +596,7 @@ void CMFCDemoDlg::OnNMRClickChannelList(NMHDR *pNMHDR, LRESULT *pResult)
 				if (ch >= puInfo.iChannelCount)
 					return;
 				int puChannelIndex = puInfo.pChannel[ch].iChannelIndex;
-				if (strcmpi(puInfo.szPUID, CMFCDemoApp::m_talkDialg.sPUID) == 0 &&
+				if (_strcmpi(puInfo.szPUID, CMFCDemoApp::m_talkDialg.sPUID) == 0 &&
 					puChannelIndex == CMFCDemoApp::m_talkDialg.stChannel.iChannelIndex)
 					menu.AppendMenu(MF_STRING, PULIST_MENU_TALK, "关闭对讲");
 				else
@@ -645,7 +645,7 @@ void CMFCDemoDlg::OnPopupMenu(UINT nID)
 				if (puChannelIndex <= BVCU_SUBDEV_INDEXMAJOR_MAX_CHANNEL)
 				{ // 音视频通道
 					BOOL bNowDialog = FALSE;
-					if (strcmpi(puInfo.szPUID, CMFCDemoApp::m_talkDialg.sPUID) == 0 &&
+					if (_strcmpi(puInfo.szPUID, CMFCDemoApp::m_talkDialg.sPUID) == 0 &&
 						puChannelIndex == CMFCDemoApp::m_talkDialg.stChannel.iChannelIndex)
 						bNowDialog = TRUE;
 					if (CMFCDemoApp::m_talkDialg.pDialog)
@@ -779,7 +779,7 @@ BVCU_Result CMFCDemoDlg::ModCurrentUserPass(BVCU_UCFG_ModPasswd* pModPasswd)
     cmd.iMethod = BVCU_METHOD_CONTROL;
     cmd.iSubMethod = BVCU_SUBMETHOD_USER_MODPASSWD;
     cmd.OnEvent = CMLibBVCU::cmd_OnEvent;
-    CMLibBVCU::SendCmd(&cmd);
+    return CMLibBVCU::SendCmd(&cmd);
 }
 void CMFCDemoDlg::ShowUserManager()
 {

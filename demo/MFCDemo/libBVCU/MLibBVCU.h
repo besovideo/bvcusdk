@@ -8,7 +8,6 @@ extern "C"
 #include "BVCUConst.h"
 #include "PUConfig.h"
 #include "BVSearch.h"
-#include "BVDisplay.h"
 }
 
 typedef void (WINAPI *BVCU_Server_OnEvent)(BVCU_HSession hSession, int iEventCode, void* pParam);
@@ -93,7 +92,7 @@ public:
     static int  SaveVideo(BVCU_HDialog hDialog,const char* folder,int iFileLenInSeconds);
     static int  ResizeDialogWindow(BVCU_HDialog hDialog,RECT* newRect);
 
-    static int  SendCmd(const BVCU_Command* pCmd);
+    static BVCU_Result SendCmd(const BVCU_Command* pCmd);
 
 	static int CMLibBVCU::SendTspData(BVCU_HDialog hDialog, SAV_TYPE_UINT8 * SavData, SAV_TYPE_INT32 iSavDataLen);
 };

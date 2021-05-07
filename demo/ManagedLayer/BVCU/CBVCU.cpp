@@ -7,7 +7,12 @@
 #include "CBVCU.h"
 #include "../Public.h"
 
+#ifdef _WIN64
+#pragma comment(lib, "libBVCU_x64.lib")
+#else
 #pragma comment(lib, "libBVCU.lib")
+#endif // _WIN64
+
 
 int CBVCU::init()
 {
@@ -31,8 +36,8 @@ int CBVCU::login(BVCU_HSession* session, char* serverIP, int serverPort, char* u
     svrParam.iTimeOut = timeOutSec * 1000;
     strcat_s(svrParam.szUserAgent, "cu client");
     strcat_s(svrParam.szClientID, "CU_123456789");
-	strcpy(svrParam.szUKeyID, "");
-	strcpy(svrParam.szUkeyCode, "");
+	strcpy_s(svrParam.szUKeyID, "");
+	strcpy_s(svrParam.szUkeyCode, "");
     svrParam.OnEvent = server_OnEvent;
     svrParam.OnNotify = server_OnNotify;
     BVCU_Result result = BVCU_Login(session, &svrParam);
@@ -366,7 +371,7 @@ int CBVCU::newTalkOnly(BVCU_HDialog* hDialog, BVCU_HSession session, char* puId,
     return result;
 }
 
-int CBVCU::resizeDialogWindow(BVCU_HDialog hDialog, BVDisplay_RECT* newRect)
+int CBVCU::resizeDialogWindow(BVCU_HDialog hDialog, BVCU_Display_Rect* newRect)
 {
     BVCU_DialogInfo dlgInfo;
     BVCU_Result result = BVCU_GetDialogInfo(hDialog, &dlgInfo);

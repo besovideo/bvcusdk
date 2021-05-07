@@ -46,5 +46,40 @@ typedef struct _BVCU_CMSCFG_DialogInfo
     int   iPathWay;      // 见 BVCU_STREAM_PATHWAY_* 。不作为索引条件
 }BVCU_CMSCFG_DialogInfo;
 
+#define BVCU_CMSCFG_MAX_BWLIST_COUNT 128    // 一次操作最大的黑白名单数
+
+enum {
+    BVCU_CMSCFG_BWLIST_OBJTYPE_PU = 1,  // PU类型
+    BVCU_CMSCFG_BWLIST_OBJTYPE_CU,      // CU类型
+};
+
+typedef struct _BVCU_CMSCFG_BWList_Info
+{
+    int bEnableBW;      // 是否启用黑白名单，0：关闭黑白名单，1：黑名单，2：白名单
+}BVCU_CMSCFG_BWList_Info;
+
+typedef struct _BVCU_CMSCFG_BWList_Item
+{
+    long long iBWID;        // 黑白名单唯一ID
+    int bBlack;             // 是否是黑名单，1：黑名单，0：白名单
+    int iObjType;           // 目标对象类型，BVCU_CMSCFG_BWLIST_OBJTYPE_*
+    char szObjID[BVCU_MAX_ID_LEN + 1]; // 目标ID，目标若是设备填设备ID，目标若是用户就填用户ID
+}BVCU_CMSCFG_BWList_Item;
+
+typedef struct _BVCU_CMSCFG_BWList_Filter
+{
+    int iPosition;      // 下标位置，从0开始
+    int iCount;         // 最大BVCU_CMSCFG_MAX_BWLIST_COUNT个
+    int iBWType;        // 黑白名单类型，0：不过滤类型，1：黑名单，2：白名单
+}BVCU_CMSCFG_BWList_Filter;
+
+typedef struct _BVCU_CMSCFG_BWList
+{
+    BVCU_CMSCFG_BWList_Filter filter;   // 过滤条件，BVCU_SUBMETHOD_BWLIST_GET用到
+    int iTotalCount;    // 列表总数，BVCU_SUBMETHOD_BWLIST_GET用到
+    int iCount;         // BVCU_CMSCFG_BWList_Item 个数
+    BVCU_CMSCFG_BWList_Item *pList; // 黑白名单列表
+}BVCU_CMSCFG_BWList;
+
 #endif
 

@@ -154,6 +154,7 @@ BOOL CPannelRecPlayRemote::mGetDialog(CMFCDemoDlg** pDlg, SplitInfoNode* pSplitI
         }
         return TRUE;
     }
+    return FALSE;
 }
 
 void CPannelRecPlayRemote::OnBnClickedBtnRecJump()

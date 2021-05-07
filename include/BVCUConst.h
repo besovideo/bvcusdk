@@ -251,7 +251,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     
     //=============query====================    
     //PU部分-----------------------------
-    BVCU_SUBMETHOD_PU_LIST = 0x00010,//CU从Server获取设备列表。输入类型：无；输出类型: BVCU_PUCFG_PUChannelInfo数组
+    BVCU_SUBMETHOD_PU_LIST = 0x00010,//CU从Server获取设备列表(不再推荐，请用SEARCH_LIST命令)。输入类型：无；输出类型: BVCU_PUCFG_PUChannelInfo数组
     BVCU_SUBMETHOD_PU_BROADCASTSTATUS,//获取广播的设备列表状态(一个Session只能同时有一个广播)。输入类型：无；输出类型：BVCU_BroadcastStatus数组
     BVCU_SUBMETHOD_PU_GPSDATA,//获取PU的GPS通道数据。输入类型：无；输出类型: BVCU_PUCFG_GPSData
     BVCU_SUBMETHOD_PU_STORAGE_MEDIA, //获取某个存储器的分区信息。输入类型无; 输出类型：BVCU_PUCFG_Storage_Media数组
@@ -315,6 +315,10 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_CMS_BASEINFO = 0x2100, //获取登录CMS基本信息。输入类型：无;输出类型：BVCU_CMSCFG_BaseInfo
     BVCU_SUBMETHOD_CMS_DIALOGINFO, //获取登录CMS通道信息。输入类型：BVCU_CMSCFG_DialogInfo;输出类型：BVCU_CMSCFG_DialogInfo数组
     BVCU_SUBMETHOD_CMS_TIME, //获取登录CMS时间。输入类型：BVCU_CMSCFG_WallTime; 输出类型：BVCU_CMSCFG_WallTime
+
+    //黑白名单部分-----------------------
+    BVCU_SUBMETHOD_BWLIST_INFO_GET = 0x2200,     // 获取获取黑白名单配置信息，输入类型: 无;输出类型: BVCU_CMSCFG_BWList_Info;
+    BVCU_SUBMETHOD_BWLIST_GET,      // 获取指定条件的黑白名单。输入类型：BVCU_CMSCFG_BWList_Filter，输出类型：BVCU_CMSCFG_BWList
 
     //=============query/control=============    
     /* 注意：query/control类型的命令，通常query和control的输入类型和输出类型是对称的，例如
@@ -479,17 +483,23 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_REGION_SET, //修改CMS区域。输入类型：BVCU_Region_Info;输出类型：无;
     BVCU_SUBMETHOD_REGION_DEL, //删除CMS区域。输入类型：BVCU_Region_Base;输出类型：无;触发类型：同名Notify
 
-    BVCU_SUBMETHOD_ROUTEPATH_ADD, //添加CMS区域。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
-    BVCU_SUBMETHOD_ROUTEPATH_SET, //修改CMS区域。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
-    BVCU_SUBMETHOD_ROUTEPATH_DEL, //删除CMS区域。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
-    BVCU_SUBMETHOD_ROUTEPLAN_ADD, //添加CMS区域。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
-    BVCU_SUBMETHOD_ROUTEPLAN_SET, //修改CMS区域。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
-    BVCU_SUBMETHOD_ROUTEPLAN_DEL, //删除CMS区域。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPATH_ADD, //添加线路规划线路。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPATH_SET, //修改线路规划线路。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPATH_DEL, //删除线路规划线路。输入类型：BVCU_Route_Path;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPLAN_ADD, //添加线路规划计划。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPLAN_SET, //修改线路规划计划。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
+    BVCU_SUBMETHOD_ROUTEPLAN_DEL, //删除线路规划计划。输入类型：BVCU_Route_Plan;输出类型：无;触发类型：同名Notify
 
     //UKey管理------------------
     BVCU_SUBMETHOD_UKEY_ADD = 0x23000, //添加授权UKey。输入类型：BVCU_UCFG_UKeyInfo;输出类型：无;
     BVCU_SUBMETHOD_UKEY_SET, //修改授权Ukey。输入类型：BVCU_UCFG_UKeyInfo;输出类型：无;
     BVCU_SUBMETHOD_UKEY_DEL, //删除授权UKey。输入类型：BVCU_UCFG_UKeyBase;输出类型：无;
+
+    //黑白名单管理---------------------
+    BVCU_SUBMETHOD_BWLIST_INFO_SET = 0x23100,     // 设置黑白名单配置信息。输入类型：BVCU_CMSCFG_BWList_Info，输出类型：无
+    BVCU_SUBMETHOD_BWLIST_ADD,      // 添加黑白名单。输入类型：BVCU_CMSCFG_BWList， 输出类型：BVCU_CMSCFG_BWList
+    BVCU_SUBMETHOD_BWLIST_DEL,      // 删除指定黑白名单。输入类型：BVCU_CMSCFG_BWList，输出类型：无
+    
 
     //=============subscribe/notify=============
     //调用者应检查BVCU_NotifyMsgContent.szSourceID，确定信息的发出者
@@ -561,6 +571,7 @@ typedef enum _BVCU_LANGUAGE_TYPE{
     BVCU_LANGUAGE_ENGLISH,// 英文 
     BVCU_LANGUAGE_CHINESE_SIMPLIFIED,// 简体中文 
     BVCU_LANGUAGE_CHINESE_TRADITIONAL,// 繁体中文
+    BVCU_LANGUAGE_ITALIAN,// 意大利语
 }BVCU_LANGUAGE_TYPE;
 
 //WIFI安全类型
@@ -599,6 +610,9 @@ typedef enum _BVCU_RADIONETWORK_TYPE{
     BVCU_RADIONETWORK_TYPE_3GHSPA,
     BVCU_RADIONETWORK_TYPE_3GHSPAPLUS,
     BVCU_RADIONETWORK_TYPE_3GCDMA1X,
+
+    BVCU_RADIONETWORK_TYPE_5GNSA,
+    BVCU_RADIONETWORK_TYPE_5GSA,
 }BVCU_RADIONETWORK_TYPE;
 
 //音频输入
@@ -659,5 +673,21 @@ typedef enum _BVCU_FILE_STORAGE_TYPE {
     BVCU_FILE_STORAGE_MP4 = (1 << 1),      // MP4格式
     BVCU_FILE_STORAGE_AAC = (1 << 2),      // AAC格式，如果媒体方向有视频，库内部会自动选择MKV
 }BVCU_FILE_STORAGE_TYPE;
+
+// 解码类型(软解/硬解), 目前支持SOFT、DXVA2
+typedef enum _BVCU_DECODE_TYPE {
+    BVCU_DECODE_TYPE_SOFT, // 软解
+    BVCU_DECODE_TYPE_VDPAU,
+    BVCU_DECODE_TYPE_CUDA,
+    BVCU_DECODE_TYPE_VAAPI,
+    BVCU_DECODE_TYPE_DXVA2,
+    BVCU_DECODE_TYPE_QSV,
+    BVCU_DECODE_TYPE_VIDEOTOOLBOX,
+    BVCU_DECODE_TYPE_D3D11VA,
+    BVCU_DECODE_TYPE_DRM,
+    BVCU_DECODE_TYPE_OPENCL,
+    BVCU_DECODE_TYPE_MEDIACODEC,
+} BVCU_DECODE_TYPE;
+
 #endif
 

@@ -49,7 +49,7 @@ LIB_MANAGED_LAYER_API int ManagedLayer_CuCloseDialog(const int* handle, BVCU_HDi
 }
 
 LIB_MANAGED_LAYER_API int ManagedLayer_CuBrowsePu(const int* handle, BVCU_HDialog* dlg, BVCU_HSession session,
-        char* puId, int channelNo, HWND hWnd, BVDisplay_RECT* dispRect, int volume, int singleRecFileSec,
+        char* puId, int channelNo, HWND hWnd, BVCU_Display_Rect* dispRect, int volume, int singleRecFileSec,
         char* recFileDir, bool videoTrans,  BVCU_DialogControlParam_Network* netWork,
         BVCU_Dialog_OnDialogEvent onDlgEvent, BVCU_Dialog_OnStorageEvent onStoreEvent)
 {
@@ -75,7 +75,7 @@ LIB_MANAGED_LAYER_API int ManagedLayer_CuSpeakVolume(const int* handle, BVCU_HDi
     return bvcu->speakVolumeSet(dlg, volume);
 }
 
-LIB_MANAGED_LAYER_API int ManagedLayer_CuChangeWindow(const int* handle, BVCU_HDialog dlg, HWND hWnd, BVDisplay_RECT* dispRect)
+LIB_MANAGED_LAYER_API int ManagedLayer_CuChangeWindow(const int* handle, BVCU_HDialog dlg, HWND hWnd, BVCU_Display_Rect* dispRect)
 {
     CBVCU* bvcu = (CBVCU*)handle;
     RECT rect;
@@ -114,7 +114,7 @@ LIB_MANAGED_LAYER_API int ManagedLayer_CuNewTalk(const int* handle, BVCU_HDialog
     return bvcu->newTalkOnly(dlg, session, puId, channelNo, captureVolume, audioVolume, netWork, onDlgEvent, onStoreEvent);
 }
 
-LIB_MANAGED_LAYER_API int ManagedLayer_CuResizeDialogWindow(const int* handle, BVCU_HDialog dlg, BVDisplay_RECT* newRect)
+LIB_MANAGED_LAYER_API int ManagedLayer_CuResizeDialogWindow(const int* handle, BVCU_HDialog dlg, BVCU_Display_Rect* newRect)
 {
     CBVCU* bvcu = (CBVCU*)handle;
     return bvcu->resizeDialogWindow(dlg, newRect);

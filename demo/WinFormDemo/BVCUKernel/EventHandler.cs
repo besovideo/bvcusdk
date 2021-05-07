@@ -258,7 +258,7 @@ namespace WindowsFormsTest
                         break;
                     }
                 case BVCU.BVCU_SUBMETHOD.BVCU_SUBMETHOD_EVENT_NOTIFY:
-                    if (content.stMsgContent.pData != IntPtr.Zero)
+                    if (content.stMsgContent.pData != IntPtr.Zero && content.stMsgContent.iDataCount > 0)
                     {
                         BVCU_Event_Source source = (BVCU_Event_Source)Marshal.PtrToStructure(content.stMsgContent.pData, typeof(BVCU_Event_Source));
                         OnEventNotify(source);

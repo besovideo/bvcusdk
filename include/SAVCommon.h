@@ -123,6 +123,8 @@ typedef enum {
     SAV_PIX_FMT_BGR555BE,  /*packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1*/
     SAV_PIX_FMT_BGR555LE,  /*packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1*/
     
+    SAV_PIX_FMT_DXVA2_VLD = 66,
+
     SAV_PIX_FMT_NB,
 }SAV_PixelFormat;
 
@@ -157,6 +159,21 @@ typedef enum  {
 	SAV_PICTURE_TYPE_SP,      /*Switching Predicted*/
 	SAV_PICTURE_TYPE_BI,      /*BI type*/
 }SAV_PictureType;
+
+
+typedef enum {
+    SAV_HWDEVICE_TYPE_NONE,
+    SAV_HWDEVICE_TYPE_VDPAU,
+    SAV_HWDEVICE_TYPE_CUDA,
+    SAV_HWDEVICE_TYPE_VAAPI,
+    SAV_HWDEVICE_TYPE_DXVA2,
+    SAV_HWDEVICE_TYPE_QSV,
+    SAV_HWDEVICE_TYPE_VIDEOTOOLBOX,
+    SAV_HWDEVICE_TYPE_D3D11VA,
+    SAV_HWDEVICE_TYPE_DRM,
+    SAV_HWDEVICE_TYPE_OPENCL,
+    SAV_HWDEVICE_TYPE_MEDIACODEC,
+} SAV_HWDeviceType;
 
 /*flags*/
 enum {

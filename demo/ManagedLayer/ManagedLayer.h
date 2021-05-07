@@ -47,7 +47,7 @@ extern "C"
 
 	/*创建会话*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuBrowsePu(const int* handle, BVCU_HDialog* dlg, BVCU_HSession session,
-		char* puId, int channelNo, HWND hWnd, BVDisplay_RECT* dispRect, int volume, int singleRecFileSec,
+		char* puId, int channelNo, HWND hWnd, BVCU_Display_Rect* dispRect, int volume, int singleRecFileSec,
 		char* recFileDir, bool videoTrans, BVCU_DialogControlParam_Network* netWork,
 		BVCU_Dialog_OnDialogEvent onDlgEvent, BVCU_Dialog_OnStorageEvent onStoreEvent);
 	/*创建new Talk Only 会话*/
@@ -77,14 +77,14 @@ extern "C"
 
 	/*更改本地设置：*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuChangeWindow(const int* handle, BVCU_HDialog dlg, HWND hWnd,
-		BVDisplay_RECT* dispRect);
+		BVCU_Display_Rect* dispRect);
 	
 	/*更改会话的本地设置:录像的存储位置，长度[秒]*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuSetRecordStorageParam(const int* handle, BVCU_HDialog dlg,
 		char* fileDir, int fileSec);
 
 	/*更改本地设置*/
-	LIB_MANAGED_LAYER_API int ManagedLayer_CuResizeDialogWindow(const int* handle, BVCU_HDialog dlg, BVDisplay_RECT* newRect);
+	LIB_MANAGED_LAYER_API int ManagedLayer_CuResizeDialogWindow(const int* handle, BVCU_HDialog dlg, BVCU_Display_Rect* newRect);
 	
 	/*更改本地设置*/
 	LIB_MANAGED_LAYER_API int ManagedLayer_CuApplyControlParam(const int* handle, BVCU_HDialog dlg,

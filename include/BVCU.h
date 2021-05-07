@@ -432,26 +432,44 @@ typedef struct _BVCU_Display_Param {
 
     // 视频旋转角度, 仅支持90的整倍数
     int iAngle;
+
+    // 保留
+    int iReserved[1];
 }BVCU_Display_Param;
 
 typedef struct _BVCU_DialogControl_Render{
     // 显示窗口句柄, BVCU_RENDER_NO_VIDEO表示不显示，并且不要执行视频解码。
     BVCU_HWND hWnd;
-    
+
     // 显示矩形，设置成(0,0,0,0)表示不显示，但执行视频解码
     BVCU_Display_Rect rcDisplay;
-    
-    // 播放音量，正常范围0～100.如果设为BVCU_RENDER_NO_AUDIO 表示不播放音频，并且不执行音频解码
-    int  iPlackbackVolume;
-    
-    // 采集音量，正常范围0～100.如果设为BVCU_RENDER_NO_AUDIO 表示不采集音频
-    int  iCaptureVolume;
-    
-    // 使能或禁止音视频同步。0：使能；1：禁止
-    int bDisableAVSync;
 
     // 视频显示参数
     BVCU_Display_Param stDisplayParam;
+
+    // 播放音量，正常范围0～100.如果设为BVCU_RENDER_NO_AUDIO 表示不播放音频，并且不执行音频解码
+    int  iPlackbackVolume;
+
+    // 采集音量，正常范围0～100.如果设为BVCU_RENDER_NO_AUDIO 表示不采集音频
+    int  iCaptureVolume;
+
+    // 解码类型(软解/硬解), 目前仅支持初始化时指定, 不支持修改. BVCU_DECODE_TYPE_*
+    int  iDecodeType;
+
+    // 使能或禁止音视频同步。0：使能；1：禁止
+    int  bDisableAVSync;
+
+    // 使能或禁止音频噪音抑制。0：使能；1：禁止
+    int  bDisableANS;
+
+    // 使能或禁止音频回音消除。0：使能；1：禁止
+    int  bDisableAEC;
+
+    // 使能或禁止音频增益。0：使能；1：禁止
+    int  bDisableAGC;
+
+    // 保留
+    int iReserved[1];
 }BVCU_DialogControlParam_Render;
 
 // 控制会话的录像
@@ -461,11 +479,11 @@ typedef struct _BVCU_DialogControl_Storage{
     char szFilePath[BVCU_MAX_FILE_NAME_LEN+1];
     
     // 每个录像文件的时间长度，单位秒。设置为<=0表示停止存储，不能超过BVCU_STORAGE_MAX_FILELENINSEC
-    int   iFileLenInSeconds;
+    int iFileLenInSeconds;
 
     int iFileFormat;   //文件存储格式，BVCU_FILE_STORAGE_*，默认mkv
     // 保留
-    int iReserved[1];
+    int iReserved[2];
 }BVCU_DialogControlParam_Storage;
 
 // 控制会话
@@ -527,6 +545,16 @@ typedef struct _BVCU_DialogInfo{
     int iVideoRenderFPS;// 帧率，单位1/10000帧每秒
 }BVCU_DialogInfo;
 
+// 实时音视频流加解密密钥
+typedef struct _BVCU_EncryptKey {
+    int   iSize;  // 本结构体的大小，分配者应初始化为sizeof(BVCSP_EncryptKey) 
+    char  szDevID[BVCU_MAX_ID_LEN + 1]; // 设备ID号，"default"表示默认配置，即没有单独配置的设备使用默认密钥。
+    char  szAlgoName[16]; // 加解密算法名称，不区分大小写。目前支持"SM4"、
+    char* pKey; // 密钥数据，NULL：删除配置，使用默认配置。空数据（pKey!=NULL && iKeyLen==0）：表示不需要加解密。
+    int iKeyLen; // 密钥长度，byte。
+    // 保留，必须初始化为0 
+    int iReserved[3];
+}BVCU_EncryptKey;
 /*==========================initialize=======================================*/
 /**
 *初始化BVCU库，只能在应用程序启动时调用一次。任何其他BVCU库函数只有在 
@@ -701,6 +729,30 @@ LIBBVCU_API BVCU_Result BVCU_Dialog_Write(BVCU_HDialog hDialog, SAV_Packet* pDat
 */
 LIBBVCU_API BVCU_Result BVCU_Dialog_Close(BVCU_HDialog hDialog);
 
+/**
+ * 设置音视频数据加解密配置。用于配置对不同设备的码流加解密。
+ * 注意：设备ID为"default"表示默认配置，没有"default"配置时，默认不加解密。
+ * 注意：明确设置某个设备不加解密（无论"default"如何配置），需单独设置该设备密钥为空字符串（pKey不为NULL，iKenLen==0）。
+ * 注意：如果设备ID的通道已经被打开则需要等下次打开才生效，调用者可以主动Close关闭通道重新打开。
+ * @param[in] pEncryptKey: 设置的加解密参数
+ * @return: 常见返回值
+*        BVCU_RESULT_S_OK: 正确完成。
+*        BVCU_RESULT_E_INVALIDARG: 无效的参数。
+*        BVCU_RESULT_E_BADSTATE： 库没有初始化成功。
+*/
+LIBBVCU_API BVCU_Result BVCU_Encrypt_Set(BVCU_EncryptKey* pEncryptKey);
+
+/**
+ * 获取音视频数据加解密设置。
+ * 注意：设备ID为"default"表示默认配置。
+ * @param[in,out] pEncryptKey: szDevID传入需要查询的设备ID号，pKey指向调用者分配的内存区，iKeyLen是pKey内存大小。
+ * @return: 常见返回值
+*        BVCU_RESULT_S_OK: 正确完成。只有这个情况下pEncryptKey的数据有效。
+*        BVCU_RESULT_E_INVALIDARG: 无效的参数。
+*        BVCU_RESULT_E_NOTFOUND:  没有找到配置对象。不加解密。
+*        BVCU_RESULT_E_BADSTATE： 库没有初始化成功。
+*/
+LIBBVCU_API BVCU_Result BVCU_Encrypt_Get(BVCU_EncryptKey* pEncryptKey);
 /*=============================file transfer====================================*/
 
 typedef  void* BVCU_File_HTransfer;

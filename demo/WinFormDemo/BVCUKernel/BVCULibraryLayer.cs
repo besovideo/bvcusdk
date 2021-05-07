@@ -25,7 +25,11 @@ namespace WindowsFormsTest
         /// </summary>
         #region 功能模块
 #if DEBUG
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void ManagedLayer_DebugConsoleInit();
 #endif
 
@@ -34,7 +38,11 @@ namespace WindowsFormsTest
         /// </summary>
         /// <param name="handle">IntPtr类型</param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuInit(ref IntPtr handle);
 
         /// <summary>
@@ -42,7 +50,11 @@ namespace WindowsFormsTest
         ///     使用示例public void Dispose() { BVCU.ManagedLayer_CuRelease(m_bvcuSdkHandle); }
         /// </summary>
         /// <param name="handle"></param>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void ManagedLayer_CuRelease(IntPtr handle);
 
         /// <summary>
@@ -68,7 +80,11 @@ namespace WindowsFormsTest
         /// <param name="onEvent">见EventHandler.Server_OnEvent(...)，响应BVCU_EVENT_SESSION_OPEN、BVCU_EVENT_SESSION_CLOSE</param>
         /// <param name="procChannelInfo">见EventHandler.Server_ProcNotifyChannelInfo(...)</param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuLogin(IntPtr handle, ref IntPtr session, Byte[] serverIp, Int32 serverPort,
             Byte[] usrName, Byte[] usrPsw, int timeOutSec,
             EventHandler.BVCU_Server_OnEvent onEvent,
@@ -82,7 +98,11 @@ namespace WindowsFormsTest
         /// <param name="handle">IntPtr</param>
         /// <param name="session">IntPtr</param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuLogout(IntPtr handle, IntPtr session);
 
         /// <summary>
@@ -92,7 +112,11 @@ namespace WindowsFormsTest
         /// <param name="session">session</param>
         /// <param name="getPuList"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuGetPuList(IntPtr handle, IntPtr session,
             EventHandler.BVCU_Cmd_OnGetPuList getPuList);
 
@@ -106,7 +130,11 @@ namespace WindowsFormsTest
         ///                        m_bvsdkEventHandler.dialog_OnDialogEvent,
         ///                        m_bvsdkEventHandler.dialog_OnStorageEvent));       
         /// </summary>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuBrowsePu(IntPtr handle, ref IntPtr dialog,
             IntPtr session, Byte[] puId, int channelNo, IntPtr hWnd, ref BVRect dispRect,
             int volume, int singleRecFileSec, Byte[] recFileDir, bool videoTrans,
@@ -120,7 +148,11 @@ namespace WindowsFormsTest
         /// <param name="handle"></param>
         /// <param name="dialog"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuNewTalk(IntPtr handle, ref IntPtr dialog,
             IntPtr session, Byte[] puId, int channelNo, int captureVolume, int audioVolume,
             ref BVCU_DialogControlParam_Network netWork,
@@ -134,7 +166,11 @@ namespace WindowsFormsTest
         /// <param name="handle"></param>
         /// <param name="dialog"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuCloseDialog(IntPtr handle, IntPtr dialog);
 
         /// <summary>
@@ -144,7 +180,11 @@ namespace WindowsFormsTest
         /// <param name="dialog"></param>
         /// <param name="volume">播放音量大小</param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuPlayVolume(IntPtr handle, IntPtr dialog, int volume);
 
         /// <summary>
@@ -155,7 +195,11 @@ namespace WindowsFormsTest
         /// <param name="fileDir"></param>
         /// <param name="fileSec"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuSetRecordStorageParam(IntPtr handle, IntPtr dialog, byte[] fileDir, int fileSec);
 
         /// <summary>
@@ -166,7 +210,11 @@ namespace WindowsFormsTest
         /// <param name="fileDir"></param>
         /// <param name="fileSec"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuSnapshot(IntPtr handle, IntPtr dialog, byte[] fileDir, int fileSec);
 
         /// <summary>
@@ -176,7 +224,11 @@ namespace WindowsFormsTest
         /// <param name="dialog"></param>
         /// <param name="dispRect"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuResizeDialogWindow(IntPtr handle, IntPtr dialog, ref BVRect dispRect);
 
 
@@ -185,22 +237,46 @@ namespace WindowsFormsTest
         /// </summary>
         /// <param name="handle"></param>
         /// <param name="onCtrlRes">功能暂时未完成EventHandler.OnControlResult</param>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void ManagedLayer_CuSetPuControlResultProcFunc(IntPtr handle, EventHandler.BVCU_Cmd_ControlResult onCtrlRes);
 
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void ManagedLayer_CuSetPuQueryResultProcFunc(IntPtr handle, EventHandler.BVCU_Cmd_QueryResult onQueryRes);
 
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuSetPuPtzControl(IntPtr handle, IntPtr session, Byte[] puId, int device, IntPtr ptzCtrl);
 
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuGetPuGpsInfo(IntPtr handle, IntPtr session, Byte[] puId, int device);
 
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuGetPuGpsInfoV2(IntPtr handle, IntPtr session, Byte[] puId, int device,IntPtr userData);
 
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuOpenTspDialog(IntPtr handle, ref IntPtr dialog, IntPtr session, Byte[] puId, int channelNo, EventHandler.BVCU_TspDialog_OnEvent onDlgEvent, EventHandler.BVCU_TspDialog_OnData onDlgData);
 
         /// <summary>
@@ -218,7 +294,11 @@ namespace WindowsFormsTest
         /// <param name="device"></param>
         /// <param name="onEvent"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuGetPuPtzAttr(IntPtr handle, IntPtr session, Byte[] puId, int device, EventHandler.BVCU_Cmd_OnGetPuPtzAttr onEvent);
 
         /// <summary>
@@ -232,27 +312,47 @@ namespace WindowsFormsTest
         /// <param name="onDlgEvent"></param>
         /// <param name="onDlgData"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_CuOpenGpsDialog(IntPtr handle, ref IntPtr dialog, IntPtr session,
             Byte[] puId, int channelNo,
             EventHandler.BVCU_GpsDialog_OnEvent onDlgEvent,
             EventHandler.BVCU_GpsDialog_OnData onDlgData);
 
         // 手动设置PU停止/开始录像
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_PuManualRemoteRecord(IntPtr handle, IntPtr hSession, Byte[] puId, int deviceIdx, ref BVCU_PUCFG_ManualRecord recordParam);
 
 
         //文件检索
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_Search_File(IntPtr handle, IntPtr hSession, IntPtr ptNruTarget, IntPtr ptRequest, IntPtr iIndexUserData);
 
         //文件下载
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_BVFileTransferOpen(IntPtr handle, ref IntPtr phTransfer, IntPtr pParam);
 
         //文件传输信息
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int ManagedLayer_BVFileTransferGetInfo(IntPtr handle, IntPtr hTransfer, ref BVCU_File_TransferInfo pInfo);
 
         #endregion 功能模块
@@ -267,7 +367,11 @@ namespace WindowsFormsTest
         /// Display after render:解码后显示
         /// </summary>
         /// <param name="dispFontFunc"></param>
+#if WIN64
+        [DllImport("ManagedLayer_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("ManagedLayer.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void ManagedLayer_DispSetDisplayFontFunc(DisplayFont dispFontFunc);
 
         /// <summary>
@@ -278,7 +382,11 @@ namespace WindowsFormsTest
         /// <param name="fontSize"></param>
         /// <param name="fontName"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("bvdisplay_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("bvdisplay.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int BVDisplay_CreateFont(IntPtr hwnd, ref int fontIdx, int fontSize, [MarshalAs(UnmanagedType.LPWStr)]String fontName);
 
         /// <summary>
@@ -290,7 +398,11 @@ namespace WindowsFormsTest
         /// <param name="color"></param>
         /// <param name="text"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("bvdisplay_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("bvdisplay.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int BVDisplay_DisplayFont(IntPtr hwnd, int fontIdx, ref BVRect dispRect, ref Color color, [MarshalAs(UnmanagedType.LPWStr)]String text);
 
         /// <summary>
@@ -300,11 +412,15 @@ namespace WindowsFormsTest
         /// <param name="fontIdx"></param>
         /// <param name="effect"></param>
         /// <returns></returns>
+#if WIN64
+        [DllImport("bvdisplay_x64.dll", CallingConvention = CallingConvention.Cdecl)]
+#else
         [DllImport("bvdisplay.dll", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern int BVDisplay_SetFontDisplayMode(IntPtr hwnd, int fontIdx, ref FontDisplayMode effect);
 
-        #endregion 显示
+#endregion 显示
 
-        #endregion ManagedLayer动态库
+#endregion ManagedLayer动态库
     }
 }

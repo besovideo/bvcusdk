@@ -102,7 +102,7 @@ void CPannelRecordPlay::OnBnClickedRpOpen()
 	char* p = _tcsrchr(szTmp, '\\');
 
 	char szPath[MAX_PATH] = {0};
-	_sntprintf(szPath, (MAX_PATH > (p - szTmp) ? (p - szTmp + 1): (MAX_PATH - 1)) , _T("%s"), szTmp);
+	_sntprintf_s(szPath, (MAX_PATH > (p - szTmp) ? (p - szTmp + 1): (MAX_PATH - 1)) , _T("%s"), szTmp);
 	StrCat(szPath, "PU_EEAA0001_01_20130515_155928.mkv");
 	if (-1 != _taccess(szPath, 00))
 	{
@@ -117,7 +117,7 @@ void CPannelRecordPlay::OnBnClickedRpOpen()
 	}
 
 	char szGps[MAX_PATH] = {0};
-	_sntprintf(szGps, (MAX_PATH > (p - szTmp) ? (p - szTmp + 1): (MAX_PATH - 1)) , _T("%s"), szTmp);
+	_sntprintf_s(szGps, (MAX_PATH > (p - szTmp) ? (p - szTmp + 1): (MAX_PATH - 1)) , _T("%s"), szTmp);
 	StrCat(szGps, "PU_EEAA0001_01_20130515_155928.xml");
 	if (-1 != _taccess(szGps, 00))
 	{

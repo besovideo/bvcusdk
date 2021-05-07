@@ -80,7 +80,7 @@ public:
     int newTalkOnly(BVCU_HDialog* hDialog, BVCU_HSession session, char* puId, int channelNo, int captureVolume,
             int audioVolume, BVCU_DialogControlParam_Network* netWork,
             BVCU_Dialog_OnDialogEvent onDlgEvent, BVCU_Dialog_OnStorageEvent onStoreEvent);
-    int resizeDialogWindow(BVCU_HDialog hDialog, BVDisplay_RECT* newRect);
+    int resizeDialogWindow(BVCU_HDialog hDialog, BVCU_Display_Rect* newRect);
     CBVCUSndCmd* getBVCUSndCmd();
     int applyControlParam(BVCU_HDialog dlg, int speakVolume, BVCU_DialogControlParam_Network* netWork);
     int openGpsDialog(BVCU_HDialog* dlg, BVCU_HSession session, char* puId, int channelNo, 

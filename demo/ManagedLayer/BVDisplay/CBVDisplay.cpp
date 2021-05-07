@@ -10,7 +10,7 @@
 #include "../Public.h"
 #include "CBVDisplay.h"
 
-#pragma comment(lib, "bvdisplay.lib")
+//#pragma comment(lib, "bvdisplay.lib")
 
 DisplayFont CBVDisplay::m_displayFont = NULL;
 

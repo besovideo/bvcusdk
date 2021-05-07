@@ -57,5 +57,4 @@ private:
 	SplitInfoNode m_splitInfo;
 
 	int  m_textFont;
-	BVDisplay_Color m_textColor;
 };

@@ -18,10 +18,10 @@ CPlayWnd::CPlayWnd()
 	InitializeCriticalSection(&m_cs);
 	memset(&m_splitInfo, 0, sizeof(m_splitInfo));
 //	m_textColor.bAlpha = 1;
-	m_textColor.eColorFormat = BVDISPLAY_COLOR_FMT_RGB;
+	/*m_textColor.eColorFormat = BVDISPLAY_COLOR_FMT_RGB;
 	m_textColor.bRed = 255;
 	m_textColor.bGreen = 255;
-	m_textColor.bBlue= 255;
+	m_textColor.bBlue= 255;*/
 	//{{AFX_DATA_INIT(CPlayWnd)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
@@ -114,7 +114,7 @@ void CPlayWnd::OnPopupMenu(UINT nID)
 		if (m_splitInfo.pDialog)
 		{
 			mainDlg->CloseDialog(&m_splitInfo);
-			BVDisplay_DeleteFont((BVDisplay_HWND)GetSafeHwnd(),m_textFont);
+			//BVDisplay_DeleteFont((BVDisplay_HWND)GetSafeHwnd(),m_textFont);
 		}
 		memset(&m_splitInfo,0x00,sizeof(m_splitInfo));
 		LeaveCriticalSection(&m_cs);
@@ -187,7 +187,7 @@ void CPlayWnd::BeginRender(BVCU_HDialog pDialog)
 {
 	if (pDialog == m_splitInfo.pDialog)
 	{
-		BVDisplay_CreateFont((BVDisplay_HWND)GetSafeHwnd(),&m_textFont,10,L"Times New Roman");
+		//BVDisplay_CreateFont((BVDisplay_HWND)GetSafeHwnd(),&m_textFont,10,L"Times New Roman");
 	}
 }
 void CPlayWnd::AfterRender(DWORD iPTS)

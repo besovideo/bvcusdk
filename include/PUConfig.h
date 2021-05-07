@@ -470,8 +470,8 @@ typedef struct  _BVCU_PUCFG_GPSData{
     int  iLatitude;  // 纬度，北纬是正值，南纬是负值，单位1/10000000度
     int  iHeight; // 高度，单位1/100米
     int  iAngle;  // 方向角(正北方向为原点，顺时针为正),单位1/1000度
-    int  iSpeed;  // 速度(米/小时)         
-    int  iStarCount;    // 定位星数      
+    int  iSpeed;  // 速度(米/小时)
+    int  iStarCount;    // 定位星数, <= 0时非卫星定位。
     int  bAntennaState; // 天线状态(1-好，0-坏) 
     int  bOrientationState; // 定位状态(1-定位，0-不定位) 
     int  iSatelliteSignal;  // 卫星信号来源 BVCU_PUCFG_SATELLITE_* 组合

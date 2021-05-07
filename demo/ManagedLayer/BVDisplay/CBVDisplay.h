@@ -13,7 +13,7 @@
 
 extern "C"
 {
-#include "BVDisplay.h"
+//#include "BVDisplay.h"
 }
 #include "Windows.h"
 
