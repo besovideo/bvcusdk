@@ -73,58 +73,87 @@ void CBVCUSndCmd::cmd_OnEvent(BVCU_HSession hSession, BVCU_Command* pCommand, in
     BVCU_Event_SessionCmd* pEvent = (BVCU_Event_SessionCmd*)pParam;
     BVCU_PUChannelInfo* puInfo = NULL;
     BVCU_PUOneChannelInfo* channel = NULL;
-    switch (pCommand->iMethod)
-    {
-    case BVCU_METHOD_QUERY:
+	switch (pCommand->iMethod)
+	{
+		case BVCU_METHOD_QUERY:
 		m_procQueryResult(hSession, pCommand, pEvent);
-        if (BVCU_Result_FAILED(pEvent->iResult))
-        {
-            return;
-        }
-        switch (pCommand->iSubMethod)
-        {
-        case BVCU_SUBMETHOD_PU_LIST:
-            puInfo = (BVCU_PUChannelInfo*)(pEvent->stContent.pData);
-            if (NULL == puInfo)
-            {
-                return;
-            }
-            for (int j = 0; j < pEvent->stContent.iDataCount; j++)
-            {
-                channel = puInfo->pChannel;
-                for (int i = 0; i < puInfo->iChannelCount; i++)
-                {
-                    m_procGetPuList(hSession, puInfo->szPUID, puInfo->szPUName, puInfo->iOnlineStatus, channel, 0);
-                    channel++;
-                }
-                puInfo++;
-            }
-            puInfo--;
-            channel--;
-			//if (pEvent->iPercent >= 100)
+		if (BVCU_Result_FAILED(pEvent->iResult))
+		{
+			return;
+		}
+		switch (pCommand->iSubMethod)
+		{
+			case BVCU_SUBMETHOD_PU_LIST:
+				puInfo = (BVCU_PUChannelInfo*)(pEvent->stContent.pData);
+				if (NULL == puInfo)
+				{
+					return;
+				}
+				for (int j = 0; j < pEvent->stContent.iDataCount; j++)
+				{
+					channel = puInfo->pChannel;
+					for (int i = 0; i < puInfo->iChannelCount; i++)
+					{
+						m_procGetPuList(hSession, puInfo->szPUID, puInfo->szPUName, puInfo->iOnlineStatus, channel, 0);
+						channel++;
+					}
+					puInfo++;
+				}
+				puInfo--;
+				channel--;
+				//if (pEvent->iPercent >= 100)
 				m_procGetPuList(hSession, puInfo->szPUID, puInfo->szPUName, puInfo->iOnlineStatus, channel, 1);
-            break;
-        case BVCU_SUBMETHOD_PU_DEVICEINFO:
-			if (0 < pEvent->stContent.iDataCount)
-			{
-				m_procGetPuDeviceInfo(hSession, (BVCU_PUCFG_DeviceInfo*)pEvent->stContent.pData);
-			}
-            break;
+				break;
+			case BVCU_SUBMETHOD_PU_DEVICEINFO:
+				if (0 < pEvent->stContent.iDataCount)
+				{
+					return;
+				}
+				switch (pCommand->iSubMethod)
+				{
+				case BVCU_SUBMETHOD_PU_LIST:
+					puInfo = (BVCU_PUChannelInfo*)(pEvent->stContent.pData);
+					if (NULL == puInfo)
+					{
+						return;
+					}
+					for (int j = 0; j < pEvent->stContent.iDataCount; j++)
+					{
+						channel = puInfo->pChannel;
+						for (int i = 0; i < puInfo->iChannelCount; i++)
+						{
+							m_procGetPuList(hSession, puInfo->szPUID, puInfo->szPUName, puInfo->iOnlineStatus, channel, 0);
+							channel++;
+						}
+						puInfo++;
+					}
+					puInfo--;
+					channel--;
+					//if (pEvent->iPercent >= 100)
+					m_procGetPuList(hSession, puInfo->szPUID, puInfo->szPUName, puInfo->iOnlineStatus, channel, 1);
+					break;
+				case BVCU_SUBMETHOD_PU_DEVICEINFO:
+					if (0 < pEvent->stContent.iDataCount)
+					{
+						m_procGetPuDeviceInfo(hSession, (BVCU_PUCFG_DeviceInfo*)pEvent->stContent.pData);
+					}
+					break;
 
-        case BVCU_SUBMETHOD_PU_PTZATTR:
-            m_procGetPuPtzAttr(hSession, pCommand->szTargetID, pCommand->iTargetIndex, (BVCU_PUCFG_PTZAttr*)pEvent->stContent.pData);
-            break;
+				case BVCU_SUBMETHOD_PU_PTZATTR:
+					m_procGetPuPtzAttr(hSession, pCommand->szTargetID, pCommand->iTargetIndex, (BVCU_PUCFG_PTZAttr*)pEvent->stContent.pData);
+					break;
 
-        default:
-            break;
-        }
-        break;
-    case BVCU_METHOD_CONTROL:
-        m_procControlResult(hSession, pCommand->szTargetID, pCommand->iTargetIndex, pCommand->iSubMethod, pEvent->iResult);
-        break;
-    default:
-        break;
-    }
+				default:
+					break;
+				}
+			break;
+		}
+		case BVCU_METHOD_CONTROL:
+			m_procControlResult(hSession, pCommand->szTargetID, pCommand->iTargetIndex, pCommand->iSubMethod, pEvent->iResult);
+			break;
+		default:
+			break;
+	}
 }
 
 void CBVCUSndCmd::setControlResultProcFunc(BVCU_Cmd_ControlResult onCtrlRes)
