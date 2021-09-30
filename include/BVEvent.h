@@ -95,12 +95,14 @@ enum {
 typedef struct _BVCU_Event_Source{
     int  iEventType;//事件类型，BVCU_EVENT_TYPE_*
     BVCU_WallTime stTime;//事件发生时刻
-    char szID[BVCU_MAX_ID_NAME_LEN+1];//源ID，例如PU ID/用户名等
-    char szDevID[BVCU_MAX_ID_NAME_LEN + 1];    //设备ID
+    char szID[BVCU_MAX_ID_NAME_LEN + 1];    // 用户账号
+    char szDevID[BVCU_MAX_ID_NAME_LEN + 1]; //设备ID
     int  iSubDevIdx;//子设备索引，如PU的视频输入等。BVCU_ALARM_TYPE_PERIOD：定时器触发间隔，单位秒
     int  iValue; //保留给PU用,CU上下线时是CU.iApplierID
     int  bEnd;  //是否是结束报警。0：开始报警。1：结束报警
     char szEventDesc[128]; // 报警描述
+    int  iLongitude; // 经度，东经是正值，西经负值，单位1/10000000度
+    int  iLatitude;  // 纬度，北纬是正值，南纬是负值，单位1/10000000度
 }BVCU_Event_Source;
 
 //客户端查询返回的存储的事件。CU可以修改其中的处警部分

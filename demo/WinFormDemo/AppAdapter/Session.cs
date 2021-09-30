@@ -184,7 +184,7 @@ namespace WindowsFormsTest
             m_bServerRetry = true;
             int result = 0;
             for (int i = 0; i < BVCU.FAIL_RETRY_TIMES; i++)//试BVCU.FAIL_RETRY_TIMES(=10)次-L
-            {
+            { // 这里使用 GetPUList命令一次获取所有设备列表会很卡。推荐使用 BVCU_SUBMETHOD_SEARCH_LIST 命令，分页加载。
                 result = BVCU.ManagedLayer_CuGetPuList(m_bvsdkHandle, m_server.sessionHandle,
                     m_bvsdkEventHandler.cmd_OnGetPuList);
 

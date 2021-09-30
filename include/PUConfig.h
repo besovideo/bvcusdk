@@ -472,7 +472,7 @@ typedef struct  _BVCU_PUCFG_GPSData{
     int  iAngle;  // 方向角(正北方向为原点，顺时针为正),单位1/1000度
     int  iSpeed;  // 速度(米/小时)
     int  iStarCount;    // 定位星数, <= 0时非卫星定位。
-    int  bAntennaState; // 天线状态(1-好，0-坏) 
+    int  bAntennaState; // 天线状态(1-好，0-坏，2-差分定位，4-RTK固定解定位，5-RTK浮点解定位，6-推算定位) 
     int  bOrientationState; // 定位状态(1-定位，0-不定位) 
     int  iSatelliteSignal;  // 卫星信号来源 BVCU_PUCFG_SATELLITE_* 组合
     int  iReserved[4];
@@ -983,6 +983,8 @@ typedef struct _BVCU_PUCFG_ManualRecord{
     int bStart; // 1-开始录像，0-停止录像
     int iLength;// 存储时间长度，单位秒， -1表示一直录像
     char szFileName[128]; // 录像文件名称。
+    int iChannelIndex;//通道号, BVCU_SUBDEV_INDEXMAJOR_*
+    int iFileType;    //录像文件类型，BVCU_STORAGE_FILE_TYPE_*组合
 }BVCU_PUCFG_ManualRecord;
 
 // 手工抓拍，保存到PU

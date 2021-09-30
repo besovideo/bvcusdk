@@ -88,6 +88,7 @@ typedef struct _BVCU_Conf_Participator_Info{
     char szID[BVCU_MAX_ID_LEN+1];//participator ID。通常是PU/CU ID
     char szUserName[BVCU_MAX_NAME_LEN+1];//登录用户名，目前仅对CU有意义。PU为PU的Name
     char szAddr[BVCU_MAX_HOST_NAME_LEN+1];//地址信息，CU必须设置。PU可选
+    char szMemberName[BVCU_MAX_NAME_LEN + 1];//成员名称。根据成员是用户还是设备，返回 用户名/设备名称。 只读。
     char szAliasName[BVCU_MAX_NAME_LEN+1];//集群中使用的别名。可以为空。仅在BVCU_SUBMETHOD_CONF_PARTICIPATOR_INFO和CMS返回中填充
     int  iApplierID;//CMS分配的用户标识。添加CU参与者时(BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD),必须设置该值。其他情况下设置为无效值，应设置为0
     int  iPID;//用户加入或被加入集群时，CMS分配给该成员的成员ID，仅对该集群有效。-1表示无效值。

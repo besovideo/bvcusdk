@@ -283,6 +283,23 @@ namespace WindowsFormsTest
         /// <para> -1表示使用 BVCU_PUCFG_Storage_Rule.iRecordFileLength</para>
         /// </summary>
         public Int32 iLength;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+        public Byte[] szFileName; // 录像文件名称。
+
+        public Int32 iChannelIndex;//通道号, BVCU_SUBDEV_INDEXMAJOR_*
+        public Int32 iFileType;    //录像文件类型，BVCU_STORAGE_FILE_TYPE_*组合
+        public string FileName
+        {
+            get
+            {
+                return BVSDKAdapter.GetUtf8Byte(szFileName);
+            }
+            set
+            {
+                BVSDKAdapter.String2Utf8Byte(value, ref szFileName, 128);
+            }
+        }
     }
 
     //GPS数据结构体 wfy on 20150417
@@ -450,6 +467,8 @@ namespace WindowsFormsTest
         public Int32 bEnd;  //是否是结束报警。0：开始报警。1：结束报警
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
         Byte[] m_szEventDesc; // 报警描述
+        public Int32 iLongitude; // 经度，东经是正值，西经负值，单位1/10000000度
+        public Int32 iLatitude;  // 纬度，北纬是正值，南纬是负值，单位1/10000000度
 
         public string szEventDesc
         {

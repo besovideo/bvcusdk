@@ -72,6 +72,9 @@ typedef enum _BVCU_Result {
     BVCU_RESULT_E_ALREADYEXIST,       // already exist  
     BVCU_RESULT_E_SEVERINTERNAL,      // Server internal error
     BVCU_RESULT_E_MAXRETRIES,         // 达到最大重试次数
+    BVCU_RESULT_E_PASSWDFORMAT,       // 密码格式错误
+    BVCU_RESULT_E_PASSWDEXPIRE,       // 密码过期
+    BVCU_RESULT_E_PASSWD_RECENTUSED,  // 密码最近使用过
     
     BVCU_RESULT_E_AAA_OBJECTNOTFOUND = -0x0F000,// AAA 用户/用户组等不存在。SESSION_CLOSE事件的OnEvent回调中使用
     BVCU_RESULT_E_VTDU_NONE, // VTDU 没有可用的VTDU转发服务器

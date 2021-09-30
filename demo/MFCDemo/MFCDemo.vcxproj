@@ -78,6 +78,7 @@
     <IncludePath>..\..\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\lib_x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\bin_x64\</OutDir>
+    <TargetName>$(ProjectName)_x64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,6 +91,7 @@
     <IncludePath>..\..\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\lib_x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\bin_x64\</OutDir>
+    <TargetName>$(ProjectName)_x64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
