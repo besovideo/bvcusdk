@@ -11,16 +11,18 @@ enum {
     //通用
     BVCU_EVENT_TYPE_DISKERROR = 0x0001,   //磁盘错误。源：PU/NRU的Storage
     BVCU_EVENT_TYPE_OUTOFDISKSPACE,       //磁盘空间不足。源：PU/NRU的Storage
-    BVCU_EVENT_TYPE_FACE,                 //人脸识别报警。源：PU
+    BVCU_EVENT_TYPE_FACE,                 //人脸识别报警。
+    BVCU_EVENT_TYPE_FALLDOWN,             //人员摔倒报警。
+    BVCU_EVENT_TYPE_SOS,                  //SOS求救报警。
     
     //PU相关
     BVCU_EVENT_TYPE_VIDEOLOST = 0x1000,    //视频丢失。源：PU 的 VideoIn
     BVCU_EVENT_TYPE_VIDEOMD,               //运动检测。源：PU 的 VideoIn
     BVCU_EVENT_TYPE_VIDEOOCCLUSION,        //视频遮挡。源：PU 的 VideoIn
     BVCU_EVENT_TYPE_ALERTIN,               //报警输入。源：PU 的 AlertIn
-    BVCU_EVENT_TYPE_PERIOD,                //周期报警。源：PU 的 周期报警    
-    BVCU_EVENT_TYPE_PUONLINE,              //PU上线。源：PU
-    BVCU_EVENT_TYPE_PUOFFLINE,             //PU下线。源：PU
+    BVCU_EVENT_TYPE_PERIOD,                //周期报警。源：PU 的 周期报警
+    BVCU_EVENT_TYPE_PUONLINE,              //PU上线。  源：PU
+    BVCU_EVENT_TYPE_PUOFFLINE,             //PU下线。  源：PU
     BVCU_EVENT_TYPE_LOWTEMPERATURE,        //低温报警。源：PU 的 TemperatureIn
     BVCU_EVENT_TYPE_HIGHTEMPERATURE,       //高温报警。源：PU 的 TemperatureIn
     BVCU_EVENT_TYPE_SLOWSPEED,             //低速报警。源：PU 的 GPS
@@ -31,11 +33,13 @@ enum {
     BVCU_EVENT_TYPE_HIGHVOLTAGE,           //高电压报警。源：PU 的 VoltageIn
     BVCU_EVENT_TYPE_DEVICESTILL,           //设备静止不动报警。源：PU 的 GPS
     BVCU_EVENT_TYPE_DEVICEINVERTED,        //设备被倒立放置报警。源：PU
-    BVCU_EVENT_TYPE_REMBATTERY,            //设备电池被拆。源：PU 
-    BVCU_EVENT_TYPE_DISASSEMBLE,           //设备被拆卸。源：PU 
-    BVCU_EVENT_TYPE_LOWPOWER,              //设备电池电量低。源：PU 
+    BVCU_EVENT_TYPE_REMBATTERY,            //设备电池被拆。源：PU
+    BVCU_EVENT_TYPE_DISASSEMBLE,           //设备被拆卸。源：PU
+    BVCU_EVENT_TYPE_LOWPOWER,              //设备电池电量低。源：PU
     BVCU_EVENT_TYPE_INTROUTE,              //进入线路报警。源：PU 的 GPS
     BVCU_EVENT_TYPE_OUTROUTE,              //偏移线路报警。源：PU 的 GPS
+    BVCU_EVENT_TYPE_TAKEOFFHAT,            //脱掉帽子报警。源：PU
+    BVCU_EVENT_TYPE_COLLIDEHAT,            //撞击帽子报警。源：PU
     
     //NRU相关
     BVCU_EVENT_TYPE_NRUONLINE = 0x2000,   //NRU上线
@@ -88,7 +92,7 @@ enum {
     //执行者:CU
     BVCU_EVENT_ACTION_OPENDIALOG = 0x5000,   //执行者:CU。让CU打开会话。对应结构体：BVCU_Event_Action_OpenDialog
 
-    BVCU_EVENT_ACTION_CUSTOM = 0x10000000,//该值及往后的值为自定义动作。对应结构体：BVCU_Event_Action_Custom
+    BVCU_EVENT_ACTION_CUSTOM = 0x10000000,   //该值及往后的值为自定义动作。对应结构体：BVCU_Event_Action_Custom
 };
 
 //事件触发者 发送事件使用的结构体
@@ -96,7 +100,7 @@ typedef struct _BVCU_Event_Source{
     int  iEventType;//事件类型，BVCU_EVENT_TYPE_*
     BVCU_WallTime stTime;//事件发生时刻
     char szID[BVCU_MAX_ID_NAME_LEN + 1];    // 用户账号
-    char szDevID[BVCU_MAX_ID_NAME_LEN + 1]; //设备ID
+    char szDevID[BVCU_MAX_ID_NAME_LEN + 1]; // 设备ID
     int  iSubDevIdx;//子设备索引，如PU的视频输入等。BVCU_ALARM_TYPE_PERIOD：定时器触发间隔，单位秒
     int  iValue; //保留给PU用,CU上下线时是CU.iApplierID
     int  bEnd;  //是否是结束报警。0：开始报警。1：结束报警

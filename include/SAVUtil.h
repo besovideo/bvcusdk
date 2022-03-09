@@ -143,11 +143,17 @@ extern "C" {
         /* destination Pixel format. set by user*/
         SAV_PixelFormat ePixelFmtDst;
 
-        /* image width. set by user*/
+        /* src image width. set by user*/
         SAV_TYPE_INT32 iWidth;
 
-        /* image height. set by user*/
+        /* src image height. set by user*/
         SAV_TYPE_INT32 iHeight;
+
+        /* dest image width. set by user. default iWidth*/
+        SAV_TYPE_INT32 iWidthDst;
+
+        /* dest image height. set by user. default iHeight*/
+        SAV_TYPE_INT32 iHeightDst;
     }SAVImg_Convert_Context;
 
     /**

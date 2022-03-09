@@ -114,6 +114,9 @@ typedef struct _BVCU_UCFG_UserInfo_
     // 对此用户的描述，可不设置 
     char sDescription[AAA_DESCRIPTION_LEN];
 
+    // 最大并发打开会话数, 0表示不限制
+    int iMaxDialogCount;
+
     // 用户拥有资源数  
     unsigned int   iResource;
 

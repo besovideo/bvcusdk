@@ -539,8 +539,8 @@ typedef struct _BVCU_PUCFG_EncoderParam{
     SAVCodec_ID iVideoCodecAll[4];// 支持的视频编码器ID。只读
     int iVideoCodecIndex;// 当前使用的视频编码器
     BVCU_RATECONTROL iRateControl;// 当前使用的码率控制类型，参考BVCUConst.h中 enum BVCU_RATECONTROL。
-    BVCU_RATECONTROL iRateControlAll[4];// 支持的码率控制类型，参考BVCUConst.h中 enum BVCU_RATECONTROL。
-    BVCU_ImageSize   iImageSizeAll[8];  // 可选的视频编码分辨率，全0表示无效的编码分辨率
+    BVCU_RATECONTROL iRateControlAll[4];// 支持的码率控制类型，参考BVCUConst.h中 enum BVCU_RATECONTROL。只读
+    BVCU_ImageSize   iImageSizeAll[8];  // 可选的视频编码分辨率，全0表示无效的编码分辨率。只读
     int iImageSizeIndex;                // 当前使用的视频编码分辨率
     int iFramesPerSec;// 单位1/1000帧。例如25fps，需要设置为25*1000。该帧率不能超过BVCU_PUCFG_VideoIn.iFPSMax
     int iKeyFrameInterval;// 关键帧间隔
