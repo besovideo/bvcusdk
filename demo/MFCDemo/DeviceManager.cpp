@@ -106,7 +106,7 @@ void CDeviceManager::OnGetDeviceList(char* puId, char* puName, int status,
     {
         if (!onePU)
         {
-            int d_index = CMFCDemoApp::m_data.GetPuIndex(puId);
+            DWORD_PTR d_index = CMFCDemoApp::m_data.GetPuIndex(puId);
             if (d_index)
             {
                 char displayname[128] = { 0 };
@@ -195,7 +195,7 @@ void CDeviceManager::AddDeviceTreeNode(MPUChannelInfo* pPuChannelInfo)
     {
         if (!onePU)
         {
-            int d_index = CMFCDemoApp::m_data.GetPuIndex(pPuChannelInfo->szPUID);
+            DWORD_PTR d_index = CMFCDemoApp::m_data.GetPuIndex(pPuChannelInfo->szPUID);
             if (d_index)
             {
                 onePU = m_DeviceTree.GetRootItem();
@@ -280,7 +280,7 @@ HTREEITEM CDeviceManager::FindChannelItem(const char* puId, int channelIndex)
     HTREEITEM oneChannel = NULL;
     if (onePU)
     {
-        int pu_index = m_DeviceTree.GetItemData(onePU);
+        DWORD_PTR pu_index = m_DeviceTree.GetItemData(onePU);
         MPUChannelInfo puInfo;
         ZeroMemory(&puInfo, sizeof(puInfo));
         if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(pu_index, &puInfo)))
@@ -379,7 +379,7 @@ void CDeviceManager::OnNMClickDeviceList(NMHDR *pNMHDR, LRESULT *pResult)
             if (hTree == m_DeviceTree.GetRootItem())
                 break;
             m_DeviceTree.SelectItem(hTree);
-            int iTreeData = m_DeviceTree.GetItemData(hTree);
+            DWORD_PTR iTreeData = m_DeviceTree.GetItemData(hTree);
             MPUChannelInfo puInfo;
             memset(&puInfo, 0, sizeof(puInfo));
             if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(iTreeData, &puInfo)))
@@ -396,7 +396,7 @@ void CDeviceManager::OnNMClickDeviceList(NMHDR *pNMHDR, LRESULT *pResult)
                 ClearTabAllItems();
                 HTREEITEM hDeviceTree = m_DeviceTree.GetParentItem(hTree);
                 if (!hDeviceTree) break;
-                int pu_index = m_DeviceTree.GetItemData(hDeviceTree);
+                DWORD_PTR pu_index = m_DeviceTree.GetItemData(hDeviceTree);
                 if (BVCU_Result_FAILED(CMFCDemoApp::m_data.GetPu(pu_index, &puInfo)))
                     break;
                 int iChannelNo = iTreeData;

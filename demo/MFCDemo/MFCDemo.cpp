@@ -229,7 +229,7 @@ void  CMFCDemoApp::OnGetPuList(BVCU_HSession hSession, char* puId, char* puName,
 		if (!onePU)
 		{
             ++CMLibBVCU::m_iLoadPUCount;
-			int d_index = m_data.InsertPu(puId,puName,status,channel,channelNo);
+			DWORD_PTR d_index = m_data.InsertPu(puId,puName,status,channel,channelNo);
 			if (d_index)
 			{
                 onePU = pPuListView->GetRootItem();

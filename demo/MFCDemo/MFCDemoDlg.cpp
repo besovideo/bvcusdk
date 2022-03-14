@@ -385,7 +385,7 @@ HTREEITEM CMFCDemoDlg::FindChannelItem(const char* puId, int channelIndex)
 	HTREEITEM oneChannel = NULL;
 	if (onePU)
 	{
-		int pu_index = m_puList.GetItemData(onePU);
+		DWORD_PTR pu_index = m_puList.GetItemData(onePU);
 		MPUChannelInfo puInfo;
 		ZeroMemory(&puInfo,sizeof(puInfo));
 		if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(pu_index,&puInfo)))
@@ -414,7 +414,7 @@ void CMFCDemoDlg::OnNMDblclkChannelList(NMHDR *pNMHDR, LRESULT *pResult)
 	HTREEITEM onePU = m_puList.GetParentItem(oneChannel);
 	if (onePU)
 	{
-		int pu_index = m_puList.GetItemData(onePU);
+		DWORD_PTR pu_index = m_puList.GetItemData(onePU);
 		MPUChannelInfo puInfo;
 		ZeroMemory(&puInfo,sizeof(puInfo));
 		if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(pu_index,&puInfo)))
@@ -583,7 +583,7 @@ void CMFCDemoDlg::OnNMRClickChannelList(NMHDR *pNMHDR, LRESULT *pResult)
 	HTREEITEM hChild = m_puList.GetNextSiblingItem(oneChannel);
 	if (hParent && hChild)
 	{
-		int iPuIndex = m_puList.GetItemData(hParent);
+		DWORD_PTR iPuIndex = m_puList.GetItemData(hParent);
 		MPUChannelInfo puInfo;
 		ZeroMemory(&puInfo, sizeof(puInfo));
 		if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(iPuIndex, &puInfo)))
@@ -623,7 +623,7 @@ void CMFCDemoDlg::OnPopupMenu(UINT nID)
 	HTREEITEM onePU = m_puList.GetParentItem(oneChannel);
 	if (onePU)
 	{
-		int pu_index = m_puList.GetItemData(onePU);
+		DWORD_PTR pu_index = m_puList.GetItemData(onePU);
 		MPUChannelInfo puInfo;
 		ZeroMemory(&puInfo,sizeof(puInfo));
 		if (BVCU_Result_SUCCEEDED(CMFCDemoApp::m_data.GetPu(pu_index, &puInfo)))

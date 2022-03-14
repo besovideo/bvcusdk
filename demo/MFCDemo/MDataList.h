@@ -36,13 +36,13 @@ public:
 	~CMDataList(void);
 
 	/* return BVCU_RESULT_* */
-	int    GetPu(int Index,MPUChannelInfo* pPuChannelInfo);
+	int    GetPu(DWORD_PTR Index,MPUChannelInfo* pPuChannelInfo);
 	/* return BVCU_RESULT_* */
 	int    GetPu(const char* puId,MPUChannelInfo* pPuChannelInfo);
 	/* return Index or 0:not found */
-	int    GetPuIndex(const char* puId);
+	DWORD_PTR GetPuIndex(const char* puId);
 	/* return Index (0:failed) */
-	int    InsertPu(char* puId, char* puName, int status, BVCU_PUOneChannelInfo* channel, int channelNo);
+	DWORD_PTR InsertPu(char* puId, char* puName, int status, BVCU_PUOneChannelInfo* channel, int channelNo);
 	/* return BVCU_RESULT_* */
 	int    SetPuStatus(const char* puId, int status);
 	/* return BVCU_RESULT_* */

@@ -16,7 +16,7 @@ CMDataList::~CMDataList(void)
 	DeleteCriticalSection(&m_dialogLock);
 }
 
-int    CMDataList::GetPu(int Index,MPUChannelInfo* pPuChannelInfo)
+int CMDataList::GetPu(DWORD_PTR Index,MPUChannelInfo* pPuChannelInfo)
 {
 	if ( Index )
 	{
@@ -24,7 +24,7 @@ int    CMDataList::GetPu(int Index,MPUChannelInfo* pPuChannelInfo)
 		list<MPUChannelInfo*>::iterator iPu = m_puList.begin();
 		while(iPu != m_puList.end())
 		{
-			if ((int)*iPu == Index)
+			if ((DWORD_PTR)*iPu == Index)
 				break;
 			++ iPu;
 		}
@@ -67,7 +67,7 @@ int    CMDataList::GetPu(const char* puId,MPUChannelInfo* pPuChannelInfo)
 	}
 	return BVCU_RESULT_E_FAILED;
 }
-int    CMDataList::GetPuIndex(const char* puId)
+DWORD_PTR CMDataList::GetPuIndex(const char* puId)
 {
 	if ( puId )
 	{
@@ -84,13 +84,13 @@ int    CMDataList::GetPuIndex(const char* puId)
 		if (iPu != m_puList.end())
 		{ // find 
 			LeaveCriticalSection(&m_puLock);
-			return (int)onePu;
+			return (DWORD_PTR)onePu;
 		}
 		LeaveCriticalSection(&m_puLock);
 	}
 	return 0;
 }
-int    CMDataList::InsertPu(char* puId, char* puName, int status, BVCU_PUOneChannelInfo* channel, int channelNo)
+DWORD_PTR CMDataList::InsertPu(char* puId, char* puName, int status, BVCU_PUOneChannelInfo* channel, int channelNo)
 {
 	if ( puId )
 	{
@@ -116,7 +116,7 @@ int    CMDataList::InsertPu(char* puId, char* puName, int status, BVCU_PUOneChan
 
 			m_puList.push_back(onePu);
 			LeaveCriticalSection(&m_puLock);
-			return (int)onePu;
+			return (DWORD_PTR)onePu;
 		}
 		else
 			return 0;
