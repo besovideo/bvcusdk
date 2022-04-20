@@ -347,7 +347,8 @@ typedef struct  _BVCU_PUCFG_AudioIn{
     int iBitsPerSample;// 采样精度
     int iVolume;// 音量
 
-    BVCU_PUCFG_AudioVqe stVqe; // 音频处理
+    BVCU_PUCFG_AudioVqe stVqe;  // 音频处理
+    int iEnableHalfDuplex;      // 是否开启半双工，默认关闭，0：关闭，1：开启
 }BVCU_PUCFG_AudioIn;
 
 // 音频输出
@@ -1260,5 +1261,12 @@ typedef struct _BVCU_PUCFG_UserOperate
     int  iOperate;                          // 0:代表解绑操作，1:代表绑定操作 
     char szReason[128];                     // 描述当前绑定 
 }BVCU_PUCFG_UserOperate;
+
+typedef struct _BVCU_PUCFG_UploadConfig
+{
+    int snapshotAutoUpload;         // 拍照自动上传，默认上传，0：不上传，1：上传
+    int imptFileAutoUpload;         // 重点文件自动上传，默认上传，0：不上传，1：上传
+    int delUploadedFile;            // 上传后删除本地文件，默认不删除，0：不删除，1：删除
+}BVCU_PUCFG_UploadConfig;
 #endif
 

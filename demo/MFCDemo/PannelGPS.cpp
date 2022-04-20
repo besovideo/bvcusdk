@@ -13,23 +13,23 @@ BOOL bSend = TRUE; //global value
 IMPLEMENT_DYNAMIC(CPannelGPS, CDialogEx)
 
 CPannelGPS::CPannelGPS(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CPannelGPS::IDD, pParent)
-	, m_ShowGPSStr(_T(""))
-	, m_szTspData(_T(""))
+    : CDialogEx(CPannelGPS::IDD, pParent)
+    , m_ShowGPSStr(_T(""))
+    , m_szTspData(_T(""))
     , m_bHexString(FALSE)
-	, m_gpsoutfile(NULL)
+    , m_gpsoutfile(NULL)
 {
-	InitializeCriticalSection(&m_cs);
-	memset(&m_splitInfo, 0, sizeof(m_splitInfo));
-	/*m_ShowGPSStr.Format("\r\n设备: PU_00000000\r\n时间: 2012.12.25  16:32:05\r\n"
-		"\r\n经度: 117.11111\r\n纬度: 31.22222\r\n"
-		"\r\n高度: 11111\r\n方向: 111.111\r\n速度: 120000\r\n"
-		"\r\n定位星数: 20\r\n天线状态: 好\r\n定位状态: 定位");*/
+    InitializeCriticalSection(&m_cs);
+    memset(&m_splitInfo, 0, sizeof(m_splitInfo));
+    /*m_ShowGPSStr.Format("\r\n设备: PU_00000000\r\n时间: 2012.12.25  16:32:05\r\n"
+        "\r\n经度: 117.11111\r\n纬度: 31.22222\r\n"
+        "\r\n高度: 11111\r\n方向: 111.111\r\n速度: 120000\r\n"
+        "\r\n定位星数: 20\r\n天线状态: 好\r\n定位状态: 定位");*/
 }
 
 CPannelGPS::~CPannelGPS()
 {
-	DeleteCriticalSection(&m_cs);
+    DeleteCriticalSection(&m_cs);
 }
 
 void CPannelGPS::DoDataExchange(CDataExchange* pDX)
@@ -44,92 +44,92 @@ void CPannelGPS::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPannelGPS, CDialogEx)
     ON_MESSAGE(WM_GPS_RECVDATA,OnRecvGPSData)
     ON_MESSAGE(WM_TSP_RECVDATA,OnRecvTSPData)
-	ON_MESSAGE(WM_GPS_CLOSE, OnCloseDialog)
-	ON_BN_CLICKED(IDC_SENDTSP, &CPannelGPS::OnBnClickedSendtsp)
-	ON_MESSAGE(WM_TSP_GPS_BSHOW, OnBShowGPSTSP)
+    ON_MESSAGE(WM_GPS_CLOSE, OnCloseDialog)
+    ON_BN_CLICKED(IDC_SENDTSP, &CPannelGPS::OnBnClickedSendtsp)
+    ON_MESSAGE(WM_TSP_GPS_BSHOW, OnBShowGPSTSP)
 ON_BN_CLICKED(IDC_CHECK1, &CPannelGPS::OnClickedHex)
 END_MESSAGE_MAP()
 
 LRESULT CPannelGPS::OnCloseDialog(WPARAM wParam, LPARAM lParam)
 {
-	UpdateData(TRUE);
-	CPlayContainer *pContainer = (CPlayContainer *)GetParent();
-	EnterCriticalSection(&m_cs);
-	if (m_splitInfo.pDialog)
-	{
-		mainDlg->CloseDialog(&m_splitInfo);
-	}
+    UpdateData(TRUE);
+    CPlayContainer *pContainer = (CPlayContainer *)GetParent();
+    EnterCriticalSection(&m_cs);
+    if (m_splitInfo.pDialog)
+    {
+        mainDlg->CloseDialog(&m_splitInfo);
+    }
     OnBShowGPSTSP(FALSE, 0);
-	memset(&m_splitInfo,0x00,sizeof(m_splitInfo));
-	LeaveCriticalSection(&m_cs);
+    memset(&m_splitInfo,0x00,sizeof(m_splitInfo));
+    LeaveCriticalSection(&m_cs);
     UpdateData(FALSE);
     if (m_gpsoutfile) {
         fclose(m_gpsoutfile);
         m_gpsoutfile = nullptr;
     }
-	return 0;
+    return 0;
 }
 
 BOOL CPannelGPS::BPlay()
 {
-	if (m_splitInfo.pDialog)
-		return TRUE;
-	return FALSE;
+    if (m_splitInfo.pDialog)
+        return TRUE;
+    return FALSE;
 }
 
 BOOL CPannelGPS::GetSplitInfo(SplitInfoNode* info)
 {
-	if (!info)
-	{
-		return FALSE;
-	}
+    if (!info)
+    {
+        return FALSE;
+    }
 
-	EnterCriticalSection(&m_cs);
-	memcpy(info, &m_splitInfo, sizeof(SplitInfoNode));
-	LeaveCriticalSection(&m_cs);
+    EnterCriticalSection(&m_cs);
+    memcpy(info, &m_splitInfo, sizeof(SplitInfoNode));
+    LeaveCriticalSection(&m_cs);
 
-	return TRUE;
+    return TRUE;
 }
 
 BOOL CPannelGPS::SetSplitInfo(SplitInfoNode* info)
 {
-	if (!info)
-	{
-		return FALSE;
-	}
+    if (!info)
+    {
+        return FALSE;
+    }
 
-	UpdateData(TRUE);
-	EnterCriticalSection(&m_cs);
-	memcpy(&m_splitInfo, info, sizeof(SplitInfoNode));
-	LeaveCriticalSection(&m_cs);
-	m_ShowGPSStr.Format("\r\n设备: %s\r\n", m_splitInfo.sPUID);
-	UpdateData(FALSE);
-	return TRUE;
+    UpdateData(TRUE);
+    EnterCriticalSection(&m_cs);
+    memcpy(&m_splitInfo, info, sizeof(SplitInfoNode));
+    LeaveCriticalSection(&m_cs);
+    m_ShowGPSStr.Format("\r\n设备: %s\r\n", m_splitInfo.sPUID);
+    UpdateData(FALSE);
+    return TRUE;
 }
 
 static char* g_gpsFormat = "设备: %s\r\n时间: %4d-%02d-%02d %02d:%02d:%02d\r\n"
-	"经度: %.7f  纬度: %.7f\r\n"
-	"高度: %.7f米  方向: %.7f  速度: %d米/小时\r\n"
-	"定位星数: %d  天线状态: %s  定位状态: %s";
+    "经度: %.7f  纬度: %.7f\r\n"
+    "高度: %.7f米  方向: %.7f  速度: %d米/小时\r\n"
+    "定位星数: %d  天线状态: %s  定位状态: %s";
 // CPannelGPS message handlers
 LRESULT CPannelGPS::OnRecvGPSData(WPARAM wParam, LPARAM lParam)
 {
-	UpdateData(TRUE);
-	BVCU_HDialog pDialog = (BVCU_HDialog)wParam;
-	BVCU_PUCFG_GPSData* pGPSData = (BVCU_PUCFG_GPSData*)lParam;
-	if (pDialog == m_splitInfo.pDialog && pGPSData)
-	{
-		BVCU_WallTime* pTime = &(pGPSData->stTime);
-		m_ShowGPSStr.Format(g_gpsFormat, m_splitInfo.sPUID,
-			pTime->iYear,pTime->iMonth,pTime->iDay,pTime->iHour,pTime->iMinute,pTime->iSecond,
-			((double)pGPSData->iLongitude)/10000000.0, ((double)pGPSData->iLatitude)/10000000.0,
-			((double)pGPSData->iHeight)/100.0, ((double)pGPSData->iAngle)/1000.0, pGPSData->iSpeed,
-			pGPSData->iStarCount, pGPSData->bAntennaState ? "好" : "坏",
-			pGPSData->bOrientationState ? "定位" : "未定位"
-			);
-		if (m_gpsoutfile == nullptr)
-			m_gpsoutfile = fopen("gpsdata.log", "w");
-		if (m_gpsoutfile) {
+    UpdateData(TRUE);
+    BVCU_HDialog pDialog = (BVCU_HDialog)wParam;
+    BVCU_PUCFG_GPSData* pGPSData = (BVCU_PUCFG_GPSData*)lParam;
+    if (pDialog == m_splitInfo.pDialog && pGPSData)
+    {
+        BVCU_WallTime* pTime = &(pGPSData->stTime);
+        m_ShowGPSStr.Format(g_gpsFormat, m_splitInfo.sPUID,
+            pTime->iYear,pTime->iMonth,pTime->iDay,pTime->iHour,pTime->iMinute,pTime->iSecond,
+            ((double)pGPSData->iLongitude)/10000000.0, ((double)pGPSData->iLatitude)/10000000.0,
+            ((double)pGPSData->iHeight)/100.0, ((double)pGPSData->iAngle)/1000.0, pGPSData->iSpeed,
+            pGPSData->iStarCount, pGPSData->bAntennaState ? "好" : "坏",
+            pGPSData->bOrientationState ? "定位" : "未定位"
+            );
+        if (m_gpsoutfile == nullptr)
+            m_gpsoutfile = fopen("gpsdata.log", "w");
+        if (m_gpsoutfile) {
             fprintf(m_gpsoutfile, "\nrecv gps data time: %ld \n", time(nullptr));
             fprintf(m_gpsoutfile, "puid: %s\ngpstime: %4d-%02d-%02d %02d:%02d:%02d\n"
                 "Lon: %.7f    Lat: %.7f\n"
@@ -141,15 +141,15 @@ LRESULT CPannelGPS::OnRecvGPSData(WPARAM wParam, LPARAM lParam)
                 pGPSData->iStarCount, pGPSData->bAntennaState ? "good" : "bad",
                 pGPSData->bOrientationState ? "valid" : "invalid"
             );
-		}
-	}
-	UpdateData(FALSE);
-	return 0;
+        }
+    }
+    UpdateData(FALSE);
+    return 0;
 }
 
 LRESULT CPannelGPS::OnRecvTSPData(WPARAM wParam, LPARAM lParam)
 {
-	UpdateData(TRUE);
+    UpdateData(TRUE);
     BVCU_HDialog pDialog = (BVCU_HDialog)wParam;
     char* pTSPData = (char*)lParam + sizeof(int);
     int len = *((int*)lParam);
@@ -170,31 +170,31 @@ LRESULT CPannelGPS::OnRecvTSPData(WPARAM wParam, LPARAM lParam)
 
 LRESULT CPannelGPS::OnBShowGPSTSP(WPARAM wParam, LPARAM lParam)
 {
-	BOOL bShow = (BOOL)(wParam);
+    BOOL bShow = (BOOL)(wParam);
     GetDlgItem(IDC_TSPDATA)->EnableWindow(bShow);
     GetDlgItem(IDC_CHECK1)->EnableWindow(bShow);
-	GetDlgItem(IDC_SENDTSP)->EnableWindow(bShow);
-	return 0;
+    GetDlgItem(IDC_SENDTSP)->EnableWindow(bShow);
+    return 0;
 }
 
 void CPannelGPS::OnBnClickedSendtsp()
 {
-	// TODO: Add your control notification handler code here
-	if (NULL == CMFCDemoApp::m_SendTspDialog)
-	{
-		::AfxMessageBox(_T("请打开设备TSP通道"));
+    // TODO: Add your control notification handler code here
+    if (NULL == CMFCDemoApp::m_SendTspDialog)
+    {
+        ::AfxMessageBox(_T("请打开设备TSP通道"));
         GetDlgItem(IDC_TSPDATA)->EnableWindow(FALSE);
         GetDlgItem(IDC_CHECK1)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SENDTSP)->EnableWindow(FALSE);
-		return;
-	}
-	UpdateData(TRUE);
-	if (0 == m_szTspData.GetLength())
-	{
-		::AfxMessageBox(_T("请输入透明串口数据"));
-		return;
-	}
-	SAV_TYPE_UINT8 * pSendData =  (SAV_TYPE_UINT8*)m_szTspData.GetBuffer();
+        GetDlgItem(IDC_SENDTSP)->EnableWindow(FALSE);
+        return;
+    }
+    UpdateData(TRUE);
+    if (0 == m_szTspData.GetLength())
+    {
+        ::AfxMessageBox(_T("请输入透明串口数据"));
+        return;
+    }
+    SAV_TYPE_UINT8 * pSendData =  (SAV_TYPE_UINT8*)m_szTspData.GetBuffer();
     SAV_TYPE_INT32 iSendLen = strlen((char*)pSendData);
     int result = BVCU_RESULT_S_OK;
     if (m_bHexString)
@@ -206,12 +206,12 @@ void CPannelGPS::OnBnClickedSendtsp()
     }
     else
         result = CMLibBVCU::SendTspData(CMFCDemoApp::m_SendTspDialog, pSendData, iSendLen);
-	if (!BVCU_Result_SUCCEEDED(result))
-	{
-		::AfxMessageBox(_T("发送失败"));
-		return;
-	}
-	UpdateData(FALSE);
+    if (!BVCU_Result_SUCCEEDED(result))
+    {
+        ::AfxMessageBox(_T("发送失败"));
+        return;
+    }
+    UpdateData(FALSE);
 }
 
 void CPannelGPS::OnClickedHex()

@@ -15,7 +15,7 @@ using namespace std;
 IMPLEMENT_DYNAMIC(CDeviceManager, CDialogEx)
 
 CDeviceManager::CDeviceManager(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_DEVICE_MANAGER, pParent)
+    : CDialogEx(IDD_DIALOG_DEVICE_MANAGER, pParent)
 {
 
 }

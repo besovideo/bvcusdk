@@ -7,20 +7,20 @@ class CDeviceManager;
 
 class CBVPuWifi : public CDialogEx
 {
-	DECLARE_DYNAMIC(CBVPuWifi)
+    DECLARE_DYNAMIC(CBVPuWifi)
 
 public:
-	CBVPuWifi(CWnd* pParent = NULL);   // standard constructor
+    CBVPuWifi(CWnd* pParent = NULL);   // standard constructor
     CBVPuWifi(CDeviceManager* parent);
-	virtual ~CBVPuWifi();
+    virtual ~CBVPuWifi();
 
 // Dialog Data
-	enum { IDD = IDD_DIALOG_PU_WIFI };
+    enum { IDD = IDD_DIALOG_PU_WIFI };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     virtual BOOL OnInitDialog();
 private:

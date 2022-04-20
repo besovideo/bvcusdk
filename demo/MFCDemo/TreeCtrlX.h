@@ -4,27 +4,27 @@
 
 struct Color_Font
 {
-	COLORREF color;
-	LOGFONT logfont;
+    COLORREF color;
+    LOGFONT logfont;
 };
 
 class CTreeCtrlX :
-	public CTreeCtrl
+    public CTreeCtrl
 {
 private:
-	CMap< void*, void*, Color_Font, Color_Font& > m_mapColorFont ;
+    CMap< void*, void*, Color_Font, Color_Font& > m_mapColorFont ;
 public:
-	CTreeCtrlX(void);
-	~CTreeCtrlX(void);
+    CTreeCtrlX(void);
+    ~CTreeCtrlX(void);
 
-	void SetItemFont(HTREEITEM hItem, LOGFONT& logfont);
-	void SetItemBold(HTREEITEM hItem, BOOL bBold);
-	void SetItemColor(HTREEITEM hItem, COLORREF color);
-	BOOL GetItemFont(HTREEITEM hItem, LOGFONT * plogfont);
-	BOOL GetItemBold(HTREEITEM hItem);
-	COLORREF GetItemColor(HTREEITEM hItem);
+    void SetItemFont(HTREEITEM hItem, LOGFONT& logfont);
+    void SetItemBold(HTREEITEM hItem, BOOL bBold);
+    void SetItemColor(HTREEITEM hItem, COLORREF color);
+    BOOL GetItemFont(HTREEITEM hItem, LOGFONT * plogfont);
+    BOOL GetItemBold(HTREEITEM hItem);
+    COLORREF GetItemColor(HTREEITEM hItem);
 
-	afx_msg void OnPaint();
-	DECLARE_MESSAGE_MAP()
+    afx_msg void OnPaint();
+    DECLARE_MESSAGE_MAP()
 };
 

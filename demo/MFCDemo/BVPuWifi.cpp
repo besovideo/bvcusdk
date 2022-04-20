@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CBVPuWifi, CDialogEx)
 
 CBVPuWifi::CBVPuWifi(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_PU_WIFI, pParent)
+    : CDialogEx(IDD_DIALOG_PU_WIFI, pParent)
 {
 
 }
@@ -29,7 +29,7 @@ CBVPuWifi::~CBVPuWifi()
 
 void CBVPuWifi::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 

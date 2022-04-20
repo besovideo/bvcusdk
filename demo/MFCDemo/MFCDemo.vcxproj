@@ -234,7 +234,6 @@
     <ClInclude Include="PannelGPS.h" />
     <ClInclude Include="PannelNormal.h" />
     <ClInclude Include="PannelPTZ.h" />
-    <ClInclude Include="PannelRecordPlay.h" />
     <ClInclude Include="PannelRecPlayRemote.h" />
     <ClInclude Include="PannelSelect.h" />
     <ClInclude Include="PannelTest.h" />
@@ -266,7 +265,6 @@
     <ClCompile Include="PannelGPS.cpp" />
     <ClCompile Include="PannelNormal.cpp" />
     <ClCompile Include="PannelPTZ.cpp" />
-    <ClCompile Include="PannelRecordPlay.cpp" />
     <ClCompile Include="PannelRecPlayRemote.cpp" />
     <ClCompile Include="PannelSelect.cpp" />
     <ClCompile Include="PannelTest.cpp" />

@@ -358,6 +358,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_PU_VIDEOIN_CMOS,//视频输入CMOS属性。输入类型：BVCU_PUCFG_ImageExposure；输出类型：无
     BVCU_SUBMETHOD_PU_ZFYINFO,//设备相关的执法记录仪信息。输入类型：BVCU_PUCFG_ZFYInfo;输出类型：无
     BVCU_SUBMETHOD_PU_MISCHARDWARE,//设备外围硬件信息。输入类型：BVCU_PUCFG_MiscHardware数组;输出类型：无。查询时回复的是设备支持的所有硬件信息数组，设置时可以只是修改的硬件信息。
+    BVCU_SUBMETHOD_PU_UPLOAD,   // 上传属性，输入类型：BVCU_PUCFG_UploadConfig;输出类型：无
 
     //VTDU部分
     BVCU_SUBMETHOD_VTDU_INFO = 0x10F00,//VTDU信息。输入类型：BVCU_VTDUCFG_VTDUInfo；输出类型：无

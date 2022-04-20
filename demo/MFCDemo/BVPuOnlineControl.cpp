@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CBVPuOnlineControl, CDialogEx)
 
 CBVPuOnlineControl::CBVPuOnlineControl(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_ONLINE_CONTROL, pParent)
+    : CDialogEx(IDD_DIALOG_ONLINE_CONTROL, pParent)
 {
 
 }
@@ -30,7 +30,7 @@ CBVPuOnlineControl::~CBVPuOnlineControl()
 
 void CBVPuOnlineControl::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 BEGIN_MESSAGE_MAP(CBVPuOnlineControl, CDialogEx)

@@ -5,31 +5,31 @@
 
 class CPannelCruise : public CDialogEx
 {
-	DECLARE_DYNAMIC(CPannelCruise)
+    DECLARE_DYNAMIC(CPannelCruise)
 
 public:
-	CPannelCruise(CWnd* pParent = NULL);   // standard constructor
-	virtual ~CPannelCruise();
+    CPannelCruise(CWnd* pParent = NULL);   // standard constructor
+    virtual ~CPannelCruise();
 
 // Dialog Data
-	enum { IDD = IDD_PANNEL_CRUISE };
+    enum { IDD = IDD_PANNEL_CRUISE };
 protected:
-	CPannelPTZ* m_brother;
-//	BOOL        m_bCruise_go;
-	int         m_cruise_now;
+    CPannelPTZ* m_brother;
+//    BOOL        m_bCruise_go;
+    int         m_cruise_now;
 public:
-	void  ClearStatus();
-	void  SetBrother(CPannelPTZ* brother);
-	void  SetPtzAttr(BVCU_PUCFG_PTZAttr* ptzAttr);
+    void  ClearStatus();
+    void  SetBrother(CPannelPTZ* brother);
+    void  SetPtzAttr(BVCU_PUCFG_PTZAttr* ptzAttr);
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	CComboBox m_PresetList;
-	CComboBox m_cruiseList;
-	afx_msg void OnBnClickedPresetGo();
-	afx_msg void OnBnClickedCruiseGo();
-	afx_msg void OnSelchangeCruiseList();
+    CComboBox m_PresetList;
+    CComboBox m_cruiseList;
+    afx_msg void OnBnClickedPresetGo();
+    afx_msg void OnBnClickedCruiseGo();
+    afx_msg void OnSelchangeCruiseList();
 };

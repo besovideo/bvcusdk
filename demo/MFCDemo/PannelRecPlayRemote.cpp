@@ -16,7 +16,7 @@ static const int PLAY_WND_PAGE_INDEX = 0; //播放使用的窗口
 IMPLEMENT_DYNAMIC(CPannelRecPlayRemote, CDialogEx)
 
 CPannelRecPlayRemote::CPannelRecPlayRemote(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CPannelRecPlayRemote::IDD, pParent)
+    : CDialogEx(CPannelRecPlayRemote::IDD, pParent)
 {
 }
 
@@ -26,7 +26,7 @@ CPannelRecPlayRemote::~CPannelRecPlayRemote()
 
 void CPannelRecPlayRemote::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 
     SetDlgItemInt(IDC_EDIT_REMOTE_PLAY_SPEED, 100);
     SetDlgItemInt(IDC_EDIT_REMOTE_PLAY_OPEN, 0);

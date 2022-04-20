@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CBVGpsData, CDialogEx)
 
 CBVGpsData::CBVGpsData(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_GPSDATA, pParent)
+    : CDialogEx(IDD_DIALOG_GPSDATA, pParent)
 {
 
 }
@@ -32,7 +32,7 @@ CBVGpsData::~CBVGpsData()
 
 void CBVGpsData::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 BEGIN_MESSAGE_MAP(CBVGpsData, CDialogEx)

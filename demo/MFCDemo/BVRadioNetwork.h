@@ -7,20 +7,20 @@ class CDeviceManager;
 
 class CBVRadioNetwork : public CDialogEx
 {
-	DECLARE_DYNAMIC(CBVRadioNetwork)
+    DECLARE_DYNAMIC(CBVRadioNetwork)
 
 public:
     CBVRadioNetwork(CWnd* pParent = NULL);   // standard constructor
     CBVRadioNetwork(CDeviceManager* parent);
-	virtual ~CBVRadioNetwork();
+    virtual ~CBVRadioNetwork();
 
 // Dialog Data
-	enum { IDD = IDD_DIALOG_RADIONETWORK };
+    enum { IDD = IDD_DIALOG_RADIONETWORK };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
     virtual BOOL OnInitDialog();
 private:

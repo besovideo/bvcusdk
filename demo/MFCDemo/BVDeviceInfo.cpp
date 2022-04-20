@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CBVDeviceInfo, CDialogEx)
 
 CBVDeviceInfo::CBVDeviceInfo(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_DEVICEINFO, pParent)
+    : CDialogEx(IDD_DIALOG_DEVICEINFO, pParent)
 {
 
 }
@@ -30,7 +30,7 @@ CBVDeviceInfo::~CBVDeviceInfo()
 
 void CBVDeviceInfo::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 

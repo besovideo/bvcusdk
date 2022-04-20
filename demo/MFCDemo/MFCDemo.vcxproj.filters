@@ -84,9 +84,6 @@
     <ClInclude Include="PannelGPS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PannelRecordPlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PannelTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -168,9 +165,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PannelGPS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PannelRecordPlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PannelTest.cpp">

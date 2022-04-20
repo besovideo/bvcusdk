@@ -88,12 +88,12 @@ public:
     static int  RecordPlayRemotePause(BVCU_HDialog phDialog); // 远程录像回放
     static int  RecordPlayRemotePlay(BVCU_HDialog phDialog); // 远程录像回放
     static int  RecordPlayRemotePlaySpeed(BVCU_HDialog phDialog, int speed); // 远程录像
-	static int TalkOnly(BVCU_HDialog* phDialog, const char* puId, int channel);
+    static int TalkOnly(BVCU_HDialog* phDialog, const char* puId, int channel);
     static int  SaveVideo(BVCU_HDialog hDialog,const char* folder,int iFileLenInSeconds);
     static int  ResizeDialogWindow(BVCU_HDialog hDialog,RECT* newRect);
 
     static BVCU_Result SendCmd(const BVCU_Command* pCmd);
 
-	static int CMLibBVCU::SendTspData(BVCU_HDialog hDialog, SAV_TYPE_UINT8 * SavData, SAV_TYPE_INT32 iSavDataLen);
+    static int CMLibBVCU::SendTspData(BVCU_HDialog hDialog, SAV_TYPE_UINT8 * SavData, SAV_TYPE_INT32 iSavDataLen);
 };
 

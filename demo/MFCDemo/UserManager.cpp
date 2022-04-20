@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CUserManager, CDialogEx)
 
 CUserManager::CUserManager(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_USER_MANAGER, pParent)
+    : CDialogEx(IDD_DIALOG_USER_MANAGER, pParent)
 {
 
 }
@@ -30,7 +30,7 @@ CUserManager::~CUserManager()
 
 void CUserManager::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 

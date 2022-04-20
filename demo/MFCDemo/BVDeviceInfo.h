@@ -8,19 +8,19 @@ class CDeviceManager;
 
 class CBVDeviceInfo : public CDialogEx
 {
-	DECLARE_DYNAMIC(CBVDeviceInfo)
+    DECLARE_DYNAMIC(CBVDeviceInfo)
 
 public:
-	CBVDeviceInfo(CWnd* pParent = NULL);   // standard constructor
+    CBVDeviceInfo(CWnd* pParent = NULL);   // standard constructor
     CBVDeviceInfo(CDeviceManager* parent);
-	virtual ~CBVDeviceInfo();
+    virtual ~CBVDeviceInfo();
 
 // Dialog Data
-	enum { IDD = IDD_DIALOG_DEVICEINFO };
+    enum { IDD = IDD_DIALOG_DEVICEINFO };
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 private:
     CDeviceManager* m_Parent;
     BVCU_PUCFG_DeviceInfo m_deviceInfo;

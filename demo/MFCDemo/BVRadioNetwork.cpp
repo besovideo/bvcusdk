@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CBVRadioNetwork, CDialogEx)
 
 CBVRadioNetwork::CBVRadioNetwork(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_RADIONETWORK, pParent)
+    : CDialogEx(IDD_DIALOG_RADIONETWORK, pParent)
 {
 
 }
@@ -30,7 +30,7 @@ CBVRadioNetwork::~CBVRadioNetwork()
 
 void CBVRadioNetwork::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 

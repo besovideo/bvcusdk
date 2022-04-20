@@ -13,7 +13,7 @@
 IMPLEMENT_DYNAMIC(CBVPuServers, CDialogEx)
 
 CBVPuServers::CBVPuServers(CWnd* pParent /*=NULL*/)
-	: CDialogEx(IDD_DIALOG_PU_SERVERS, pParent)
+    : CDialogEx(IDD_DIALOG_PU_SERVERS, pParent)
 {
 
 }
@@ -31,7 +31,7 @@ CBVPuServers::~CBVPuServers()
 
 void CBVPuServers::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 

@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CPannelSelect, CDialogEx)
 
 CPannelSelect::CPannelSelect(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CPannelSelect::IDD, pParent)
+    : CDialogEx(CPannelSelect::IDD, pParent)
 {
 
 }
@@ -23,18 +23,17 @@ CPannelSelect::~CPannelSelect()
 
 void CPannelSelect::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 
 BEGIN_MESSAGE_MAP(CPannelSelect, CDialogEx)
-	ON_BN_CLICKED(IDC_SEL_PTZ, &CPannelSelect::OnBnClickedSelPtz)
-	ON_BN_CLICKED(IDC_SEL_NORMAL, &CPannelSelect::OnBnClickedSelNormal)
-	ON_BN_CLICKED(IDC_SEL_SET, &CPannelSelect::OnBnClickedSelSet)
-	ON_BN_CLICKED(IDC_SEL_PULIST, &CPannelSelect::OnBnClickedSelGPS)
+    ON_BN_CLICKED(IDC_SEL_PTZ, &CPannelSelect::OnBnClickedSelPtz)
+    ON_BN_CLICKED(IDC_SEL_NORMAL, &CPannelSelect::OnBnClickedSelNormal)
+    ON_BN_CLICKED(IDC_SEL_SET, &CPannelSelect::OnBnClickedSelSet)
+    ON_BN_CLICKED(IDC_SEL_PULIST, &CPannelSelect::OnBnClickedSelGPS)
     ON_BN_CLICKED(IDC_BUTTON5, &CPannelSelect::OnBnClickedButton5)
-ON_BN_CLICKED(IDC_SEL_RECORDPLAY, &CPannelSelect::OnClickedSelRecordplay)
-ON_BN_CLICKED(IDC_SEL_RECPLAY_REMOTE, &CPannelSelect::OnBnClickedSelRecplayRemote)
+    ON_BN_CLICKED(IDC_SEL_RECPLAY_REMOTE, &CPannelSelect::OnBnClickedSelRecplayRemote)
 END_MESSAGE_MAP()
 
 
@@ -43,30 +42,30 @@ END_MESSAGE_MAP()
 
 void CPannelSelect::OnBnClickedSelPtz()
 {
-	// TODO: Add your control notification handler code here
-	((CMFCDemoDlg*)GetParent())->OnPannelPtz();
+    // TODO: Add your control notification handler code here
+    ((CMFCDemoDlg*)GetParent())->OnPannelPtz();
 }
 
 
 void CPannelSelect::OnBnClickedSelNormal()
 {
-	// TODO: Add your control notification handler code here
-	((CMFCDemoDlg*)GetParent())->OnPannelNormal();
+    // TODO: Add your control notification handler code here
+    ((CMFCDemoDlg*)GetParent())->OnPannelNormal();
 }
 
 
 void CPannelSelect::OnBnClickedSelSet()
 {
-	// TODO: Add your control notification handler code here
-	//((CMFCDemoDlg*)GetParent())->OnPannelSet();
-	((CMFCDemoDlg*)GetParent())->OnPannelTest();
+    // TODO: Add your control notification handler code here
+    //((CMFCDemoDlg*)GetParent())->OnPannelSet();
+    ((CMFCDemoDlg*)GetParent())->OnPannelTest();
 }
 
 
 void CPannelSelect::OnBnClickedSelGPS()
 {
-	// TODO: Add your control notification handler code here
-	((CMFCDemoDlg*)GetParent())->OnPannelGPS();
+    // TODO: Add your control notification handler code here
+    ((CMFCDemoDlg*)GetParent())->OnPannelGPS();
 }
 
 /*void Query_Ftp_Record();
@@ -75,22 +74,15 @@ BVCU_FTP_HSession m_FtpSessionHandle = NULL;*/
 void CPannelSelect::OnBnClickedButton5()
 {
     ((CMFCDemoDlg*)GetParent())->OnPannelSearchPU();
-	/*if (NULL == m_FtpSessionHandle) 
-	{
-		Login_Ftp();
-	}
-	else
-	{
-		Query_Ftp_Record();
-	}*/
+    /*if (NULL == m_FtpSessionHandle) 
+    {
+        Login_Ftp();
+    }
+    else
+    {
+        Query_Ftp_Record();
+    }*/
 
-}
-
-
-void CPannelSelect::OnClickedSelRecordplay()
-{
-	// TODO: 在此添加控件通知处理程序代码
-	((CMFCDemoDlg*)GetParent())->OnPannelRecordPlay();
 }
 
 void CPannelSelect::OnBnClickedSelRecplayRemote()
@@ -101,32 +93,32 @@ void CPannelSelect::OnBnClickedSelRecplayRemote()
 
 /*void ms_On_Ftp_Event(BVCU_FTP_HSession hSession, int iEventCode, void* pParam)
 {
-	BVCU_Result result = ((BVCU_Event_Common*)pParam)->iResult;
-	printf_s("\n\n=========ms_On_Ftp_Event: hSession:%d, iEventCode:%d, result:%d.\n\n", hSession, iEventCode, result);
+    BVCU_Result result = ((BVCU_Event_Common*)pParam)->iResult;
+    printf_s("\n\n=========ms_On_Ftp_Event: hSession:%d, iEventCode:%d, result:%d.\n\n", hSession, iEventCode, result);
 }
 void ms_On_Ftp_Cmd(BVCU_FTP_HSession hSession, BVCU_FTP_Command* pCommand, int iEventCode, void* pParam)
 {
-	BVCU_Event_SessionCmd* sessionCmd = (BVCU_Event_SessionCmd*)pParam;
-	int dataCount = sessionCmd->stContent.iDataCount;
+    BVCU_Event_SessionCmd* sessionCmd = (BVCU_Event_SessionCmd*)pParam;
+    int dataCount = sessionCmd->stContent.iDataCount;
 
-	string * fileNames = new string[dataCount];
-	BVCU_FTP_RecordFileInfo* infos = (BVCU_FTP_RecordFileInfo*)(sessionCmd->stContent.pData);
-	for (int i = 0;i < dataCount;i++)
-	{
-		fileNames[i] = string(infos[i].szFileName);
-	}
+    string * fileNames = new string[dataCount];
+    BVCU_FTP_RecordFileInfo* infos = (BVCU_FTP_RecordFileInfo*)(sessionCmd->stContent.pData);
+    for (int i = 0;i < dataCount;i++)
+    {
+        fileNames[i] = string(infos[i].szFileName);
+    }
 
-	printf_s("\n\n---------ms_On_Ftp_Cmd: hSession:%d, iResult:%d, dataCount:%d, iEventCode:%d.\n", 
-		hSession, sessionCmd->iResult, dataCount, iEventCode);
-	for (int i = 0;i < dataCount; i++)
-	{
-		printf_s("fileName: %s\n", fileNames[i]);
-	}
+    printf_s("\n\n---------ms_On_Ftp_Cmd: hSession:%d, iResult:%d, dataCount:%d, iEventCode:%d.\n", 
+        hSession, sessionCmd->iResult, dataCount, iEventCode);
+    for (int i = 0;i < dataCount; i++)
+    {
+        printf_s("fileName: %s\n", fileNames[i]);
+    }
 }
 
 void Login_Ftp()
 {
-	BVCU_FTP_ServerParam pParam;//= new BVCU_FTP_ServerParam();
+    BVCU_FTP_ServerParam pParam;//= new BVCU_FTP_ServerParam();
 
     memset(&pParam, 0, sizeof(pParam));
     pParam.iSize = sizeof(pParam);
@@ -145,12 +137,12 @@ void Login_Ftp()
     pParam.OnEvent = ms_On_Ftp_Event;
 
     BVCU_Result ret = BVCU_FTP_Login(&m_FtpSessionHandle, &pParam);
-	printf_s("\n\n+++++++++++++BVCU_FTP_Login:%d\n\n", ret);
+    printf_s("\n\n+++++++++++++BVCU_FTP_Login:%d\n\n", ret);
 }
 
 void Query_Ftp_Record()
 {
-	BVCU_FTP_Command cmd;
+    BVCU_FTP_Command cmd;
     memset(&cmd, 0, sizeof(BVCU_FTP_Command));
     cmd.iSize = sizeof(BVCU_FTP_Command);
     cmd.iMethod = BVCU_FTP_METHOD_SEARCH_RECORDFILE;// BVCU_FTP_METHOD_SEARCH_RECORDFILE;
@@ -172,6 +164,6 @@ void Query_Ftp_Record()
     cmd.stMsgContent.pData = &recordFilter;
 
     BVCU_Result ret = BVCU_FTP_SendCommand(m_FtpSessionHandle, &cmd);
-	printf_s("\n\n+++++++++++++BVCU_FTP_SendCommand:%d\n\n", ret);
+    printf_s("\n\n+++++++++++++BVCU_FTP_SendCommand:%d\n\n", ret);
 }*/
 
