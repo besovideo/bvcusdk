@@ -117,6 +117,9 @@ typedef struct _BVCU_UCFG_UserInfo_
     // 最大并发打开会话数, 0表示不限制
     int iMaxDialogCount;
 
+    // 用户有效期， UTC时间戳，精确到秒，0表示永久有效
+    long long iExpire;
+
     // 用户拥有资源数  
     unsigned int   iResource;
 

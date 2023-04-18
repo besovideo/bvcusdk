@@ -1,0 +1,10 @@
+/bin/
+/bin_x64/
+/demo/.vs
+/demo/ManagedLayer/Debug
+/demo/ManagedLayer/Release
+/demo/ManagedLayer/x64
+/demo/MFCDemo/Debug
+/demo/MFCDemo/Release
+/demo/MFCDemo/x64
+/demo/WinFormDemo/obj

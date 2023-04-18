@@ -14,6 +14,14 @@ typedef struct _BVCU_CMSCFG_WallTime
     BVCU_WallTime stCMSTime; // 收到命令时，CMS的UTC时间值
 }BVCU_CMSCFG_WallTime;
 
+// 后台http接口地址，serverE版本开始支持
+typedef struct _BVCU_CMSCFG_HttpApi
+{
+    char szHttpUrl[128];  // http接口地址
+    char szHttpsUrl[128]; // https接口地址
+    char szToken[512]; // 当前登录实例token，用于发http请求
+}BVCU_CMSCFG_HttpApi;
+
 //CMS基本信息
 typedef struct _BVCU_CMSCFG_BaseInfo
 {
@@ -37,7 +45,7 @@ typedef struct _BVCU_CMSCFG_ChannelInfo
     int   bOverTCP;      // 是否是TCP, 1:是 0：否 2:不支持TCP。不作为索引条件
 }BVCU_CMSCFG_ChannelInfo;
 
-typedef struct _BVCU_CMSCFG_DialogInfo 
+typedef struct _BVCU_CMSCFG_DialogInfo
 {
     BVCU_CMSCFG_ChannelInfo stRequestor;  // 请求者通道信息
     BVCU_CMSCFG_ChannelInfo stTarget;     // 被请求者通道信息
@@ -78,7 +86,7 @@ typedef struct _BVCU_CMSCFG_BWList
     BVCU_CMSCFG_BWList_Filter filter;   // 过滤条件，BVCU_SUBMETHOD_BWLIST_GET用到
     int iTotalCount;    // 列表总数，BVCU_SUBMETHOD_BWLIST_GET用到
     int iCount;         // BVCU_CMSCFG_BWList_Item 个数
-    BVCU_CMSCFG_BWList_Item *pList; // 黑白名单列表
+    BVCU_CMSCFG_BWList_Item* pList; // 黑白名单列表
 }BVCU_CMSCFG_BWList;
 
 #endif

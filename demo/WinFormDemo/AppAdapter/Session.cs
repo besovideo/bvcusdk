@@ -26,7 +26,7 @@ namespace WindowsFormsTest
         /// 主窗体
         /// </summary>
         MainWinForm m_mainForm;
-        
+
         Server m_server;
         const int SERVER_TIME_OUT_SECOND = 60;
         const int SERVER_RETRY_TIMES = 10;      // 重连次数为10
@@ -146,8 +146,8 @@ namespace WindowsFormsTest
             try
             {
                 //封装
-                int ret = BVCU.ManagedLayer_CuLogin(m_bvsdkHandle, 
-                    ref m_server.sessionHandle, Encoding.UTF8.GetBytes(ip), 
+                int ret = BVCU.ManagedLayer_CuLogin(m_bvsdkHandle,
+                    ref m_server.sessionHandle, Encoding.UTF8.GetBytes(ip),
                     port, Encoding.UTF8.GetBytes(usrName),
                     Encoding.UTF8.GetBytes(psw), SERVER_TIME_OUT_SECOND,
                     m_bvsdkEventHandler.server_OnEvent, m_bvsdkEventHandler.server_onNotify);
@@ -194,7 +194,7 @@ namespace WindowsFormsTest
                 }
                 else
                 {
-                    Console.WriteLine("获取设备列表成功");
+                    Console.WriteLine("获取设备列表，命令发送成功");
                     return;
                 }
             }
@@ -218,7 +218,7 @@ namespace WindowsFormsTest
             MessageBox.Show("成功退出服务器");
         }
 
-        public void OnGetPu(string puName, string puId,int iOnlineStatus, Channel channel)
+        public void OnGetPu(string puName, string puId, int iOnlineStatus, Channel channel)
         {
             foreach (Pu pu in m_server.puList)
             {
@@ -227,7 +227,7 @@ namespace WindowsFormsTest
                     pu.id = puId;
                     pu.puName = puName;
                     pu.OnlineStatus = iOnlineStatus == BVCU.BVCU_ONLINE_STATUS_ONLINE;
-                    if (null == getChannel(puId,channel.channelNo))
+                    if (null == getChannel(puId, channel.channelNo))
                     {
                         if (null != channel)
                         {
@@ -254,7 +254,7 @@ namespace WindowsFormsTest
 
         public void onShowAlarmEventMessage(BVCU_Event_Source source)
         {
-            if(null != m_mainForm)
+            if (null != m_mainForm)
             {
                 m_mainForm.onShowAlarmEventMessage(source);
             }
@@ -295,7 +295,7 @@ namespace WindowsFormsTest
                 {
                     delegateClearGpsDataList = new ClearGpsDataList(procClearGpsDataList);
                 }
-                m_mainForm.BeginInvoke(delegateClearGpsDataList, new object[]{puid, channelNo});
+                m_mainForm.BeginInvoke(delegateClearGpsDataList, new object[] { puid, channelNo });
             }
         }
 
@@ -424,7 +424,7 @@ namespace WindowsFormsTest
 
 
         UserDataDeposit userDataDeposit = new UserDataDeposit();
-        public int SearchFileBySeach(string puId, DateTime beginTime,DateTime endTime)
+        public int SearchFileBySeach(string puId, DateTime beginTime, DateTime endTime)
         {
             string CurrentPuId = puId;
             int CurrentChannelInex = 0;
@@ -484,13 +484,13 @@ namespace WindowsFormsTest
         OnGetRecordFiles deleGetRecordFiles;
         internal void showSearchRecordFiles(EventHandler.BVSearchResponse searchRes, string szTargetID)
         {
-            if(deleGetRecordFiles==null)
+            if (deleGetRecordFiles == null)
             {
                 deleGetRecordFiles = new OnGetRecordFiles(proGetRecordFiles);
             }
             m_mainForm.BeginInvoke(deleGetRecordFiles, new object[] { searchRes, szTargetID });
         }
-        
+
         void proGetRecordFiles(EventHandler.BVSearchResponse searchRes, string szTargetID)
         {
             m_mainForm.showRecord(searchRes, szTargetID);

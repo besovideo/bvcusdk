@@ -8,7 +8,7 @@
 //
 
 // 设备PU ID范围
-enum{
+enum {
     // 注意：PU ID为32位，ID范围规定其高4位值。
     BVCU_PUID_NORMAL = 0x00, // 板卡设备
     BVCU_PUID_ANDROID = 0x10,// android移动设备
@@ -17,16 +17,16 @@ enum{
 };
 
 //设备信息，除非注明可写，否则其成员只读
-typedef struct _BVCU_PUCFG_DeviceInfo{
-    char szID[BVCU_MAX_ID_LEN+1];                // 设备ID
-    char szManufacturer[BVCU_MAX_NAME_LEN+1];    // 制造商名字
-    char szProductName[BVCU_MAX_NAME_LEN+1];     // 产品名
-    char szSoftwareVersion[BVCU_MAX_NAME_LEN+1]; // 软件版本
-    char szHardwareVersion[BVCU_MAX_NAME_LEN+1]; // 硬件版本
+typedef struct _BVCU_PUCFG_DeviceInfo {
+    char szID[BVCU_MAX_ID_LEN + 1];                // 设备ID
+    char szManufacturer[BVCU_MAX_NAME_LEN + 1];    // 制造商名字
+    char szProductName[BVCU_MAX_NAME_LEN + 1];     // 产品名
+    char szSoftwareVersion[BVCU_MAX_NAME_LEN + 1]; // 软件版本
+    char szHardwareVersion[BVCU_MAX_NAME_LEN + 1]; // 硬件版本
     int  iPUType;          // BVCU_PUTYPE_*
     int  iLanguage[BVCU_MAX_LANGGUAGE_COUNT];    // 支持的语言列表。BVCU_LANGUAGE_*
     int  iLanguageIndex;  // 当前使用的语言索引。可写
-    char szName[BVCU_MAX_NAME_LEN+1];// 名字。可写
+    char szName[BVCU_MAX_NAME_LEN + 1];// 名字。可写
     int  iWIFICount;      // WIFI数目
     int  iRadioCount;     // 无线模块数目
     int  iChannelCount;   // 音视频通道数
@@ -60,7 +60,7 @@ typedef struct _BVCU_PUCFG_DeviceInfo{
 如：音视频通道3 对应的 videoIn/audioIn/audioOut的子设备号都为 (3-0) = 3
 如：串口通道0x010100 对应的串口设备号为：(0x010100 - 0x010100) = 0
 */
-typedef struct _BVCU_PUCFG_ChannelInfo{
+typedef struct _BVCU_PUCFG_ChannelInfo {
     char   szName[BVCU_MAX_NAME_LEN + 1]; // Channel Name  可写
     int    iChannelIndex;  // PU通道号
     char   iMediaDir;      // PU每个通道的流体流方向。参见BVCU_MEDIADIR_* 
@@ -102,57 +102,57 @@ typedef struct _BVCU_PUCFG_PUChannelInfo {
 }BVCU_PUCFG_PUChannelInfo;
 
 // 通道当前传输状态（针对通道）
-typedef struct _BVCU_PUCFG_ChannelTransmit{
+typedef struct _BVCU_PUCFG_ChannelTransmit {
     int  iChannelIndex;  // PU通道号
     int  iDialogCount;   // 创建的会话数
-    struct TransmitDialog{
+    struct TransmitDialog {
         int iStreamType; // 流类型。BVCU_ENCODERSTREAMTYPE_*。 -1：表示自动
         int iTransmitPathWay;  // 数据流传输路径，见BVCU_STREAM_PATHWAY_*
         int iTransmitMediaDir; // 打开的媒体流方向。参见BVCU_MEDIADIR_* 
         int iAudienceCount; // 观看者个数。P2P传输时为1，VTDU转发时为具体分发数。
         // 同BVCU_UCFG_User_Online.iApplierID,P2P时通过iAudienceApplierID可以查到用户详细信息。见BVCU_SUBMETHOD_USER_ONLINEINFO
         int iAudienceApplierID; // CMS分配的观看者登录标识。P2P：观看者ApplierID。VTDU：VTDU的ApplierID。
-    }* pDialogList;      // 创建的会话信息
+    }*pDialogList;      // 创建的会话信息
 }BVCU_PUCFG_ChannelTransmit;
 
 // 升级固件状态
-typedef struct _BVCU_PUCFG_UpdateStatus{
+typedef struct _BVCU_PUCFG_UpdateStatus {
     int  iPercent;// 升级百分比，0～100,-1表示不在升级状态
     int  iSpeed;  // 下载速度，单位KB/s。 < 0 表示升级出错，见BVCU_RESULT_E_* 。
-    char szSoftwareVersion[BVCU_MAX_NAME_LEN+1]; // 当前软件版本
+    char szSoftwareVersion[BVCU_MAX_NAME_LEN + 1]; // 当前软件版本
     BVCU_WallTime stUpdateFinishTime;// 当前软件版本升级完成时刻    
 }BVCU_PUCFG_UpdateStatus;
 
-typedef struct _BVCU_PUCFG_UPGRADE_{
-    char szFTPID[BVCU_MAX_ID_LEN+1]; // 指定的升级ftp服务器
-    char szFilePath[BVCU_MAX_FILE_NAME_LEN+1]; // 指定的文件路径
-    char szFileName[BVCU_MAX_NAME_LEN+1]; // 指定的文件名称
+typedef struct _BVCU_PUCFG_UPGRADE_ {
+    char szFTPID[BVCU_MAX_ID_LEN + 1]; // 指定的升级ftp服务器
+    char szFilePath[BVCU_MAX_FILE_NAME_LEN + 1]; // 指定的文件路径
+    char szFileName[BVCU_MAX_NAME_LEN + 1]; // 指定的文件名称
     int  bPromptly; // 是否立即升级，0-下次启动时再升级  1-立即升级
 }BVCU_PUCFG_Upgrade;
 
 // 设备组下的PU描述信息
-typedef struct _BVCU_PUCFG_GroupPU{
-    char  szPUID[BVCU_MAX_ID_LEN+1]; // PU ID
+typedef struct _BVCU_PUCFG_GroupPU {
+    char  szPUID[BVCU_MAX_ID_LEN + 1]; // PU ID
 }BVCU_PUCFG_GroupPU;
 
 // 设备组列表
-typedef struct _BVCU_PUCFG_GroupItem{
-    char szID[BVCU_MAX_ID_LEN+1]; // 组的id标识符
+typedef struct _BVCU_PUCFG_GroupItem {
+    char szID[BVCU_MAX_ID_LEN + 1]; // 组的id标识符
 
-    char szName[BVCU_MAX_NAME_LEN+1]; // 组的名称 
+    char szName[BVCU_MAX_NAME_LEN + 1]; // 组的名称 
 
-    char szParentID[BVCU_MAX_ID_LEN+1]; // 组的上级组, 顶层组的此值为空
+    char szParentID[BVCU_MAX_ID_LEN + 1]; // 组的上级组, 顶层组的此值为空
 }BVCU_PUCFG_GroupItem;
 
 // 设备组信息
-typedef struct _BVCU_PUCFG_GroupInfo{
-    char szID[BVCU_MAX_ID_LEN+1]; // 组的id标识符，创建时可以为空，成功回调通知ID
+typedef struct _BVCU_PUCFG_GroupInfo {
+    char szID[BVCU_MAX_ID_LEN + 1]; // 组的id标识符，创建时可以为空，成功回调通知ID
 
-    char szName[BVCU_MAX_NAME_LEN+1]; // 组的名称 
+    char szName[BVCU_MAX_NAME_LEN + 1]; // 组的名称 
 
-    char szParentID[BVCU_MAX_ID_LEN+1]; // 组的上级组, 顶层组的此值为空
-    
-    char szDescription[BVCU_MAX_SEDOMAIN_NAME_LEN+1]; //  描述该组的一些信息
+    char szParentID[BVCU_MAX_ID_LEN + 1]; // 组的上级组, 顶层组的此值为空
+
+    char szDescription[BVCU_MAX_SEDOMAIN_NAME_LEN + 1]; //  描述该组的一些信息
 
     int  iPUCount; // PU组下PU数目
 
@@ -160,7 +160,7 @@ typedef struct _BVCU_PUCFG_GroupInfo{
 }BVCU_PUCFG_GroupInfo;
 
 // 电源参数
-typedef struct _BVCU_PUCFG_Power{
+typedef struct _BVCU_PUCFG_Power {
     int iTurnOffDelay;// 定时关机延时。单位秒
     int bEnableTimer; // 是否允许定时开关机。0-不允许，1-允许
     BVCU_DayTimeSlice stTurnOn[7][BVCU_MAX_DAYTIMESLICE_COUNT];// 每周7天中的每天开机时刻，该时刻之外的时间认为是关机。每个时间片时长不能低于10分钟！！！
@@ -174,7 +174,7 @@ typedef struct _BVCU_PUCFG_Power{
 }BVCU_PUCFG_Power;
 
 // 摄像头采集参数
-typedef struct  _BVCU_PUCFG_VideoColorCtl{
+typedef struct  _BVCU_PUCFG_VideoColorCtl {
     BVCU_DayTimeSlice stTime;   // 时间片
     unsigned char cBrightness;  // 亮度,取值范围[0,255]
     unsigned char cContrast;    // 对比度,取值范围[0,255]
@@ -200,7 +200,7 @@ typedef struct _BVCU_PUCFG_ImageExposure {
 
 // 运动检测
 #define BVCU_PUCFG_MAX_MD_COUNT 16
-typedef struct _BVCU_PUCFG_MotionDetect{
+typedef struct _BVCU_PUCFG_MotionDetect {
     int bSupport;// 0-不支持，1-支持。只读
     BVCU_ImageRect rcROI[BVCU_PUCFG_MAX_MD_COUNT];// 区域，以16x16为单位，
     int iSensitivity;// 灵敏度，范围0~10,0表示不检测，越大的值越灵敏
@@ -210,20 +210,20 @@ typedef struct _BVCU_PUCFG_MotionDetect{
 
 // 视频区域遮盖
 #define BVCU_PUCFG_MAX_SHELTER_COUNT 4
-typedef struct _BVCU_PUCFG_VideoShelter{ //
+typedef struct _BVCU_PUCFG_VideoShelter { //
     int bSupport;// 0-不支持，1-支持。只读
     BVCU_ImageRect rcROI[BVCU_PUCFG_MAX_SHELTER_COUNT];// 区域，以16x16为单位，
 }BVCU_PUCFG_VideoShelter;
 
 // 镜头遮挡检测
 #define BVCU_PUCFG_MAX_VIDEOOCCLUSION_COUNT 4
-typedef struct _BVCU_PUCFG_VideoOcclusionDetect{ //
+typedef struct _BVCU_PUCFG_VideoOcclusionDetect { //
     int bSupport;// 0-不支持，1-支持。只读
     BVCU_ImageRect rcROI[BVCU_PUCFG_MAX_VIDEOOCCLUSION_COUNT];// 区域，以16x16为单位，
 }BVCU_PUCFG_VideoOcclusionDetect;
 
 // 视频输入
-enum{
+enum {
     // 注意：格式1/2/9/10/11/12年月日之间的分隔符由BVCU_PUCFG_VideoIn.cOSDTimeSplitChar决定
     BVCU_OSD_TIMEFORMAT_INVALID = 0,// 不叠加时间
     BVCU_OSD_TIMEFORMAT_1,// YYYY-MM-DD hh:mm:ss
@@ -272,9 +272,9 @@ typedef struct _BVCU_PUCFG_IPChannelConfig {
     int bEnable; // 是否 0-不使能  1-使能 （才开启网络IPC发现/连接等功能，下次查询可获得发现设备列表）
     int iConnectType; // 0 -- 单连接   1---多路轮询连接
     int iIPChannelConnectCount; // 添加到连接列表的IP通道数量；  最大值为BVCU_MAX_TOUR_IPCHANNEL_COUNT
-    BVCU_PUCFG_IPChannelInfo *pstIPChannelConnectList; // 连接列表顺序为多路轮询的顺序。 
+    BVCU_PUCFG_IPChannelInfo* pstIPChannelConnectList; // 连接列表顺序为多路轮询的顺序。 
     int iIPChannelFindCount;    // 被发现但没有添加到连接列表的IP通道数量；
-    BVCU_PUCFG_IPChannelInfo *pstIPChannelFindList; // 还没添加到连接列表中的IP 通道。  
+    BVCU_PUCFG_IPChannelInfo* pstIPChannelFindList; // 还没添加到连接列表中的IP 通道。  
 } BVCU_PUCFG_IPChannelConfig;
 
 // CMOS摄像头配置
@@ -285,7 +285,7 @@ typedef struct _BVCU_PUCFG_CMOSChannelInfo {
 typedef struct _BVCU_PUCFG_CMOSChannelConfig {
     int iConnectIndex;          // 当前使用的CMOS设备编号。
     int iCMOSCount;             // pstCMOSChannelList数组大小；  最大值为BVCU_MAX_TOUR_IPCHANNEL_COUNT
-    BVCU_PUCFG_CMOSChannelInfo *pstCMOSChannelList; // CMOS设备列表，按设备编号排序。 
+    BVCU_PUCFG_CMOSChannelInfo* pstCMOSChannelList; // CMOS设备列表，按设备编号排序。 
 } BVCU_PUCFG_CMOSChannelConfig;
 
 // 通道输入硬件连接
@@ -301,14 +301,14 @@ typedef struct  _BVCU_PUCFG_ChannelDevConnectCfg {
 } BVCU_PUCFG_ChannelDevConnectCfg;
 
 // 视频输入配置
-typedef struct  _BVCU_PUCFG_VideoIn{
+typedef struct  _BVCU_PUCFG_VideoIn {
     BVCU_PUCFG_VideoColorCtl stVCC[2];// 色彩控制。0表示白天的配置，1表示晚上的配置
 
     BVCU_PUCFG_MotionDetect stMD;// 运动检测
     BVCU_PUCFG_VideoShelter stShelter;// 区域遮盖
     BVCU_PUCFG_VideoOcclusionDetect stOcclusion; // 镜头遮挡检测
 
-    BVCU_VideoFormat stVideoFormat[4];    
+    BVCU_VideoFormat stVideoFormat[4];
     int iVideoFormatIndex;// 当前视频制式索引。 -1 表示由前端自动检测选择视频制式和分辨率。
 
     BVCU_PUCFG_ChannelDevConnectCfg stChannelDevConnectCfg; // video in 硬件连接配置
@@ -317,11 +317,11 @@ typedef struct  _BVCU_PUCFG_VideoIn{
     int  iOSDIcon;// -1表示设备不支持叠加图标，==0表示支持但目前没有叠加，==1表示支持并且已叠加
     char szOSDIcon[BVCU_MAX_FILE_NAME_LEN + 1];// 图片的本地路径,查询时无意义。为空表示不更新图片，否则把本地图片上传到PU
     BVCU_ImagePos stOSDIconPos; // 位置。
-                                // 叠加文字
+    // 叠加文字
     char szOSDTitle[BVCU_MAX_NAME_LEN + 1];// 文字内容
     BVCU_ImagePos stOSDTitlePos; // 位置
     char  iOSDTitleFontSize; // 字体大小
-                             // 叠加时间
+    // 叠加时间
     char  cOSDTime;// 叠加时间格式，BVCU_OSD_TIMEFORMAT_*
     char  cOSDTimeSplitChar;// YYYY-MM-DD 之间的分隔符。常见的是'.' '-'和'/'。
     char  iOSDTimeFontSize; // 字体大小
@@ -338,7 +338,7 @@ typedef struct _BVCU_PUCFG_AudioVqe {
     char iNoiseLevel[4];   // 可选降噪等级，-1 表示 无效值， 只读
     int  iNoiseLevelIndex; // 当前使用的降噪等级索引
 } BVCU_PUCFG_AudioVqe;
-typedef struct  _BVCU_PUCFG_AudioIn{
+typedef struct  _BVCU_PUCFG_AudioIn {
     BVCU_PUCFG_ChannelDevConnectCfg stChannelDevConnectCfg;// audio in 硬件连接配置
 
     int iInput;// BVCU_AUDIOIN_INPUT_*
@@ -352,13 +352,13 @@ typedef struct  _BVCU_PUCFG_AudioIn{
 }BVCU_PUCFG_AudioIn;
 
 // 音频输出
-typedef struct _BVCU_PUCFG_AudioDecoderParam{
+typedef struct _BVCU_PUCFG_AudioDecoderParam {
     int bEnable;// 0-禁止，1-使能
     SAVCodec_ID iAudioCodecAll[4];// 支持的音频解码器ID。只读
     int iAudioCodecIndex;// 当前使用的音频解码器
 }BVCU_PUCFG_AudioDecoderParam;
 
-typedef struct  _BVCU_PUCFG_AudioOut{
+typedef struct  _BVCU_PUCFG_AudioOut {
     BVCU_PUCFG_AudioDecoderParam stADParam;// 音频解码参数。
     int iChannelCount; // 声道数
     int iSamplesPerSec;// 采样率
@@ -376,8 +376,8 @@ typedef struct _BVCU_PUCFG_RtmpParam {
     char szServerAddr[512];   // RTMP推流服务器地址（URL地址，默认为空）
     int bActive;              // 是否正在推流
     int iStatus;  // 当前状态 BVCU_Result. 
-                  // 常见： BVCU_RESULT_S_OK：正常，BVCU_RESULT_E_DISCONNECTED:网络断开，
-                  // BVCU_RESULT_E_IO：网络拥塞，BVCU_RESULT_E_CONNECTFAILED:无法连接RTMP服务器
+    // 常见： BVCU_RESULT_S_OK：正常，BVCU_RESULT_E_DISCONNECTED:网络断开，
+    // BVCU_RESULT_E_IO：网络拥塞，BVCU_RESULT_E_CONNECTFAILED:无法连接RTMP服务器
 } BVCU_PUCFG_RtmpParam;
 
 // 通道音视频协议扩展输出（其它协议支持） 针对通道
@@ -398,7 +398,7 @@ enum {
     BVCU_ALERTIN_HARDWARE_232,        // 232串口连接   负载 BVCU_PUCFG_RS232
 };
 
-typedef struct _BVCU_PUCFG_AlertIn_Normal{
+typedef struct _BVCU_PUCFG_AlertIn_Normal {
     int bType;// 报警触发模式：0-闭路报警 1-开路报警
     int iInterval;// 检测间隔，单位秒。检测到报警输入后，经过iInterval秒再次检测
 }BVCU_PUCFG_AlertIn_Normal;
@@ -410,7 +410,7 @@ typedef struct _BVCU_PUCFG_AlertIn_Temperature
     int iMaxTemperature;  // 高温报警阎值， 单位 1/1000 摄氏度
     int iDelay;  // 报警延续时间，单位毫秒
 }BVCU_PUCFG_AlertIn_Temperature;
-typedef struct _BVCU_PUCFG_AlertIn_Voltage{
+typedef struct _BVCU_PUCFG_AlertIn_Voltage {
     int bEnable;  // 1 启用， 0 禁用
     int iCurVoltage;  // 当前电压，单位 1/1000 伏(V)，(只读）
     int iMinVoltage;  // 低电压报警阎值， 单位 1/1000 伏
@@ -418,7 +418,7 @@ typedef struct _BVCU_PUCFG_AlertIn_Voltage{
     int iDelay;  // 报警延续时间，单位毫秒
 }BVCU_PUCFG_AlertIn_Voltage;
 
-typedef struct  _BVCU_PUCFG_AlertIn{
+typedef struct  _BVCU_PUCFG_AlertIn {
     int iMode;  // 工作模式：1-报警模式 （目前只有报警模式，后期会有枚举）
     int iStatus;// 当前报警状态：0-无报警 1-在报警 （只读）
     int iAlertCount; // 报警计数，从stBeginCount时刻开始（设置为-1表示清空计数，PU重置开始时间）
@@ -435,15 +435,15 @@ typedef struct  _BVCU_PUCFG_AlertIn{
 }BVCU_PUCFG_AlertIn;
 
 // 报警输出
-typedef struct  _BVCU_PUCFG_AlertOut{
+typedef struct  _BVCU_PUCFG_AlertOut {
     int iDefaultStatus; // 默认状态：0-通，1-断，2-闪烁
     int iStatus;   // 报警输出当前状态：0-通，1-断，2-闪烁
     int iDuration; // 报警输出持续时间，单位:秒，0-表示持续到永远
     int iOnTime;   // 闪烁时，接通时间，单位:毫秒
     int iOffTime;  // 闪烁时，断开时间，单位:毫秒
-    char szOnName[BVCU_MAX_NAME_LEN+1];  // 接通动作别名
-    char szOffName[BVCU_MAX_NAME_LEN+1]; // 断开动作别名
-    char szFlicker[BVCU_MAX_NAME_LEN+1]; // 闪烁动作别名
+    char szOnName[BVCU_MAX_NAME_LEN + 1];  // 接通动作别名
+    char szOffName[BVCU_MAX_NAME_LEN + 1]; // 断开动作别名
+    char szFlicker[BVCU_MAX_NAME_LEN + 1]; // 闪烁动作别名
 }BVCU_PUCFG_AlertOut;
 
 // Positioning Satellite signal type
@@ -453,9 +453,12 @@ enum {
     BVCU_PUCFG_SATELLITE_GLONASS = (1 << 2), // 俄罗斯格洛纳斯卫星
     BVCU_PUCFG_SATELLITE_GALILEO = (1 << 3), // 欧洲伽利略卫星
     BVCU_PUCFG_SATELLITE_QZSS = (1 << 4), // 日本准天顶卫星
+    BVCU_PUCFG_SATELLITE_UWB = (1 << 5),  // uwb定位
+    BVCU_PUCFG_SATELLITE_CELLTOWER = (1 << 6), // 基站定位
+    BVCU_PUCFG_SATELLITE_BLUETOOTH = (1 << 7), // 蓝牙定位
 };
 // GPS
-typedef struct  _BVCU_PUCFG_GPSParam{
+typedef struct  _BVCU_PUCFG_GPSParam {
     char szName[BVCU_MAX_NAME_LEN + 1]; // 模块名称  (只读）
     int  iSupportSatelliteSignal;       // 支持的卫星信号 （只读） BVCU_PUCFG_SATELLITE_*组合
     int  iSetupSatelliteSignal;         // 使用的卫星信号 BVCU_PUCFG_SATELLITE_* 组合
@@ -465,7 +468,7 @@ typedef struct  _BVCU_PUCFG_GPSParam{
     int iReserved[2];// 保留，设置为0
 }BVCU_PUCFG_GPSParam;
 
-typedef struct  _BVCU_PUCFG_GPSData{
+typedef struct  _BVCU_PUCFG_GPSData {
     BVCU_WallTime stTime;// 数据对应的时间
     int  iLongitude; // 经度，东经是正值，西经负值，单位1/10000000度
     int  iLatitude;  // 纬度，北纬是正值，南纬是负值，单位1/10000000度
@@ -475,11 +478,11 @@ typedef struct  _BVCU_PUCFG_GPSData{
     int  iStarCount;    // 定位星数, <= 0时非卫星定位。
     int  bAntennaState; // 天线状态(1-好，0-坏，2-差分定位，4-RTK固定解定位，5-RTK浮点解定位，6-推算定位) 
     int  bOrientationState; // 定位状态(1-定位，0-不定位) 
-    int  iSatelliteSignal;  // 卫星信号来源 BVCU_PUCFG_SATELLITE_* 组合
+    int  iSatelliteSignal;  // 信号来源 BVCU_PUCFG_SATELLITE_* 组合
     int  iReserved[4];
 }BVCU_PUCFG_GPSData;
 
-typedef struct  _BVCU_PUCFG_GPSSpeedLimit{
+typedef struct  _BVCU_PUCFG_GPSSpeedLimit {
     int  bEnable;        // 是否启用，0:不启用 1：启用
     int  bStopDetection; // 启用车辆启停检测，0：不启用 1：启用
     int  iMaxSpeed;      // 最高速度(1/1000 m/s) 零表示不限速
@@ -491,15 +494,15 @@ typedef struct  _BVCU_PUCFG_GPSSpeedLimit{
 
 // 叠加选项枚举 每项对应叠加配置见 BVCU_PUCFG_VideoIn
 enum {
-    BVCU_PUCFG_OVERLAY_TIME = (1<<0),  // 叠加 时间
-    BVCU_PUCFG_OVERLAY_TEXT = (1<<1),  // 叠加 自定义文字
-    BVCU_PUCFG_OVERLAY_GPS =  (1<<2),  // 叠加 GPS信息
-    BVCU_PUCFG_OVERLAY_ALARM = (1<<3), // 叠加 事件信息
-    BVCU_PUCFG_OVERLAY_NAME = (1<<4),  // 叠加 通道名
+    BVCU_PUCFG_OVERLAY_TIME = (1 << 0),  // 叠加 时间
+    BVCU_PUCFG_OVERLAY_TEXT = (1 << 1),  // 叠加 自定义文字
+    BVCU_PUCFG_OVERLAY_GPS = (1 << 2),  // 叠加 GPS信息
+    BVCU_PUCFG_OVERLAY_ALARM = (1 << 3), // 叠加 事件信息
+    BVCU_PUCFG_OVERLAY_NAME = (1 << 4),  // 叠加 通道名
 };
 
 // 自动抓拍参数
-typedef struct  _BVCU_PUCFG_SnapshotParam{
+typedef struct  _BVCU_PUCFG_SnapshotParam {
     BVCU_ImageSize iImageSizeAll[8];// 支持的抓拍图像分辨率。只读
     int iImageSizeIndex; // 当前使用的抓拍图像分辨率
     int iQuality;// 抓拍JPG压缩质量，取值范围1～100    
@@ -512,7 +515,7 @@ typedef struct  _BVCU_PUCFG_SnapshotParam{
 }BVCU_PUCFG_SnapshotParam;
 
 // 音频编码器参数
-typedef struct _BVCU_PUCFG_AudioEncoderParam{
+typedef struct _BVCU_PUCFG_AudioEncoderParam {
     SAVCodec_ID iCodecID;  // 编码器ID
     char iChannelCount[4]; // 可选声道数，0表示无效值。只读
     char iBitsPerSample[4];// 可选采样精度，0表示无效值。只读
@@ -532,7 +535,7 @@ typedef struct _BVCU_PUCFG_EncodeRectParam {
 }BVCU_PUCFG_EncodeRectParam;
 
 // 编码器压缩参数
-typedef struct _BVCU_PUCFG_EncoderParam{
+typedef struct _BVCU_PUCFG_EncoderParam {
     BVCU_DayTimeSlice stTime; // 时间片。不同的时间可以采用不同的编码参数
 
     // 视频编码属性
@@ -560,7 +563,7 @@ typedef struct _BVCU_PUCFG_EncoderParam{
     int iReserved2[3];
 }BVCU_PUCFG_EncoderParam;
 
-typedef struct _BVCU_PUCFG_EncoderStreamParam{
+typedef struct _BVCU_PUCFG_EncoderStreamParam {
     int iCount;// 编码器配置的时间片个数
     BVCU_PUCFG_EncoderParam* pstParams;// 编码器配置，每个成员对应一个时间片段的设置
     int iStreamType;// 流类型。BVCU_ENCODERSTREAMTYPE_*
@@ -569,8 +572,8 @@ typedef struct _BVCU_PUCFG_EncoderStreamParam{
 }BVCU_PUCFG_EncoderStreamParam;
 
 // 编码器通道
-typedef struct  _BVCU_PUCFG_EncoderChannel{
-    char szName[BVCU_MAX_NAME_LEN+1];
+typedef struct  _BVCU_PUCFG_EncoderChannel {
+    char szName[BVCU_MAX_NAME_LEN + 1];
     int  iCount;// 支持的码流个数。只读
     BVCU_PUCFG_EncoderStreamParam* pParams;
     char iVideoInIndex; // 摄像头索引，-1表示不支持。只读
@@ -588,7 +591,7 @@ typedef struct  _BVCU_PUCFG_DecoderChannel{
 */
 
 // RS232串口
-typedef struct _BVCU_PUCFG_RS232{
+typedef struct _BVCU_PUCFG_RS232 {
     int   iDataBit;    // 数据位。5/6/7/8
     int   iStopBit;    // 停止位。0:1位，1：1.5位，2：2位
     int   iParity;     // 奇偶校验位。0:无，1：奇校验，2：偶校验
@@ -597,7 +600,7 @@ typedef struct _BVCU_PUCFG_RS232{
 }BVCU_PUCFG_RS232;
 
 // 串口
-typedef struct _BVCU_PUCFG_SerialPort{
+typedef struct _BVCU_PUCFG_SerialPort {
     BVCU_PUCFG_RS232 stRS232;
     int iAddress;// RS485地址，如果为-1，表明不是RS485串口
     int iType;   // 0-数据传输（例如PPP拨号）;1-控制台;2-透明串口;3-外接GPS;
@@ -605,28 +608,28 @@ typedef struct _BVCU_PUCFG_SerialPort{
 
 // =======================云台相关============================
 // 预置点
-typedef struct _BVCU_PUCFG_Preset{
+typedef struct _BVCU_PUCFG_Preset {
     int  iID;// 预置点号。-1表示无效，有效值从0开始
-    char szPreset[BVCU_PTZ_MAX_NAME_LEN+1]; // 预置点名
+    char szPreset[BVCU_PTZ_MAX_NAME_LEN + 1]; // 预置点名
 }BVCU_PUCFG_Preset;
 // 巡航点
-typedef struct _BVCU_PUCFG_CruisePoint{
+typedef struct _BVCU_PUCFG_CruisePoint {
     short iPreset;// 预置点号。-1表示无效值
     short iSpeed; // 转到下一巡航点的云台速度
     int   iDuration;// 在本预置点停留时间，单位秒
 }BVCU_PUCFG_CruisePoint;
 
 // 巡航路线
-typedef struct _BVCU_PUCFG_Cruise{
+typedef struct _BVCU_PUCFG_Cruise {
     int  iID;// 巡航路线号。-1表示无效，有效值从0开始
-    char szName[BVCU_PTZ_MAX_NAME_LEN+1];// 巡航路线名字。未设置的巡航路线名字为空
+    char szName[BVCU_PTZ_MAX_NAME_LEN + 1];// 巡航路线名字。未设置的巡航路线名字为空
 
     // 巡航路线的巡航点。约定：有效的巡航点放在数组前面，数组中第一个无效巡航点之后的点都被认为是无效点
     BVCU_PUCFG_CruisePoint stPoints[BVCU_PTZ_MAX_CRUISEPOINT_COUNT];
 }BVCU_PUCFG_Cruise;
 
 // 云台属性
-typedef struct _BVCU_PUCFG_PTZAttr{
+typedef struct _BVCU_PUCFG_PTZAttr {
     int iPTZProtocolAll[BVCU_PTZ_MAX_PROTOCOL_COUNT];  // 支持的所有协议列表。BVCU_PTZ_PROTO_*。只读
     int iPTZProtocolIndex;   // 当前使用的PTZ协议索引
 
@@ -643,13 +646,13 @@ typedef struct _BVCU_PUCFG_PTZAttr{
     // 查询时返回所有预置点，设置时的作用是批量改预置点的名字和删除预置点
     // 注意：预置点的位置只能用BVCU_PTZ_COMMAND_PRESET_SET命令设置
     // 约定：所有有效的预置点放在数组最前面，如果总数目不到BVCU_PTZ_MAX_PRESET_COUNT，则第一个无效的Preset的iIndex为-1
-    BVCU_PUCFG_Preset stPreset[BVCU_PTZ_MAX_PRESET_COUNT]; 
+    BVCU_PUCFG_Preset stPreset[BVCU_PTZ_MAX_PRESET_COUNT];
 
     // 巡航路线。
     // 查询时返回巡航路线。设置时批量更改巡航路线
     // 约定：所有有效的巡航路线放在数组最前面，如果总数目不到BVCU_PTZ_MAX_CRUISE_COUNT，第一个无效的Cruise的iIndex为-1
     BVCU_PUCFG_Cruise stCruise[BVCU_PTZ_MAX_CRUISE_COUNT];
-    
+
     // 当前正在使用的巡航路线ID。-1表示没有活跃的巡航路线。
     int iActiveCruiseID;
 
@@ -703,10 +706,10 @@ enum {
     BVCU_PTZ_COMMAND_LOCK,// 锁定/解锁云台。iParam1：unused;iParam2: unused;iParam3:unused
 };
 
-typedef struct _BVCU_PUCFG_PTZControl{
+typedef struct _BVCU_PUCFG_PTZControl {
     int iPTZCommand;    // BVCU_PTZ_COMMAND_*
     int bStop;// 0-动作开始，1-动作停止。仅对方向操作/镜头操作/锁操作有效，其他操作应该设置为0。锁操作：0-开始锁定，1-停止锁定
-    int iParam1,iParam2,iParam3;// 参考BVCU_PTZ_COMMAND_*说明
+    int iParam1, iParam2, iParam3;// 参考BVCU_PTZ_COMMAND_*说明
     // 注意：BVCU_PTZ_COMMAND_CRUISE_SET的iParam2是个指针，网络发送/接收时应发送/接收整个BVCU_PTZ_COMMAND_CRUISE_SET结构体
 }BVCU_PUCFG_PTZControl;
 
@@ -735,7 +738,7 @@ typedef struct _BVCU_PUCFG_Miscellaneous_Hardware {
 
 // =======================网络相关============================
 
-typedef struct _BVCU_PUCFG_Ethernet{
+typedef struct _BVCU_PUCFG_Ethernet {
     int bDHCP;   // 是否使用DHCP。0-不使用；1-使用;-1-设备不支持
     int bPPPoE;  // 是否使用PPPoE。0-不使用；1-使用；-1-设备不支持。
     int bAutoDNS;// 自动获取DNS。0-不使用；1-使用。只有bDHCP=1或者bPPPoE=1才有意义
@@ -743,25 +746,25 @@ typedef struct _BVCU_PUCFG_Ethernet{
     char szIP[16];// ip地址。
     char szNetMask[16];// 子网掩码。
     char szGateway[16];// 默认网关。
-    char szDNS[2][BVCU_MAX_HOST_NAME_LEN+1];// 域名服务器。
+    char szDNS[2][BVCU_MAX_HOST_NAME_LEN + 1];// 域名服务器。
 
-    char szPPPoEUserName[BVCU_MAX_NAME_LEN+1];// PPPoE用户名，只有bPPPoE=1才有意义
-    char szPPPoEPassword[BVCU_MAX_PASSWORD_LEN+1];// PPPoE密码，只有bPPPoE=1才有意义
+    char szPPPoEUserName[BVCU_MAX_NAME_LEN + 1];// PPPoE用户名，只有bPPPoE=1才有意义
+    char szPPPoEPassword[BVCU_MAX_PASSWORD_LEN + 1];// PPPoE密码，只有bPPPoE=1才有意义
 
     int iStatus; // 当前状态： 0-未知 1-已正常连接 2-未插入网线 3-ip地址异常
     int iReserved[3];
 }BVCU_PUCFG_Ethernet;
 
-typedef struct _BVCU_PUCFG_WifiHotSpot{
-    char szProviderAll[8][BVCU_MAX_NAME_LEN+1];// 支持的提供商列表。ChinaNet/ChinaMobile/ChinaUniccom
+typedef struct _BVCU_PUCFG_WifiHotSpot {
+    char szProviderAll[8][BVCU_MAX_NAME_LEN + 1];// 支持的提供商列表。ChinaNet/ChinaMobile/ChinaUniccom
     int  iProviderIndex;// 当前使用的提供商
     char szAreaAll[64][16];// 开户地列表.通常用代码表示，例如bj-北京,ah-安徽,...
     int  iAreaIndex;// 开户地
-    char szUserName[BVCU_MAX_NAME_LEN+1];// 用户名
-    char szPassword[BVCU_MAX_PASSWORD_LEN+1];// 密码
+    char szUserName[BVCU_MAX_NAME_LEN + 1];// 用户名
+    char szPassword[BVCU_MAX_PASSWORD_LEN + 1];// 密码
 }BVCU_PUCFG_WifiHotSpot;
 
-typedef struct _BVCU_PUCFG_WifiGeneral{
+typedef struct _BVCU_PUCFG_WifiGeneral {
     char szSSID[32];  // SSID 
     int iSecurityType;// 安全类型.BVCU_WIFI_SECURITY_TYPE_*
     int iCryptType;   // 加密类型.BVCU_WIFI_CRYPT_TYPE_*
@@ -788,13 +791,13 @@ enum {
     BVCU_WIFIAP_TYPE_WPA_PSK,    // WPA-PSK模式
     BVCU_WIFIAP_TYPE_WPA2_PSK,   // WPA2-PSK模式
 };
-typedef struct _BVCU_PUCFG_WifiAP{
+typedef struct _BVCU_PUCFG_WifiAP {
     int  bEnableSetting;                      // 是否可以修改以下配置，只读选项, 1--可以修改(包括bEnable的修改)，0--不可以修改
     int  bEnable;                             // 是否使能 0-否 1：是
     int  bHideSSID;                           // 是否隐藏SSID  0-否 1：是
-    char szSSID[BVCU_MAX_ID_LEN+1];           // SSID名称
+    char szSSID[BVCU_MAX_ID_LEN + 1];           // SSID名称
     int  iSafeType;                           // 鉴权模式: 1-不加密; 2-WEP模式; 3-WPA-PSK模式; 4-WPA2-PSK模式 WEP模式我们不支持仅定义
-    char szPassWord[BVCU_MAX_PASSWORD_LEN+1]; // 连接密钥
+    char szPassWord[BVCU_MAX_PASSWORD_LEN + 1]; // 连接密钥
     int  iChannel;                            // 信道【1，11】默认 1
     int  bAutoChannelSelect;                  // 是否自动选择信道  
     char szIP[16];                            // IP
@@ -804,7 +807,7 @@ typedef struct _BVCU_PUCFG_WifiAP{
     char szDHCPEndAddr[16];                   // dhcp结束IP地址  bDHCP=1时有意义
 }BVCU_PUCFG_WifiAP;
 
-typedef struct _BVCU_PUCFG_Wifi{
+typedef struct _BVCU_PUCFG_Wifi {
     int bEnable;// 连接AP热点是否使能：0-不使用；1-使用
     int iMode;  // 连接AP热点方式：0-普通方式，1-运营商热点方式
     int iSignalLevel;// 信号强度。0~100，0最差，100最好
@@ -816,19 +819,19 @@ typedef struct _BVCU_PUCFG_Wifi{
     char szMacAddr[BVCU_MAX_ID_LEN + 1]; // wifi mac 地址，无效值为空字符串，格式：ff:ff:ff:ff:ff:ff
 }BVCU_PUCFG_Wifi;
 
-typedef struct _BVCU_PUCFG_RadioNetwork{
+typedef struct _BVCU_PUCFG_RadioNetwork {
     int bEnable;// 是否使用该模块。0-不使用；1-使用
     int iTypeAll[4];// 模块支持的所有网络类型。BVCU_RADIONETWORK_TYPE_*
     int iTypeIndex; // 当前使用的网络类型
-    
-    char szModuleName[BVCU_MAX_NAME_LEN+1];// 模块名
-    char szUserName[BVCU_MAX_NAME_LEN+1];  // 用户名。设为空表示采用默认
-    char szPassword[BVCU_MAX_PASSWORD_LEN+1];// 密码
 
-    char szAPN[BVCU_MAX_NAME_LEN+1];// APN名。设为空表示采用默认
-    char szAccessNum[BVCU_MAX_NAME_LEN+1];// 接入号
+    char szModuleName[BVCU_MAX_NAME_LEN + 1];// 模块名
+    char szUserName[BVCU_MAX_NAME_LEN + 1];  // 用户名。设为空表示采用默认
+    char szPassword[BVCU_MAX_PASSWORD_LEN + 1];// 密码
 
-    char szCardNum[BVCU_MAX_MOBILEPHONE_NUM_LEN+1];// 卡号
+    char szAPN[BVCU_MAX_NAME_LEN + 1];// APN名。设为空表示采用默认
+    char szAccessNum[BVCU_MAX_NAME_LEN + 1];// 接入号
+
+    char szCardNum[BVCU_MAX_MOBILEPHONE_NUM_LEN + 1];// 卡号
 
     int bOnline;// 是否在线。0-不在线，1-在线
     int iSignalLevel[4];// 每种网络类型对应的信号强度。0~100，0最差，100最好
@@ -859,7 +862,7 @@ typedef struct _BVCU_PUCFG_BluetoothObj {
     char szMacAddr[BVCU_MAX_ID_LEN + 1]; // 设备蓝牙地址，空字符表示设备没有蓝牙模块（不支持蓝牙），只读，格式：ff:ff:ff:ff:ff:ff
 }BVCU_PUCFG_BluetoothObj;
 // 蓝牙通信 设置
-typedef struct _BVCU_PUCFG_Bluetooth{
+typedef struct _BVCU_PUCFG_Bluetooth {
     char szName[BVCU_MAX_NAME_LEN + 1];   // 蓝牙名称， 读写
     char szMacAddr[BVCU_MAX_ID_LEN + 1];  // 设备蓝牙地址，空字符表示设备没有蓝牙模块（不支持蓝牙），只读，格式：ff:ff:ff:ff:ff:ff
 
@@ -869,8 +872,8 @@ typedef struct _BVCU_PUCFG_Bluetooth{
 }BVCU_PUCFG_Bluetooth;
 
 // 注册服务器
-typedef struct  _BVCU_PUCFG_RegisterServer{
-    char szAddr[BVCU_MAX_HOST_NAME_LEN+1];     // 服务器IP或域名
+typedef struct  _BVCU_PUCFG_RegisterServer {
+    char szAddr[BVCU_MAX_HOST_NAME_LEN + 1];     // 服务器IP或域名
     int  iPort;          // 服务器端口
     int  iProto;         // 使用的协议类型，TCP/UDP
     int  iKeepAliveTimeout; // 设备心跳超时时间，单位秒。超过该时间设备收不到心跳包回复，认为服务器下线。范围： 45-200
@@ -881,29 +884,29 @@ typedef struct  _BVCU_PUCFG_RegisterServer{
 }BVCU_PUCFG_RegisterServer;
 
 // 设备升级服务器
-typedef struct _BVCU_PUCFG_UpdateServer{
-    char szAddr[BVCU_MAX_HOST_NAME_LEN+1];    // 服务器IP或域名
+typedef struct _BVCU_PUCFG_UpdateServer {
+    char szAddr[BVCU_MAX_HOST_NAME_LEN + 1];    // 服务器IP或域名
     int  iPort;                               // 端口    
-    char szUserName[BVCU_MAX_NAME_LEN+1];     // 用户名
-    char szPassword[BVCU_MAX_PASSWORD_LEN+1]; // 密码
+    char szUserName[BVCU_MAX_NAME_LEN + 1];     // 用户名
+    char szPassword[BVCU_MAX_PASSWORD_LEN + 1]; // 密码
     int  iProto;                              // 协议
-    char szPath[BVCU_MAX_FILE_NAME_LEN+1];    // 设备固件存放路径
+    char szPath[BVCU_MAX_FILE_NAME_LEN + 1];    // 设备固件存放路径
 }BVCU_PUCFG_UpdateServer;
 
 // Email服务器
-typedef struct _BVCU_PUCFG_EmailServer{
-    char szServerAddr[BVCU_MAX_HOST_NAME_LEN+1];// Email SMTP服务器地址。
+typedef struct _BVCU_PUCFG_EmailServer {
+    char szServerAddr[BVCU_MAX_HOST_NAME_LEN + 1];// Email SMTP服务器地址。
     int  iServerPort;// Email服务器端口
-    char szUserName[BVCU_MAX_NAME_LEN+1];// 帐号名
-    char szPassword[BVCU_MAX_PASSWORD_LEN+1];// 密码
-    char szSenderAddr[BVCU_MAX_HOST_NAME_LEN+1];// 发送者邮件地址
+    char szUserName[BVCU_MAX_NAME_LEN + 1];// 帐号名
+    char szPassword[BVCU_MAX_PASSWORD_LEN + 1];// 密码
+    char szSenderAddr[BVCU_MAX_HOST_NAME_LEN + 1];// 发送者邮件地址
     int  bSSLEnable; // 是否使能SSL。0-不使能，1-使能    
 }BVCU_PUCFG_EmailServer;
 
 //  NTP配置
 #define BVCU_MAX_NTP_SERVER_COUNT 3
-typedef struct  _BVCU_PUCFG_NTPServer{
-    char szAddr[BVCU_MAX_NTP_SERVER_COUNT][BVCU_MAX_HOST_NAME_LEN+1];     // NTP服务器IP或域名
+typedef struct  _BVCU_PUCFG_NTPServer {
+    char szAddr[BVCU_MAX_NTP_SERVER_COUNT][BVCU_MAX_HOST_NAME_LEN + 1];     // NTP服务器IP或域名
     int  iPort[BVCU_MAX_NTP_SERVER_COUNT];           // NTP服务器默认端口为123
     int  iUpdateInterval;   // 更新时间间隔，单位：分钟
     int  bUpdateImmediately;// 立即同步
@@ -911,11 +914,11 @@ typedef struct  _BVCU_PUCFG_NTPServer{
 }BVCU_PUCFG_NTPServer;
 
 // 较时设备。
-typedef struct _BVCU_PUCFG_TimeSource{    
+typedef struct _BVCU_PUCFG_TimeSource {
     int     iTimeZone; // 本地时区
     int  bDST;// 是否使用夏令时。0-不使用，1-使用
     BVCU_PUCFG_NTPServer stNTPServer;
-    
+
     // 优先级大的设备会被优先使用
     char iNTP; // NTP优先级1-100, <=0表示不使用
     char iGPS; // GPS优先级1-100, <=0表示不使用。只有支持GPS的设备才有意义
@@ -923,17 +926,17 @@ typedef struct _BVCU_PUCFG_TimeSource{
 }BVCU_PUCFG_TimeSource;
 
 // DDNS
-typedef struct _BVCU_PUCFG_DDNS{
+typedef struct _BVCU_PUCFG_DDNS {
     int bDDNS;// 动态域名。0-不使用；1-使用；-1-设备不支持
-    char szDDNSProvider[BVCU_MAX_NAME_LEN+1]; // DDNS提供商。只有bDDNS=1才有意义
-    char szDDNSAddr[BVCU_MAX_HOST_NAME_LEN+1];// DDNS服务器地址。只有bDDNS=1才有意义
-    char szDDNSUserName[BVCU_MAX_NAME_LEN+1]; // DDNS用户名。只有bDDNS=1才有意义
-    char szDDNSPassword[BVCU_MAX_PASSWORD_LEN+1];// DDNS密码。只有bDDNS=1才有意义
-    char szDynamicName[BVCU_MAX_HOST_NAME_LEN+1];// 申请的动态域名。只有bDDNS=1才有意义
+    char szDDNSProvider[BVCU_MAX_NAME_LEN + 1]; // DDNS提供商。只有bDDNS=1才有意义
+    char szDDNSAddr[BVCU_MAX_HOST_NAME_LEN + 1];// DDNS服务器地址。只有bDDNS=1才有意义
+    char szDDNSUserName[BVCU_MAX_NAME_LEN + 1]; // DDNS用户名。只有bDDNS=1才有意义
+    char szDDNSPassword[BVCU_MAX_PASSWORD_LEN + 1];// DDNS密码。只有bDDNS=1才有意义
+    char szDynamicName[BVCU_MAX_HOST_NAME_LEN + 1];// 申请的动态域名。只有bDDNS=1才有意义
 }BVCU_PUCFG_DDNS;
 
 // 各种Server相关配置
-typedef struct _BVCU_PUCFG_Servers{
+typedef struct _BVCU_PUCFG_Servers {
     BVCU_PUCFG_RegisterServer stRegisterServer;
     BVCU_PUCFG_UpdateServer stUpdateServer;
     BVCU_PUCFG_TimeSource stTimeSource;
@@ -944,7 +947,7 @@ typedef struct _BVCU_PUCFG_Servers{
 
 // =======================存储============================
 // 存储计划 针对通道
-typedef struct _BVCU_PUCFG_Storage_Schedule{
+typedef struct _BVCU_PUCFG_Storage_Schedule {
     BVCU_DayTimeSlice stWeekSnapshot[7][BVCU_MAX_DAYTIMESLICE_COUNT];// 一周的抓拍时间片划分，每天BVCU_MAX_DAYTIMESLICE_COUNT个时间片
     BVCU_DayTimeSlice stWeekRecord[7][BVCU_MAX_DAYTIMESLICE_COUNT];  // 一周的录像时间片划分，每天BVCU_MAX_DAYTIMESLICE_COUNT个时间片
     int   bRecordAudio;// 是否录音频。0-不存储，1-存储。
@@ -953,7 +956,7 @@ typedef struct _BVCU_PUCFG_Storage_Schedule{
 }BVCU_PUCFG_Storage_Schedule;
 
 // 分区信息 针对存储器
-typedef struct _BVCU_PUCFG_Storage_Media{
+typedef struct _BVCU_PUCFG_Storage_Media {
     char szMediaName[BVCU_MAX_FILE_NAME_LEN + 1];// 唯一标识该分区的名字或者路径
     char szFSName[BVCU_MAX_ID_LEN + 1]; // 文件系统格式
     int iStorageMediaType;   // 存储媒体类型。BVCU_STORAGEMEDIATYPE_*
@@ -964,7 +967,7 @@ typedef struct _BVCU_PUCFG_Storage_Media{
 }BVCU_PUCFG_Storage_Media;
 
 // 存储规则 针对存储器
-typedef struct _BVCU_PUCFG_Storage_Rule{
+typedef struct _BVCU_PUCFG_Storage_Rule {
     int iNoSpaceRule;// 存储器满时处理规则。0-停止录像，1-覆盖旧录像
     int iAlarmSpace; // 空间不足报警门限。单位MB。设为0表示不报警
     int iReserveDays;// 录像文件保留天数
@@ -974,13 +977,13 @@ typedef struct _BVCU_PUCFG_Storage_Rule{
 }BVCU_PUCFG_Storage_Rule;
 
 // 初始化存储器 针对存储器。管理器应定时查询格式化进度
-typedef struct _BVCU_PUCFG_Storage_Format{
+typedef struct _BVCU_PUCFG_Storage_Format {
     int iAction; // 0-未进行格式化，1-正在格式化；control命令时该值填1。
     int iPercent;// 查询返回的格式化进度（iAction==1时有意义）。正常值0～100。100表示格式化完毕，特殊值-1表示格式化失败
 }BVCU_PUCFG_Storage_Format;
 
 // 手工远程录像
-typedef struct _BVCU_PUCFG_ManualRecord{
+typedef struct _BVCU_PUCFG_ManualRecord {
     int bStart; // 1-开始录像，0-停止录像
     int iLength;// 存储时间长度，单位秒， -1表示一直录像
     char szFileName[128]; // 录像文件名称。
@@ -989,14 +992,14 @@ typedef struct _BVCU_PUCFG_ManualRecord{
 }BVCU_PUCFG_ManualRecord;
 
 // 手工抓拍，保存到PU
-typedef struct _BVCU_PUCFG_Snapshot{
+typedef struct _BVCU_PUCFG_Snapshot {
     int  bStart;// 1-开始抓拍，0-停止抓拍 2-按指定周期数抓拍
     int  iCycleCount; // 指定的抓拍周期数，当bStart==2 时有意义。
     char szFTPID[BVCU_MAX_ID_LEN + 1]; // 抓拍图片上传服务器ID，如果ID为空，表示不需要上传。
 }BVCU_PUCFG_Snapshot;
 
 // 图片同步
-typedef struct _BVCU_PUCFG_Picture{
+typedef struct _BVCU_PUCFG_Picture {
     char szFTPID[BVCU_MAX_ID_LEN + 1]; // 图片上传下载  服务器ID
     int  iChannelIndex; // 同步图片的通道号
     BVCU_WallTime stBeginTime; // 同步图片的时间起点
@@ -1012,44 +1015,44 @@ typedef struct _BVCU_PUCFG_RecordStatus {
 }BVCU_PUCFG_RecordStatus;
 // ==========================上下线（注册）控制===========================
 // 上线触发方式
-enum{
+enum {
     BVCU_PU_ONLINE_TRIGGER_INVALID = 0,
-    BVCU_PU_ONLINE_TRIGGER_MANUAL = (1<<0),    // 手动 不再使用
+    BVCU_PU_ONLINE_TRIGGER_MANUAL = (1 << 0),    // 手动 不再使用
     BVCU_PU_ONLINE_TRIGGER_ONTIME = (1 << 1),  // 定时
     BVCU_PU_ONLINE_TRIGGER_ONEVENT = (1 << 2), // 事件 暂时只处理 短信 和 来电
 };
 
 // 上线事件。各种事件可以组合
-enum{
-    BVCU_PU_ONLINE_EVENT_ALERTIN = 1<<0,// 报警输入  不再使用（移到前端报警联动中）
-    BVCU_PU_ONLINE_EVENT_VIDEOMD = 1<<1,// 视频运动检测  不再使用（移到前端报警联动中）
+enum {
+    BVCU_PU_ONLINE_EVENT_ALERTIN = 1 << 0,// 报警输入  不再使用（移到前端报警联动中）
+    BVCU_PU_ONLINE_EVENT_VIDEOMD = 1 << 1,// 视频运动检测  不再使用（移到前端报警联动中）
     BVCU_PU_ONLINE_EVENT_SMS = 1 << 2,  // 短信输入
     BVCU_PU_ONLINE_EVENT_PHONE = 1 << 3,// 来电输入
 };
 
 // 上线途径
-enum{
-    BVCU_PU_ONLINE_THROUGH_INVALID  = 1<<0,    
-    BVCU_PU_ONLINE_THROUGH_ETHERNET = 1<<1, // 以太网
-    BVCU_PU_ONLINE_THROUGH_WIFI     = 1<<2, // WIFI
-    BVCU_PU_ONLINE_THROUGH_RADIO    = 1<<3, // 无线
+enum {
+    BVCU_PU_ONLINE_THROUGH_INVALID = 1 << 0,
+    BVCU_PU_ONLINE_THROUGH_ETHERNET = 1 << 1, // 以太网
+    BVCU_PU_ONLINE_THROUGH_WIFI = 1 << 2, // WIFI
+    BVCU_PU_ONLINE_THROUGH_RADIO = 1 << 3, // 无线
 };
 
 // 触发上线的短信配置
-typedef struct _BVCU_PUCFG_OnlineEventSMS{
-    char szCardNum[16][BVCU_MAX_MOBILEPHONE_NUM_LEN+1];// 允许的卡号。最多允许16个卡号。只有在列表中的卡号才会允许触发上线
+typedef struct _BVCU_PUCFG_OnlineEventSMS {
+    char szCardNum[16][BVCU_MAX_MOBILEPHONE_NUM_LEN + 1];// 允许的卡号。最多允许16个卡号。只有在列表中的卡号才会允许触发上线
     char szContent[128];// 触发内容。只有szCardNum中匹配szContent的短信才会触发
     int  bReply;// PU是否回复短信
 }BVCU_PUCFG_OnlineEventSMS;
 
-typedef struct _BVCU_PUCFG_OnlineControlOne{
+typedef struct _BVCU_PUCFG_OnlineControlOne {
     int iTrigger;// 触发方式
     int iEvent;  // 事件。仅在iTrigger == BVCU_PU_ONLINE_TRIGGER_ONEVENT时有意义
     int iOnlineTime;// 事件触发后，至少保持iOnlineTime秒在线,-1表示一直保持在线。仅在iEvent == BVCU_PU_ONLINE_TRIGGER_ONEVENT时有意义
     int iThrough;// 上线途径,BVCU_PU_ONLINE_THROUGH_*的组合
 }BVCU_PUCFG_OnlineControlOne;
 
-typedef struct _BVCU_PUCFG_OnlineControl{
+typedef struct _BVCU_PUCFG_OnlineControl {
     int bPowerOnOnline; // 上电即上线。1：上电即上线，设备将在上电的时候就上线（一直保持上线状态）；0： 设备将根据下面的配置判断是否上线。
     BVCU_DayTimeSlice stWeek[7][BVCU_MAX_DAYTIMESLICE_COUNT];// 一周中的时间片段
     BVCU_PUCFG_OnlineControlOne stRCO[7][BVCU_MAX_DAYTIMESLICE_COUNT];// 每个时间片端对应的上线方式
@@ -1062,7 +1065,7 @@ enum {
 };
 
 // PU 主动命令负载
-typedef struct _BVCU_PUCFG_OpenDialog{ 
+typedef struct _BVCU_PUCFG_OpenDialog {
     char szID[BVCU_MAX_ID_LEN + 1]; // 会话目标ID (PU ID)
     int  iType;      // 会话类型, BVCU_OPENDIALOG_MODE_*
     char szApplyerUserID[BVCU_MAX_ID_LEN + 1];  // 请求者
@@ -1076,12 +1079,12 @@ typedef struct _BVCU_PUCFG_OpenDialog{
     int iApplierID; // 命令目标用户的CMS分配登录标识， -1表示所有用户都接收该命令。
 }BVCU_PUCFG_OpenDialog;
 
-/*TODO: 
+/*TODO:
    1、设备手动升级
    2、上传报警声音/OSD图片
    3、远程抓拍
    4、下载录像
- 
+
    1~4涉及到上传/下载协议，需要统一考虑
 */
 
@@ -1193,7 +1196,7 @@ typedef struct _BVCU_PUCFG_Position
     char szIMEI_MEID[BVCU_MAX_ID_LEN + 1];    // 设备IMEI/MEID号。    必填
     char szspflxIP[BVCU_MAX_ID_LEN + 1];      // 设备公网出口IP地址。  设备请求端填空。非必填
     char szNetServerIP[BVCU_MAX_ID_LEN + 1];  // 设备接入基站时对应的网关IP。    非必填
-    char szPhoneNum[BVCU_MAX_MOBILEPHONE_NUM_LEN+1]; // 本机号码。    非必填
+    char szPhoneNum[BVCU_MAX_MOBILEPHONE_NUM_LEN + 1]; // 本机号码。    非必填
     // 基站信息
     char szIMSI[BVCU_MAX_ID_LEN + 1];         // 移动用户识别码。iAccessType=BVCU_PU_ONLINE_THROUGH_RADIO时必填
     int  iRadioNetworkType;                   // 无线网络类型。见：BVCU_RADIONETWORK_TYPE。iAccessType=BVCU_PU_ONLINE_THROUGH_RADIO时必填
@@ -1248,7 +1251,7 @@ typedef struct _BVCU_PUCFG_UserInfo_
     char szPUId[BVCU_MAX_ID_LEN + 1];      // 使用者当前使用的设备，一对一绑定关系，修改用户信息时无需填写 
     int  iOnlineStatus;      // 当前使用的设备在线状态，参见BVCU_ONLINE_STATUS_*。
     char szReason[128];      // 描述当前绑定 
- 
+
     char szCreateUserId[BVCU_MAX_ID_LEN + 1];  // 分配此使用者的用户id，对应于BVCU_UCFG_User，终端不需要填写 
     BVCU_WallTime stCreateTime;    //  创建该使用者的时间，终端不需要填写
 }BVCU_PUCFG_UserInfo;
@@ -1268,5 +1271,11 @@ typedef struct _BVCU_PUCFG_UploadConfig
     int imptFileAutoUpload;         // 重点文件自动上传，默认上传，0：不上传，1：上传
     int delUploadedFile;            // 上传后删除本地文件，默认不删除，0：不删除，1：删除
 }BVCU_PUCFG_UploadConfig;
+
+typedef struct _BVCU_PUCFG_Config
+{
+    char* pJsonSchema;         // 配置项模型，只读。 见：https://json-schema.apifox.cn  在线工具：https://app.quicktype.io/#l=schema
+    char* pJsonConfig;         // 当前配置，可写。json字符串。
+}BVCU_PUCFG_Config;
 #endif
 

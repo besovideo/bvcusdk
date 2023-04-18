@@ -63,7 +63,7 @@ typedef struct _SAVCodec_Context{
 	SAV_MediaType eMediaType;
 
     /**
-    * only support SAV_HWDEVICE_TYPE_DXVA2.
+    * only support SAV_HWDEVICE_TYPE_DXVA2/SAV_HWDEVICE_TYPE_D3D11VA.
     * - decode video: set by user.
     */
     SAV_HWDeviceType eHWDevideType;
@@ -96,7 +96,13 @@ typedef struct _SAVCodec_Context{
      */
 	SAV_TYPE_INT32 iBitRate;
 	
-	
+
+	/**
+	* ID3D11Device*
+	* if eHWDevideType is SAV_HWDEVICE_TYPE_D3D11VA. by D3D11CreateDevice().
+	* Other case Must be set to 0
+	* -decode; set by user.
+	*/
 	SAV_TYPE_INT32 iFlags; //reserved now.must be 0
 	SAV_TYPE_INT32 iFlags2; //reserved now. must be 0
 	

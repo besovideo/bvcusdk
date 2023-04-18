@@ -44,7 +44,7 @@
 
 // 函数返回值及事件通知状态码
 typedef enum _BVCU_Result {
-    BVCU_RESULT_E_FAILED  = -0x10000, // general error
+    BVCU_RESULT_E_FAILED = -0x10000, // general error
     BVCU_RESULT_E_INVALIDARG,         // invalid argument
     BVCU_RESULT_E_UNSUPPORTED,        // unsupported functions
     BVCU_RESULT_E_ALLOCMEMFAILED,     // allocate memory failed 
@@ -75,7 +75,7 @@ typedef enum _BVCU_Result {
     BVCU_RESULT_E_PASSWDFORMAT,       // 密码格式错误
     BVCU_RESULT_E_PASSWDEXPIRE,       // 密码过期
     BVCU_RESULT_E_PASSWD_RECENTUSED,  // 密码最近使用过
-    
+
     BVCU_RESULT_E_AAA_OBJECTNOTFOUND = -0x0F000,// AAA 用户/用户组等不存在。SESSION_CLOSE事件的OnEvent回调中使用
     BVCU_RESULT_E_VTDU_NONE, // VTDU 没有可用的VTDU转发服务器
 
@@ -103,7 +103,7 @@ typedef enum _BVCU_Result {
 #define BVCU_SUBDEV_INDEXMAJOR_MAX_CUSTOM   0xF000FF
 
 //视频码率控制
-typedef enum _BVCU_RATECONTROL{
+typedef enum _BVCU_RATECONTROL {
     BVCU_RATECONTROL_INVALID = -1,
     BVCU_RATECONTROL_CBR = 0,
     BVCU_RATECONTROL_VBR,
@@ -111,7 +111,7 @@ typedef enum _BVCU_RATECONTROL{
 }BVCU_RATECONTROL;
 
 //视频制式
-typedef enum _BVCU_VIDEOFORMAT{
+typedef enum _BVCU_VIDEOFORMAT {
     BVCU_VIDEOFORMAT_UNKNOWN = 0,
     BVCU_VIDEOFORMAT_PAL,
     BVCU_VIDEOFORMAT_NTSC,
@@ -122,18 +122,18 @@ typedef enum _BVCU_VIDEOFORMAT{
 }BVCU_VIDEOFORMAT;
 
 //存储类型
-typedef enum _BVCU_STORAGE_RECORDTYPE{
-    BVCU_STORAGE_RECORDTYPE_NONE =        0,//不存储
-    BVCU_STORAGE_RECORDTYPE_MANUAL =  (1<<0),//手动存储
-    BVCU_STORAGE_RECORDTYPE_ONTIME =  (1<<1),//定时存储
+typedef enum _BVCU_STORAGE_RECORDTYPE {
+    BVCU_STORAGE_RECORDTYPE_NONE = 0,//不存储
+    BVCU_STORAGE_RECORDTYPE_MANUAL = (1 << 0),//手动存储
+    BVCU_STORAGE_RECORDTYPE_ONTIME = (1 << 1),//定时存储
     BVCU_STORAGE_RECORDTYPE_ONALARM = (1 << 2),//报警存储（根据报警联动的配置）
-    BVCU_STORAGE_RECORDTYPE_AUTOSAVE= (1 << 3),//自动存储（根据自动存储配置）
-    BVCU_STORAGE_RECORDTYPE_UPLOAD  = (1 << 4),//上传的文件（终端上传到平台的文件）
-    BVCU_STORAGE_RECORDTYPE_DOWNLOAD= (1 << 5),//下载的文件（平台从终端下载的文件）
+    BVCU_STORAGE_RECORDTYPE_AUTOSAVE = (1 << 3),//自动存储（根据自动存储配置）
+    BVCU_STORAGE_RECORDTYPE_UPLOAD = (1 << 4),//上传的文件（终端上传到平台的文件）
+    BVCU_STORAGE_RECORDTYPE_DOWNLOAD = (1 << 5),//下载的文件（平台从终端下载的文件）
     BVCU_STORAGE_RECORDTYPE_AVCALL = (1 << 6),//音视频通话文件
 }BVCU_STORAGE_RECORDTYPE;
 
-typedef enum _BVCU_STORAGE_FILE_TYPE{
+typedef enum _BVCU_STORAGE_FILE_TYPE {
     BVCU_STORAGE_FILE_TYPE_ALL = 0,      // 不限定文件类型
     BVCU_STORAGE_FILE_TYPE_RECORD = 1 << 0,   // 录像文件 video
     BVCU_STORAGE_FILE_TYPE_CAPTURE = 1 << 1,  // 图片文件 image
@@ -144,19 +144,19 @@ typedef enum _BVCU_STORAGE_FILE_TYPE{
 }BVCU_STORAGE_FILE_TYPE;
 
 // 媒体方向
-typedef enum _BVCU_MEDIADIR{
-    BVCU_MEDIADIR_VIDEOSEND = (1<<0),
-    BVCU_MEDIADIR_VIDEORECV = (1<<1),
-    BVCU_MEDIADIR_AUDIOSEND = (1<<2),
-    BVCU_MEDIADIR_AUDIORECV = (1<<3),
-    BVCU_MEDIADIR_TALKONLY  = (BVCU_MEDIADIR_AUDIOSEND | BVCU_MEDIADIR_AUDIORECV),
-    BVCU_MEDIADIR_DATASEND  = (1<<4),
-    BVCU_MEDIADIR_DATARECV  = (1<<5),
+typedef enum _BVCU_MEDIADIR {
+    BVCU_MEDIADIR_VIDEOSEND = (1 << 0),
+    BVCU_MEDIADIR_VIDEORECV = (1 << 1),
+    BVCU_MEDIADIR_AUDIOSEND = (1 << 2),
+    BVCU_MEDIADIR_AUDIORECV = (1 << 3),
+    BVCU_MEDIADIR_TALKONLY = (BVCU_MEDIADIR_AUDIOSEND | BVCU_MEDIADIR_AUDIORECV),
+    BVCU_MEDIADIR_DATASEND = (1 << 4),
+    BVCU_MEDIADIR_DATARECV = (1 << 5),
 }BVCU_MEDIADIR;
 
 
 // 在线状态
-typedef enum _BVCU_ONLINE_STATUS{
+typedef enum _BVCU_ONLINE_STATUS {
     BVCU_ONLINE_STATUS_OFFLINE = 0,
     BVCU_ONLINE_STATUS_ONLINE,
 }BVCU_ONLINE_STATUS;
@@ -183,13 +183,13 @@ typedef enum _BVCU_DIALOG_STATUS {
 }BVCU_DIALOG_STATUS;
 
 // subscribe状态
-typedef enum _BVCU_SUBSCRIBE_STATUS{
+typedef enum _BVCU_SUBSCRIBE_STATUS {
     BVCU_SUBSCRIBE_OFF = 0,
     BVCU_SUBSCRIBE_ON,
 }BVCU_SUBSCRIBE_STATUS;
 
 // 传输层协议类型
-typedef enum _BVCU_PROTOTYPE{
+typedef enum _BVCU_PROTOTYPE {
     BVCU_PROTOTYPE_TCP = 0,
     BVCU_PROTOTYPE_UDP,
     BVCU_PROTOTYPE_TLS,
@@ -219,7 +219,7 @@ typedef enum {
     BVCU_CHANNEL_DEV_CONNECT_AHD, // 模拟高清
 } BVCU_CHANNEL_DEV_CONNECT_TYPE;
 
-typedef enum _BVCU_IPC_NET_PROTO_TYPE{
+typedef enum _BVCU_IPC_NET_PROTO_TYPE {
     BVCU_IPC_NET_PROTO_TYPE_UNKNOWN = 0,
     BVCU_IPC_NET_PROTO_TYPE_ONVIF,
     BVCU_IPC_NET_PROTO_TYPE_SMARTEYE, // SmartEye平台
@@ -227,8 +227,8 @@ typedef enum _BVCU_IPC_NET_PROTO_TYPE{
 }BVCU_IPC_NET_PROTO_TYPE;
 
 // CU发出/接收的命令。在BVCU_SendCmd中用到
-typedef enum _BVCU_METHOD_TYPE{
-    BVCU_METHOD_UNKNOWN  = 0,
+typedef enum _BVCU_METHOD_TYPE {
+    BVCU_METHOD_UNKNOWN = 0,
     BVCU_METHOD_QUERY,
     BVCU_METHOD_CONTROL,
     BVCU_METHOD_SUBSCRIBE,
@@ -246,12 +246,12 @@ typedef enum _BVCU_METHOD_TYPE{
           无改注释的命令不会触发Notify/Command。Query命令不会触发。
 
 */
-typedef enum _BVCU_SUBMETHOD_TYPE{
+typedef enum _BVCU_SUBMETHOD_TYPE {
     BVCU_SUBMETHOD_UNKNOWN = 0,
 
     BVCU_SUBMETHOD_CUSTOM = 0x00001, //自定义命令，服务器透明转发该命令给目标。输入类型：自定义；输出类型: 自定义。
-                                     //注意，BVCU_CmdMsgContent.pData被认为是字节类型，BVCU_CmdMsgContent.iDataCount表示字节长度
-    
+    //注意，BVCU_CmdMsgContent.pData被认为是字节类型，BVCU_CmdMsgContent.iDataCount表示字节长度
+
     //=============query====================    
     //PU部分-----------------------------
     BVCU_SUBMETHOD_PU_LIST = 0x00010,//CU从Server获取设备列表(不再推荐，请用SEARCH_LIST命令)。输入类型：无；输出类型: BVCU_PUCFG_PUChannelInfo数组
@@ -267,7 +267,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_PU_UserGroupList, //获取平台设备使用者组列表。输入类型：无；输出类型：BVCU_PUCFG_UserGroup数组
     BVCU_SUBMETHOD_PU_UserGroupInfo, //获取平台设备使用者组信息。输入类型：BVCU_PUCFG_UserGroup；输出类型：BVCU_PUCFG_UserGroupInfo
     BVCU_SUBMETHOD_PU_RECORDSTATUS,  //获取设备存储状态（录像、录音、GPS..）。输入类型：无；输出类型：BVCU_PUCFG_RecordStatus
-    
+
     //User部分---------------------------
     BVCU_SUBMETHOD_USER_GROUPLIST = 0x01000,//获取用户组列表。输入类型：无；输出类型：BVCU_UCFG_UserGroup数组
     BVCU_SUBMETHOD_USER_GROUPINFO,//获取用户组信息。输入类型：BVCU_UCFG_UserGroup；输出类型：BVCU_UCFG_UserGroupInfo
@@ -290,7 +290,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
 
     //CONF(集群）部分---------------------------
     BVCU_SUBMETHOD_CONF_LIST = 0x01600,//获取集群列表。输入类型：无；输出类型：BVCU_Conf_BaseInfo数组
-                                       //BVCU_Command.iTargetIndex：0-查询所有集群列表；1-查询自己所在集群列表；2-查询自己不在的集群列表；3-查询有管理权限的集群列表。
+    //BVCU_Command.iTargetIndex：0-查询所有集群列表；1-查询自己所在集群列表；2-查询自己不在的集群列表；3-查询有管理权限的集群列表。
     BVCU_SUBMETHOD_CONF_INFO,//获取某个集群详细信息，BVCU_Command.szTargetID设置为CONF_ID。输入类型：无；输出类型：BVCU_Conf_Info
     BVCU_SUBMETHOD_CONF_DEL_LIST,//获取已经被删除的集群列表。输入类型：无；输出类型：BVCU_Conf_BaseInfo数组
 
@@ -302,7 +302,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     // BVCU_Command.szTargetID设置为CMS/NRU/VTDU ID。
     BVCU_SUBMETHOD_SEARCH_LIST = 0x01800, // 索引文件（记录等）。输入类型：BVCU_Search_Request 输出类型:BVCU_Search_Response 
     BVCU_SUBMETHOD_SYSTEM_INFO, // 系统及状态信息。输入类型：无  输出类型:BVCU_ENCFG_SystemInfo
-    
+
     //Region部分-------------------------
     BVCU_SUBMETHOD_REGION_LIST = 0x1900, //获取CMS区域列表。输入类型：无；输出类型：BVCU_Region_Base数组
     BVCU_SUBMETHOD_REGION_GET, //获取某个CMS区域详细信息。输入类型：BVCU_Region_Base;输出类型：BVCU_Region_Info
@@ -318,6 +318,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_CMS_BASEINFO = 0x2100, //获取登录CMS基本信息。输入类型：无;输出类型：BVCU_CMSCFG_BaseInfo
     BVCU_SUBMETHOD_CMS_DIALOGINFO, //获取登录CMS通道信息。输入类型：BVCU_CMSCFG_DialogInfo;输出类型：BVCU_CMSCFG_DialogInfo数组
     BVCU_SUBMETHOD_CMS_TIME, //获取登录CMS时间。输入类型：BVCU_CMSCFG_WallTime; 输出类型：BVCU_CMSCFG_WallTime
+    BVCU_SUBMETHOD_CMS_HTTPAPI, // 获取后台http接口地址。输入类型：无;输出类型：BVCU_CMSCFG_HttpAPI
 
     //黑白名单部分-----------------------
     BVCU_SUBMETHOD_BWLIST_INFO_GET = 0x2200,     // 获取获取黑白名单配置信息，输入类型: 无;输出类型: BVCU_CMSCFG_BWList_Info;
@@ -326,7 +327,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     //=============query/control=============    
     /* 注意：query/control类型的命令，通常query和control的输入类型和输出类型是对称的，例如
     BVCU_SUBMETHOD_PTZATTR命令做Query时，输入类型无，输出类型是BVCU_PUCFG_PTZAttr，做Control
-    时，输入类型BVCU_PUCFG_PTZAttr，输出类型无。以下注释中，只表明Control的参数，如果没有特别说明，     
+    时，输入类型BVCU_PUCFG_PTZAttr，输出类型无。以下注释中，只表明Control的参数，如果没有特别说明，
     Query的参数输入/输出类型就是Control的输出/输入类型
     */
     //PU部分
@@ -359,6 +360,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_PU_ZFYINFO,//设备相关的执法记录仪信息。输入类型：BVCU_PUCFG_ZFYInfo;输出类型：无
     BVCU_SUBMETHOD_PU_MISCHARDWARE,//设备外围硬件信息。输入类型：BVCU_PUCFG_MiscHardware数组;输出类型：无。查询时回复的是设备支持的所有硬件信息数组，设置时可以只是修改的硬件信息。
     BVCU_SUBMETHOD_PU_UPLOAD,   // 上传属性，输入类型：BVCU_PUCFG_UploadConfig;输出类型：无
+    BVCU_SUBMETHOD_PU_CONFIG,   // 通用配置，输入类型：BVCU_PUCFG_Config。输出类型：无，
 
     //VTDU部分
     BVCU_SUBMETHOD_VTDU_INFO = 0x10F00,//VTDU信息。输入类型：BVCU_VTDUCFG_VTDUInfo；输出类型：无
@@ -375,11 +377,11 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
 
     //CONF（集群）部分
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_VOLUME = 0x11200,//调整某个参与者的音量。注意只影响本地听到的音量，BVCU_Command.szTargetID设置为CONF_ID。
-                                                      //输入类型：BVCU_Conf_Participator_Info，输出类型：无
+    //输入类型：BVCU_Conf_Participator_Info，输出类型：无
     BVCU_SUBMETHOD_CONF_BASEINFO,//获取/设置集群语音会议的信息，BVCU_Command.szTargetID设置为CONF_ID。
-                        //输入类型：BVCU_Conf_BaseInfo；输出类型：无；触发类型：同名Notify
+    //输入类型：BVCU_Conf_BaseInfo；输出类型：无；触发类型：同名Notify
     BVCU_SUBMETHOD_CONF_DEFAULT,//获取/设置默认语音会议列表，BVCU_Command.szTargetID设置为 设备ID（或用户账号）
-                        //输入类型：BVCU_Conf_BaseInfo数组；输出类型：无；触发类型：同名Notify
+    //输入类型：BVCU_Conf_BaseInfo数组；输出类型：无；触发类型：同名Notify
 
     //=============control=============    
     //PU部分---------------------------
@@ -404,7 +406,8 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_PU_USER_MODUSER,  //修改设备使用者。输入类型：BVCU_PUCFG_UserInfo；输出类型：无；触发类型：同名Notify
     BVCU_SUBMETHOD_PU_USER_DELUSER,  //删除设备使用者。输入类型：BVCU_PUCFG_User；输出类型：无；触发类型：同名Notify
     BVCU_SUBMETHOD_PU_USER_OPERATE,  //绑定或解绑设备。输入类型：BVCU_PUCFG_UserOperate；输出类型：无；触发类型：同名Notify
-    
+    BVCU_SUBMETHOD_PU_SNAPSHOT_ONE,  //手动抓拍一张图片并上传。输入类型：无；输出类型：BVCU_Search_FileInfo；
+
     //User部分---------------------------
     BVCU_SUBMETHOD_USER_ADDGROUP = 0x22000, //添加用户组。输入类型：BVCU_UCFG_UserGroupInfo；输出类型：BVCU_UCFG_UserGroup；触发类型：同名Notify
     BVCU_SUBMETHOD_USER_MODGROUP, //修改用户组。输入类型：BVCU_UCFG_UserGroupInfo；输出类型：无；触发类型：同名Notify
@@ -422,12 +425,12 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_NRU_MANUALRECORD,//手工启动/停止某个PU录像到NRU。输入类型：BVCU_NRUCFG_ManualRecord；输出类型：无
     BVCU_SUBMETHOD_NRU_SNAPSHOT,    //手工抓拍到NRU。输入类型：BVCU_NRUCFG_Snapshot；输出类型：无
     BVCU_SUBMETHOD_NRU_BACKUPDB,    //手工备份数据库。BVCU_Command.iTargetIndex：备份表信息，见BVCU_DBTABLE_TYPE。需要是超级管理员权限。
-        // 输入类型：无；输出类型：BVCU_NRUCFG_BackupDB
+    // 输入类型：无；输出类型：BVCU_NRUCFG_BackupDB
 
     //CONF（集群）部分---------------------------
     //以下由具有BVCU_CONF_PARTICIPATOR_POWER_ADMIN权限者调用
     BVCU_SUBMETHOD_CONF_CREATE = 0x22600,// 创建集群。 输入类型：BVCU_Conf_BaseInfo，
-                                         // 输出类型：BVCU_Conf_BaseInfo + BVCU_Conf_Participator_Info 同名notify
+    // 输出类型：BVCU_Conf_BaseInfo + BVCU_Conf_Participator_Info 同名notify
 
     //以下所有BVCU_SUBMETHOD_CONF_*命令除非特别说明，否则BVCU_Command.szTargetID设置为CONF_ID
     BVCU_SUBMETHOD_CONF_DELETE,//删除集群。输入类型：无;输出类型:无；触发类型：同名Notify
@@ -435,33 +438,33 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_CONF_STOP,//停止语音会议。输入类型：无;输出类型:无；触发类型：同名Notify
 
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD, //添加集群成员。
-                                          //输入类型：BVCU_Conf_Participator_Info数组，一次调用最多允许BVCU_CONF_MAX_PARTICIPATOR_ONETIME个。
-                                          //输出类型：BVCU_Conf_Participator_AddResult
-                                          //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD_CMD（被加入者收到）和BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD_NOTIFY（所有参与者收到）
+    //输入类型：BVCU_Conf_Participator_Info数组，一次调用最多允许BVCU_CONF_MAX_PARTICIPATOR_ONETIME个。
+    //输出类型：BVCU_Conf_Participator_AddResult
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD_CMD（被加入者收到）和BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD_NOTIFY（所有参与者收到）
 
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_REMOVE,//删除集群成员。输入类型：BVCU_Conf_Participator_Info数组；输出类型：无；触发类型：同名Notify
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_MODIFY,//修改集群成员。输入类型：BVCU_Conf_Participator_Info数组；输出类型：无；触发类型：同名Notify
 
     //以下由BVCU_CONF_PARTICIPATOR_POWER_MODETATOR权限者调用
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_SPEAK,//点名发言。仅对BVCU_CONF_MODE_SPEAK_CHAIRMAN模式的语音会议有意义。
-                                                  //输入类型：BVCU_Conf_Participator_Info；输出类型：无
-                                                  //触发类型：同名Notify(所有参与者收到)
-                                                  //  BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_SPEAK_CMD(仅被点名者收到)
+    //输入类型：BVCU_Conf_Participator_Info；输出类型：无
+    //触发类型：同名Notify(所有参与者收到)
+    //  BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_SPEAK_CMD(仅被点名者收到)
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_TERMINATE_SPEAK,//结束发言。输入类型：BVCU_Conf_Participator_Info；输出类型：无;触发类型：同名Notify
     //以下由participator调用
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN,//请求加入集群。输入类型：BVCU_Conf_Participator_Join；输出类型：无；
-                                        //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN_NOTIFY（所有参与者收到）
-                                        //            BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN_CMD(仅集群ADMIN收到）
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN_NOTIFY（所有参与者收到）
+    //            BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN_CMD(仅集群ADMIN收到）
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_EXIT,//请求退出集群。输入类型：无；输出类型：无；触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_EXIT_NOTIFY    
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK,//申请发言，仅对BVCU_CONF_MODE_SPEAK_CHAIRMAN模式的语音会议有意义。输入类型：无;输出类型：无；
-                                                        //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK_NOTIFY    （所有参与者收到）
-                                                        //          BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK_CMD(仅集群ADMIN收到）
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK_NOTIFY    （所有参与者收到）
+    //          BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK_CMD(仅集群ADMIN收到）
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_ENDSPEAK,//结束发言，仅对BVCU_CONF_MODE_SPEAK_CHAIRMAN模式的语音会议有意义。输入类型：无;输出类型：无；
-                                                       //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_ENDSPEAK_NOTIFY    
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_ENDSPEAK_NOTIFY    
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_LEAVE,//暂时离开语音会议。输入类型：无；输出类型：无；
-                                           //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_LEAVE_NOTIFY
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_LEAVE_NOTIFY
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_RETURN,//与LEAVE相对，回到语音会议。BVCU_Command.iTargetIndex==1表示多组同时监听。输入类型：BVCU_Conf_Participator_Info;输出类型：无：
-                                            //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_RETURN_NOTIFY
+    //触发类型：BVCU_SUBMETHOD_CONF_PARTICIPATOR_RETURN_NOTIFY
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_INFO,//更改自己的成员信息(目前仅szAliasName有意义)，通知CMS。输入类型：BVCU_Conf_Participator_Info；输出类型：无;触发类型：同名Notify
     BVCU_SUBMETHOD_CONF_VISITOR_JOIN,   //请求旁听语音会议。输入类型：无；输出类型：BVCU_Conf_Participator_Info。BVCU_Command.iTargetIndex==1表示多组同时监听。
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_JOIN,   //邀请参加语音会议，输入类型：BVCU_Conf_Participator_Invite；输出类型：无，BVCU_Command.iTargetIndex==1表示多组同时监听。
@@ -503,7 +506,7 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
     BVCU_SUBMETHOD_BWLIST_INFO_SET = 0x23100,     // 设置黑白名单配置信息。输入类型：BVCU_CMSCFG_BWList_Info，输出类型：无
     BVCU_SUBMETHOD_BWLIST_ADD,      // 添加黑白名单。输入类型：BVCU_CMSCFG_BWList， 输出类型：BVCU_CMSCFG_BWList
     BVCU_SUBMETHOD_BWLIST_DEL,      // 删除指定黑白名单。输入类型：BVCU_CMSCFG_BWList，输出类型：无
-    
+
 
     //=============subscribe/notify=============
     //调用者应检查BVCU_NotifyMsgContent.szSourceID，确定信息的发出者
@@ -517,42 +520,42 @@ typedef enum _BVCU_SUBMETHOD_TYPE{
 
     BVCU_SUBMETHOD_SYNCHRONIZATION_NOTIFY = BVCU_SUBMETHOD_PU_SYNCHRONIZATION, //同步图片（下载PU上传的图片）。负载：BVCU_PUCFG_Picture
     BVCU_SUBMETHOD_PU_RECORDSTATUS_NOTIFY = BVCU_SUBMETHOD_PU_RECORDSTATUS,    //通知设备存储状态变化（录像、录音、GPS..）。负载：BVCU_PUCFG_RecordStatus
-    
+
     BVCU_SUBMETHOD_LINKACTION_NOTIFY = 0x30000,//报警联动执行通知。负载BVCU_Event_LinkAction_Notify
     BVCU_SUBMETHOD_EVENT_NOTIFY,//发生报警事件通知。负载BVCU_Event_Source
-    
+
     //=============收到的command=======================
     //应用程序在Session的OnCmmand回调中收到命令，处理后配置BVCU_Event_SessionCmd参数并执行命令的OnEvent回调，BVCU_Event_SessionCmd.iResult表示命令执行结果。
     //注意：不可以在OnCommand回调中执行OnEvent回调。
     //注释说明，输入负载表示接收的命令负载，回响负载表示OnEvent的BVCU_Event_SessionCmd.stContent的负载类型
     BVCU_SUBMETHOD_CONF_START_CMD = BVCU_SUBMETHOD_CONF_START, //语音会议开始，询问是否参加。
-                                                               //输入负载：BVCU_Conf_BaseInfo；回响负载：无
+    //输入负载：BVCU_Conf_BaseInfo；回响负载：无
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD_CMD = BVCU_SUBMETHOD_CONF_PARTICIPATOR_ADD,//被邀请加入集群。
-                                                                                    //输入负载：BVCU_Conf_BaseInfo+本参与者的BVCU_Conf_Participator_Info
-                                                                                    //回响负载：如果同意加入，负载BVCU_Conf_Participator_Info（应用程序应填写szAliasName），不同意为空
+    //输入负载：BVCU_Conf_BaseInfo+本参与者的BVCU_Conf_Participator_Info
+    //回响负载：如果同意加入，负载BVCU_Conf_Participator_Info（应用程序应填写szAliasName），不同意为空
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN_CMD = BVCU_SUBMETHOD_CONF_PARTICIPATOR_JOIN,//用户请求加入集群，仅集群Admin收到。
-                                                                                        //输入负载：BVCU_Conf_Participator_Info；回响负载：无
+    //输入负载：BVCU_Conf_Participator_Info；回响负载：无
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK_CMD = BVCU_SUBMETHOD_CONF_PARTICIPATOR_APPLYFOR_STARTSPEAK,//用户请求发言，集群Admin通过返回成功与否决定是否同意。负载BVCU_Conf_Participator_Info
     BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_SPEAK_CMD = BVCU_SUBMETHOD_CONF_PARTICIPATOR_INVITE_SPEAK,//被点名发言。输入负载：BVCU_Conf_Participator_Info；回响负载：无
 
     BVCU_SUBMETHOD_PU_OPENDIALOG_CMD = BVCU_SUBMETHOD_PU_OPENDIALOG, // PU请求建立会话。应用层回同意后，由应用层调用BVCU_Dialog_Open()创建会话。
-                                                                    // 输入负载：BVCU_PUCFG_OpenDialog； 回响负载：BVCU_PUCFG_OpenDialog
-    
+    // 输入负载：BVCU_PUCFG_OpenDialog； 回响负载：BVCU_PUCFG_OpenDialog
+
     BVCU_SUBMETHOD_USER_KICKOUT_CMD = BVCU_SUBMETHOD_USER_KICKOUT,  // 当前用户被踢出。应用层只需提示用户被踢出，回复该命令后，库内部做下线处理。
-                                                                    // 输入负载：BVCU_UCFG_Kickout； 回响负载：无
-    
+    // 输入负载：BVCU_UCFG_Kickout； 回响负载：无
+
     //=============reserved=============
     BVCU_SUBMETHOD_RESERVED = 0x80000//之后的值内部使用
 }BVCU_SUBMETHOD_TYPE;
 
 //PTZ类型
-typedef enum _BVCU_PTZ_TYPE{
+typedef enum _BVCU_PTZ_TYPE {
     BVCU_PTZ_TYPE_INVALID = 0,
     BVCU_PTZ_TYPE_MACHINE,  // 机械云台
     BVCU_PTZ_TYPE_ELECTRON, // 电子云台
 }BVCU_PTZ_TYPE;
 //PTZ协议
-typedef enum _BVCU_PTZ_PROTO_TYPE{
+typedef enum _BVCU_PTZ_PROTO_TYPE {
     BVCU_PTZ_PROTO_INVALID = 0,
     BVCU_PTZ_PROTO_USERDEFINED,
     BVCU_PTZ_PROTO_PELCO_D,
@@ -563,14 +566,14 @@ typedef enum _BVCU_PTZ_PROTO_TYPE{
 }BVCU_PTZ_PROTO_TYPE;
 
 //PU功能类型
-typedef enum _BVCU_PUTYPE{
+typedef enum _BVCU_PUTYPE {
     BVCU_PUTYPE_ENCODER = 0,//编码器
     BVCU_PUTYPE_DECODER, //解码器
     BVCU_PUTYPE_STORAGE, //存储器
 }BVCU_PUTYPE;
 
 //语言
-typedef enum _BVCU_LANGUAGE_TYPE{
+typedef enum _BVCU_LANGUAGE_TYPE {
     BVCU_LANGUAGE_INVALID = 0,
     BVCU_LANGUAGE_ENGLISH,// 英文 
     BVCU_LANGUAGE_CHINESE_SIMPLIFIED,// 简体中文 
@@ -579,7 +582,7 @@ typedef enum _BVCU_LANGUAGE_TYPE{
 }BVCU_LANGUAGE_TYPE;
 
 //WIFI安全类型
-typedef enum _BVCU_WIFI_SECURITY_TYPE{
+typedef enum _BVCU_WIFI_SECURITY_TYPE {
     BVCU_WIFI_SECURITY_TYPE_OPEN = 0,
     BVCU_WIFI_SECURITY_TYPE_SHARED,
     BVCU_WIFI_SECURITY_TYPE_WPA_PSK,
@@ -587,7 +590,7 @@ typedef enum _BVCU_WIFI_SECURITY_TYPE{
 }BVCU_WIFI_SECURITY_TYPE;
 
 //WIFI加密类型
-typedef enum _BVCU_WIFI_CRYPT_TYPE{
+typedef enum _BVCU_WIFI_CRYPT_TYPE {
     BVCU_WIFI_CRYPT_TYPE_NONE = 0,
     BVCU_WIFI_CRYPT_TYPE_WEP_40,//64
     BVCU_WIFI_CRYPT_TYPE_WEP_104,//128
@@ -596,7 +599,7 @@ typedef enum _BVCU_WIFI_CRYPT_TYPE{
 }BVCU_WIFI_CRYPT_TYPE;
 
 //无线网络类型
-typedef enum _BVCU_RADIONETWORK_TYPE{
+typedef enum _BVCU_RADIONETWORK_TYPE {
     BVCU_RADIONETWORK_TYPE_INVALID = 0,
     BVCU_RADIONETWORK_TYPE_AUTO,
     BVCU_RADIONETWORK_TYPE_GPRS,
@@ -620,27 +623,27 @@ typedef enum _BVCU_RADIONETWORK_TYPE{
 }BVCU_RADIONETWORK_TYPE;
 
 //音频输入
-typedef enum _BVCU_AUDIOIN_INPUT_TYPE{
+typedef enum _BVCU_AUDIOIN_INPUT_TYPE {
     BVCU_AUDIOIN_INPUT_MIC = 0,
     BVCU_AUDIOIN_INPUT_LINEIN,
 }BVCU_AUDIOIN_INPUT_TYPE;
 
 //存储媒体类型
-typedef enum _BVCU_STORAGEMEDIATYPE{
+typedef enum _BVCU_STORAGEMEDIATYPE {
     BVCU_STORAGEMEDIATYPE_INVALID = 0,
     BVCU_STORAGEMEDIATYPE_SDCARD, //SD卡
     BVCU_STORAGEMEDIATYPE_HDD,//硬盘
 }BVCU_STORAGEMEDIATYPE;
 
 //encoder设备支持的流类型
-typedef enum _BVCU_ENCODERSTREAMTYPE{
+typedef enum _BVCU_ENCODERSTREAMTYPE {
     BVCU_ENCODERSTREAMTYPE_INVALID = -1,
     BVCU_ENCODERSTREAMTYPE_STORAGE,//存储流
     BVCU_ENCODERSTREAMTYPE_PREVIEW,//传输流
     BVCU_ENCODERSTREAMTYPE_PICTURE,//图片流
 }BVCU_ENCODERSTREAMTYPE;
 //decoder设备支持的播放接口类型
-typedef enum _BVCU_DISPLAY_FORMAT_TYPE{
+typedef enum _BVCU_DISPLAY_FORMAT_TYPE {
     BVCU_DISPLAY_FORMAT_INVALID = 0,
     BVCU_DISPLAY_FORMAT_BNC = (1 << 0),
     BVCU_DISPLAY_FORMAT_DVI = (1 << 1),

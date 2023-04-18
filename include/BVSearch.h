@@ -12,7 +12,7 @@
 //==============索引命令相关负载定义=====================
 
 // 索引目标类型
-enum 
+enum
 {
     BVCU_SEARCH_TYPE_UNKNOWN = 0, // 未知  请求过滤条件 / 回复结果负载
     BVCU_SEARCH_TYPE_FILE,  // 文件索引  BVCU_Search_FileFilter / BVCU_Search_FileInfo
@@ -59,7 +59,7 @@ typedef struct _BVCU_Search_Info_
     // 请求的最大结果数 / 本次返回的结果数。
     // 建议不要超过1024，否则命令可能会失败。建议值128。
     // 例如上层界面一个页面显示50条结果，可以提前计算出总页数，用户操作页面时，每次请求两个页面的数据（100条，缓冲一个页面）
-    int iCount; 
+    int iCount;
     int iTotalCount; // 索引到的总结果数。请求时无意义。
 }BVCU_SearchInfo;
 
@@ -95,6 +95,9 @@ typedef struct _BVCU_Search_File_Info_
     char szDesc1[64];  //自定义描述1   空：不作为索引条件
     char szDesc2[64];  //自定义描述2   空：不作为索引条件
     char szSourceID[BVCU_MAX_ID_LEN + 1]; //文件所在源ID，NRU/PU
+    int  iChannelIndex; // 通道号
+    int  iLongitude; // 经度，东经是正值，西经负值，单位1/10000000度
+    int  iLatitude;  // 纬度，北纬是正值，南纬是负值，单位1/10000000度
 }BVCU_Search_FileInfo;
 
 // CU上下线记录

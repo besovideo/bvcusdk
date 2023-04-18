@@ -23,4 +23,12 @@ typedef struct _SAV_Bit_Context {
     SAV_TYPE_UINT32 iDataSize;
 } SAV_Bit_Context;
 
+typedef union SAV_TYPE_BIG_INT {
+    SAV_TYPE_INT64 value;
+    struct {
+        SAV_TYPE_INT32 value_1;
+        SAV_TYPE_INT32 value_2;
+    };
+}SAV_TYPE_BIG_INT;
+
 #endif/*_SAV_TYPE_DEFINED*/

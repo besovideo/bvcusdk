@@ -210,6 +210,13 @@ extern "C" {
     LIBSAV_API SAV_Result SAV_Log_CallBack(void(*callback)(int level, const char* funname, int line, const char* fmt, va_list vl));
 
     LIBSAV_API void SAV_jpg_cryption(char *frame, int frameLength, char isEncryption);
+    /**
+    * 设置加密密钥
+	* @param key 加密密钥
+	* @param len 加密密钥长度
+    * 示例: setCryptKey((unsigned char*)"12345678901234567890123456789012", 32);
+    */
+    LIBSAV_API void SAV_Set_CryptKey(unsigned char* cryptKey, int len);
 #ifdef  __cplusplus
 }
 #endif

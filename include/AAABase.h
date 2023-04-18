@@ -108,8 +108,11 @@ typedef struct _aaa_user_permissions_
     AAA_Permissions alarmLinkage;
     /*  电子围栏管理权 */
     AAA_Permissions electricFence;
+
+    /* 下载数据管控权限 */
+    AAA_Permissions downloadDataControl;
     /*  保留,内存对齐 */
-    AAA_Permissions reserve[2];
+    AAA_Permissions reserve[1];
 }AAA_UserPermissions;
 
 

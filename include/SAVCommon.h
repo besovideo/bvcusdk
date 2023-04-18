@@ -124,6 +124,7 @@ typedef enum {
     SAV_PIX_FMT_BGR555LE,  /*packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1*/
     
     SAV_PIX_FMT_DXVA2_VLD = 66,
+	SAV_PIX_FMT_D3D11 = 174,
 
     SAV_PIX_FMT_NB,
 }SAV_PixelFormat;
